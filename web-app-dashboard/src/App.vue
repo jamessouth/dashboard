@@ -1,20 +1,31 @@
 <template>
   <div id="app">
     <Header></Header>
-    <div id="nav">
+    <div id="hold">
+      <Nav></Nav>
+
+      <Main></Main>
+      <router-view/>
+
+    </div>
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    </div> -->
+
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue';
+import Nav from './components/Nav.vue';
+import Main from './components/Main.vue';
 
 export default{
   components: {
     Header,
+    Nav,
+    Main,
   },
 };
 </script>
@@ -28,6 +39,12 @@ export default{
     box-sizing: border-box;
     list-style-type: none;
     text-decoration: none;
+  }
+
+  @media screen and (min-width: 768px){
+    #hold{
+      display: flex;
+    }
   }
 
 

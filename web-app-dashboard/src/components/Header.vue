@@ -16,7 +16,7 @@
       </div>
       <span>.</span>
       <p>|</p>
-      <img src="../assets/face1.jpg" alt="user face or avatar">
+      <img src="../assets/face.jpg" alt="user face or avatar">
       <p>James South</p>
     </div>
   </header>
@@ -112,10 +112,10 @@ export default {
     border-radius: 4px;
     box-shadow: 12px 14px 15px 3px #1c0000;
   }
-  .dropdown ul{
+  ul{
     padding: 1em;
   }
-  .dropdown ul li{
+  li{
     font-family: 'Alegreya Sans', sans-serif;
     font-size: 20px;
     color: #fffde7;
@@ -123,7 +123,7 @@ export default {
     margin-bottom: 0.25em;
     text-align: left;
   }
-  .dropdown ul li span{
+  li span{
     font-family: 'Alegreya Sans SC', sans-serif;
     font-size: 28px;
     color: #81c98f;
@@ -143,5 +143,15 @@ export default {
     height: 30px;
     border-radius: 50%;
   }
+  @media screen and (min-width: 400px){
+    body > header > h1{
+      padding-left: 0.4em;
+    }
+    body > header > div{
+      width: 185px;
+      padding-right: 1em;
+    }
+  }
+
 
 </style>
