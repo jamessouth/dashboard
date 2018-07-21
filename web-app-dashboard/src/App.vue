@@ -5,7 +5,7 @@
       <Nav></Nav>
 
       <Main></Main>
-      <router-view/>
+      <!-- <router-view/> -->
 
     </div>
     <!-- <div id="nav">

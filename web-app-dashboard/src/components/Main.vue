@@ -6,15 +6,11 @@
     </div>
 
     <AlertBox></AlertBox>
-
     <LineChartControls></LineChartControls>
-
+    <LineChart></LineChart>
     <BarDonut></BarDonut>
-
     <Social></Social>
-
     <MembersActivity></MembersActivity>
-
     <MessageSettings></MessageSettings>
   </main>
 
@@ -23,6 +19,7 @@
 
 <script>
 import AlertBox from './AlertBox.vue';
+import LineChart from './LineChart.vue';
 import LineChartControls from './LineChartControls.vue';
 import BarDonut from './BarDonut.vue';
 import Social from './Social.vue';
@@ -34,6 +31,7 @@ export default {
   name: 'Main',
   components: {
     AlertBox,
+    LineChart,
     LineChartControls,
     BarDonut,
     Social,

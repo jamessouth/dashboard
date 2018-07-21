@@ -5,6 +5,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    name: 'James South',
+  },
+  getters: {
 
   },
   mutations: {

@@ -17,14 +17,21 @@
       <span>.</span>
       <p>|</p>
       <img src="../assets/face.jpg" alt="user face or avatar">
-      <p>James South</p>
+      <p>{{ name }}</p>
     </div>
   </header>
 </template>
 
 <script>
+
+
 export default {
   name: 'Header',
+  data() {
+    return {
+      name: this.$store.state.name,
+    };
+  },
 };
 </script>
 
@@ -99,7 +106,7 @@ export default {
     left: 15px;
     bottom: 28px;
     cursor: default;
-    animation: blink 0.75s linear infinite;
+    /* animation: blink 0.75s linear infinite; */
   }
   .dropdown{
     display: none;
@@ -144,10 +151,10 @@ export default {
     border-radius: 50%;
   }
   @media screen and (min-width: 400px){
-    body > header > h1{
+    header > h1{
       padding-left: 0.4em;
     }
-    body > header > div{
+    header > div{
       width: 185px;
       padding-right: 1em;
     }
