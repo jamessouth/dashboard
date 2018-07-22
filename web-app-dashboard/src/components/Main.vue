@@ -7,7 +7,11 @@
 
     <AlertBox></AlertBox>
     <LineChartControls></LineChartControls>
-    <LineChart></LineChart>
+
+    <router-view>
+      <LineChart></LineChart>
+    </router-view>
+
     <BarDonut></BarDonut>
     <Social></Social>
     <MembersActivity></MembersActivity>
