@@ -1,27 +1,21 @@
 <template>
-
   <div id="visits" class="line-controls">
-
-    <!-- <div class="dropdown"> -->
-      <select @change="changeCountry">
+    <div class="dropdown">
+      <select>
         <option selected disabled value="">Select Country</option>
       </select>
-      <button>GO!</button>
-    <!-- </div> -->
-
+      <button @click="changeCountry">GO!</button>
+    </div>
     <div class="line-buttons">
       <button class="line-selected">GDP</button>
       <button>Population</button>
       <button>Business</button>
       <button>Interest Rate</button>
     </div>
-
     <p>
       <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span id="wbdata"></span>
     </p>
-
   </div>
-
 </template>
 
 <script>
@@ -30,14 +24,19 @@ import countries from '@/assets/iso2countries';
 export default {
   name: 'LineChartControls',
   methods: {
-    changeCountry(e) {
-      console.log(e);
+    changeCountry() {
+      const country = document.querySelector('select').selectedOptions;
+      this.$router.push(`/${country[0].value}`.toLowerCase().replace(/ /g, '-'));
+      this.$store.dispatch('getData', {
+        countryCode: country[0].code.toLowerCase(),
+      });
+      console.log(country[0].value, country[0].code);
     },
   },
   mounted() {
     for (let i = 0; i < countries.length; i += 1) {
       const opt = document.createElement('option');
-      opt.value = `${countries[i].code}`;
+      opt.code = `${countries[i].code}`;
       opt.textContent = `${countries[i].country}`;
       document.querySelector('select').appendChild(opt);
     }
@@ -50,22 +49,20 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   .line-controls{
     margin-top: 2em;
-
     display: grid;
     justify-items: center;
-    /* align-items: center; */
     grid-template-columns: 1fr;
-    grid-template-rows: 66px 30px 60px 20px;
-    grid-template-areas: "select"
-    "go"
-    "line"
-    "para";
-    /* align-items: center; */
+    grid-template-rows: 100px 60px 20px;
+    grid-template-areas: "drop" "line" "para";
   }
-
+  .dropdown{
+    grid-area: drop;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .line-buttons{
     display: flex;
-    justify-content: center;
     align-self: center;
     grid-area: line;
   }
@@ -78,10 +75,6 @@ export default {
   }
   a{
     text-decoration: underline;
-  }
-  select + button{
-    grid-area: go;
-    align-self: end;
   }
   button{
     font-family: 'Alegreya Sans SC', sans-serif;
@@ -99,6 +92,11 @@ export default {
   button:focus{
     outline: 2px solid #7377bf;
   }
+  select + button{
+    border-style: outset;
+    border-radius: 20px;
+    border-color: #d81420;
+  }
   .newwindow::after{
     content: '';
     display: inline-block;
@@ -113,7 +111,6 @@ export default {
     border-radius: 50px;
   }
   select{
-    grid-area: select;
     outline: none;
     width: 250px;
     height: 50px;
@@ -139,71 +136,42 @@ export default {
   option{
     color: #676666;
   }
-
   @media screen and (max-width: 399px){
-
     #visits:target > p{
       top: 67px;
     }
   }
-
-  @media screen and (min-width: 342px){
-
-    .line-controls{
-      /* margin-top: 2em;
-      display: grid;
-      justify-items: center;
-      align-items: start;
-      grid-template-columns: 1fr; */
-      grid-template-rows: 66px 30px 50px 20px;
-      /* grid-template-areas: "select" "go" "line" "para"; */
-    }
-
-
-  }
-
   @media screen and (min-width: 400px){
-
+    .dropdown{
+      flex-direction: row;
+      align-items: center;
+      width: 310px;
+    }
     .line-controls{
-      /* margin-top: 2em;
-      display: grid; */
-      /* justify-items: center; */
-      /* align-items: start; */
-      grid-template-columns: 1fr 100px;
       grid-template-rows: 60px 50px 30px;
-      grid-template-areas: "select go" "line line" "para .";
     }
-    select + button{
+    p{
       align-self: center;
-      justify-self: start;
     }
-
-
   }
-
   @media screen and (min-width: 400px) and (max-width: 767px){
     #visits:target > p{
       top: 54px;
     }
   }
-
   @media screen and (max-width: 767px){
-
     #visits:target{
       padding-top: 41px;
     }
   }
-
-  @media screen and (min-width: 1024px){
-    p{
-      /* left: 14px;
-      top: 50%;
-      transform: translateY(-50%); */
+  @media screen and (min-width: 768px){
+    .line-controls{
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 70px 30px;
+      grid-template-areas: "drop line" "para para";
     }
-    .line-buttons{
-      justify-content: flex-end;
-      padding-right: 3%;
+    p{
+      justify-self: auto;
     }
   }
-
 </style>
