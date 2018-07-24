@@ -1,13 +1,13 @@
 <template>
   <div class="line-chart">
     <canvas></canvas>
-    <p>{{ country }}, {{ this.$store.state.data }}</p>
+    <p>{{ country }}, {{ this.$store.state.currentData }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['country', 'data'],
+  props: ['country', 'currentData'],
   name: 'LineChart',
 };
 </script>
