@@ -1,14 +1,34 @@
 <template>
   <div class="line-chart">
     <canvas></canvas>
-    <p>{{ country }}, {{ this.$store.state.currentData }}</p>
+    <p>{{ country }}, {{  }}</p>
   </div>
 </template>
 
 <script>
+// this.$store.state.currentData
+import countries from '@/assets/iso2countries';
+
 export default {
-  props: ['country', 'currentData'],
+  props: ['country'],
   name: 'LineChart',
+  beforeRouteEnter(to, from, next) {
+
+  },
+  beforeRouteUpdate(to, from, next) {
+
+  },
+  methods: {
+    lookupCountryCode(country) {
+      return countries.filter((c) => c.country.toLowerCase().replace(/ /g, '-') === country)[0].code.toLowerCase();
+    },
+    async getData(country) {
+      const code = lookupCountryCode(country);
+
+
+
+    },
+  },
 };
 </script>
 

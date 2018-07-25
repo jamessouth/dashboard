@@ -25,18 +25,19 @@ export default {
   name: 'LineChartControls',
   methods: {
     changeCountry() {
-      const country = document.querySelector('select').selectedOptions;
-      this.$router.push(`/${country[0].value}`.toLowerCase().replace(/ /g, '-'));
-      this.$store.dispatch('getData', {
-        countryCode: country[0].code.toLowerCase(),
-      });
-      console.log(country[0].value, country[0].code);
+      let country = document.querySelector('select').value;
+      // country = country.substring(0, country.length - 2);
+      this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
+      // this.$store.dispatch('getData', {
+      //   countryCode: country[0].code.toLowerCase(),
+      // });
+      console.log(country);
     },
   },
   mounted() {
     for (let i = 0; i < countries.length; i += 1) {
       const opt = document.createElement('option');
-      opt.code = `${countries[i].code}`;
+      // opt.value = `${countries[i].country}${countries[i].code}`;
       opt.textContent = `${countries[i].country}`;
       document.querySelector('select').appendChild(opt);
     }
