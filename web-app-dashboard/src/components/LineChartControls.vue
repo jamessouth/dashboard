@@ -25,7 +25,7 @@ export default {
   name: 'LineChartControls',
   methods: {
     changeCountry() {
-      let country = document.querySelector('select').value;
+      const country = document.querySelector('select').value;
       // country = country.substring(0, country.length - 2);
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
       // this.$store.dispatch('getData', {

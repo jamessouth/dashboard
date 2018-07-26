@@ -1,7 +1,7 @@
 <template>
   <div class="line-chart">
     <canvas></canvas>
-    <p>{{ country }}, {{  }}</p>
+    <p>{{ country }} {{ error }}</p>
   </div>
 </template>
 
@@ -10,23 +10,91 @@
 import countries from '@/assets/iso2countries';
 
 export default {
+  data() {
+    return {
+      error: false,
+    };
+  },
   props: ['country'],
   name: 'LineChart',
   beforeRouteEnter(to, from, next) {
-
+    next(vm => vm.getData(this.$store.state.defaultCountryCode));
   },
   beforeRouteUpdate(to, from, next) {
+    const code = this.lookupCountryCode(to.params.country);
 
+    if (code instanceof Error || code.message) {
+      this.error = true;
+      next(false);
+    } else {
+      this.error = false;
+      if (this.$store.getters.dataIsCached(code)) {
+        this.$store.getters.getDataFromCache(code);
+      } else {
+        this.getData(code);
+      }
+      next();
+    }
   },
   methods: {
     lookupCountryCode(country) {
-      return countries.filter((c) => c.country.toLowerCase().replace(/ /g, '-') === country)[0].code.toLowerCase();
+      const lookup = countries.filter(c => c.country.toLowerCase().replace(/ /g, '-') === country);
+      try {
+        return lookup[0].code.toLowerCase();
+      } catch (err) {
+        return err;
+      }
     },
-    async getData(country) {
-      const code = lookupCountryCode(country);
+    async makeAPICall(code, indicator) {
+      const slimData = {
+        years: [],
+        data: [],
+      };
+      try {
+        // console.log(code);
+        let data = await fetch(`http://api.worldbank.org/v2/countries/${code}/indicators/${indicator}?MRV=5&format=json`);
+        console.log('data fetch');
+        // console.log(data);
+        if (data.ok) {
+          data = await data.json();
+        } else {
+          throw new Error('Network problem - response not ok');
+        }
 
+        if (data[1] === null) {
+          // commit('clearCurrentData');
+          throw new Error('No data available for this location');
+        }
 
+        console.log(data);
+        await data[1].forEach((x) => {
+          slimData.years.push(x.date);
+          slimData.data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
+        });
 
+        // console.log(slimData);
+        // commit('setCurrentData', slimData);
+        // commit('cacheData');
+      } catch (err) {
+        alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
+      }
+      return slimData;
+    },
+    async getData(code) {
+      const [gdp, pop, reg, int] = await Promise.all([
+        this.makeAPICall(code, 'NY.GDP.PCAP.KD'),
+        this.makeAPICall(code, 'SP.POP.TOTL'),
+        this.makeAPICall(code, 'IC.REG.DURS'),
+        this.makeAPICall(code, 'FR.INR.RINR'),
+      ]);
+
+      console.log('here');
+      // console.log(gdp, pop, reg, int);
+      const master = {
+        gdp, pop, reg, int, code,
+      };
+      console.log(master);
+      this.$store.commit('cacheData', master);
     },
   },
 };
