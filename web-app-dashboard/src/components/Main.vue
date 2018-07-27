@@ -9,7 +9,7 @@
     <LineChartControls></LineChartControls>
 
     <router-view>
-      <LineChart></LineChart>
+      <LineChartWrapper></LineChartWrapper>
     </router-view>
 
     <BarDonut></BarDonut>
@@ -23,7 +23,7 @@
 
 <script>
 import AlertBox from './AlertBox.vue';
-import LineChart from './LineChart.vue';
+import LineChartWrapper from './LineChartWrapper.vue';
 import LineChartControls from './LineChartControls.vue';
 import BarDonut from './BarDonut.vue';
 import Social from './Social.vue';
@@ -35,7 +35,7 @@ export default {
   name: 'Main',
   components: {
     AlertBox,
-    LineChart,
+    LineChartWrapper,
     LineChartControls,
     BarDonut,
     Social,

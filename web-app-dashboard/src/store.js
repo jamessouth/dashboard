@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     name: 'James South',
     defaultCountryCode: 'us',
+    loading: true,
     cache: {},
   },
   getters: {
@@ -17,18 +18,9 @@ export default new Vuex.Store({
     getDataFromCache: state => countryCode => state.cache[countryCode],
   },
   mutations: {
-    // clearCurrentData(state) {
-    //   state.currentData = {};
-    // },
-    // cacheData(state, payload) {
-    //   state.currentData = {
-    //     [payload.countryCode]: {
-    //       years: payload.years,
-    //       data: payload.data,
-    //       countryCode: payload.countryCode,
-    //     },
-    //   };
-    // },
+    toggleLoadingStatus(state) {
+      state.loading = !state.loading;
+    },
     cacheData(state, payload) {
       const dataToAdd = {
         [payload.code]: payload,

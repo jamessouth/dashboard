@@ -13,7 +13,7 @@
       <button>Interest Rate</button>
     </div>
     <p>
-      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span id="wbdata"></span>
+      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span id="wbdata">Loading...</span>
     </p>
   </div>
 </template>

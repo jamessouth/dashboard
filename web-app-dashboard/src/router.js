@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import LineChart from './components/LineChart.vue';
+import LineChartWrapper from './components/LineChartWrapper.vue';
 // import About from './views/About.vue';
 
 Vue.use(Router);
@@ -15,7 +15,7 @@ export default new Router({
       path: '/:country',
       name: 'country',
       props: true,
-      component: LineChart,
+      component: LineChartWrapper,
     },
   ],
 });
