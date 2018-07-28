@@ -7,9 +7,9 @@
       <button @click="changeCountry">GO!</button>
     </div>
     <div class="line-buttons">
-      <button class="line-selected">GDP</button>
+      <button>GDP</button>
       <button>Population</button>
-      <button>Business</button>
+      <button>Regulation</button>
       <button>Interest Rate</button>
     </div>
     <p>
@@ -20,7 +20,7 @@
 
 <script>
 import countries from '@/assets/iso2countries';
-
+// class="line-selected"
 export default {
   name: 'LineChartControls',
   methods: {

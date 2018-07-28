@@ -12,7 +12,7 @@ export default new Router({
       redirect: '/united-states',
     },
     {
-      path: '/:country',
+      path: '/:country/:indicator?',
       name: 'country',
       props: true,
       component: LineChartWrapper,

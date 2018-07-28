@@ -1,7 +1,12 @@
 <template>
   <div>
-    <LineChart :data="chartData"></LineChart>
-    <p>{{ country }} {{ error }}</p>
+    <LineChart
+      v-if="!this.$store.state.loading"
+      :master-data="chartData"
+      :indicator="indicator">
+    </LineChart>
+    <div v-else>Loading...</div>
+    <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p>
   </div>
 </template>
 
@@ -14,37 +19,34 @@ export default {
   data() {
     return {
       error: false,
-      chartData: {
-        labels: ['January', 'February'],
-        datasets: [
-          {
-            label: 'GitHub Commits',
-            backgroundColor: '#f87979',
-            data: [40, 20],
-          },
-        ],
-      },
+      chartData: null,
     };
   },
-  props: ['country'],
+  props: ['country', 'indicator'],
   name: 'LineChartWrapper',
   components: {
     LineChart,
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => vm.getData(vm.$store.state.defaultCountryCode));
+    next((vm) => {
+      const code = vm.lookupCountryCode(vm.country);
+      vm.getData(code);
+    });
   },
   beforeRouteUpdate(to, from, next) {
     console.log('update');
+    this.$store.commit('toggleLoadingStatus'); // to true
     const code = this.lookupCountryCode(to.params.country);
 
     if (code instanceof Error || code.message) {
       this.error = true;
+      this.$store.commit('toggleLoadingStatus'); // to false
       next(false);
     } else {
       this.error = false;
       if (this.$store.getters.dataIsCached(code)) {
-        this.$store.getters.getDataFromCache(code);
+        this.$store.commit('toggleLoadingStatus'); // to false
+        this.chartData = this.$store.getters.getDataFromCache(code);
       } else {
         this.getData(code);
       }
@@ -62,8 +64,10 @@ export default {
     },
     async makeAPICall(code, indicator) {
       const slimData = {
-        years: [],
-        data: [],
+        labels: [],
+        datasets: [{
+          data: [],
+        }],
       };
       try {
         // console.log(code);
@@ -83,8 +87,8 @@ export default {
 
         // console.log(data);
         await data[1].forEach((x) => {
-          slimData.years.push(x.date);
-          slimData.data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
+          slimData.labels.push(x.date);
+          slimData.datasets[0].data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
         });
 
         // console.log(slimData);
@@ -96,20 +100,20 @@ export default {
       return slimData;
     },
     async getData(code) {
-      const [gdp, pop, reg, int] = await Promise.all([
+      const [gdpPerCapita, population, regulation, realInterestRate] = await Promise.all([
         this.makeAPICall(code, 'NY.GDP.PCAP.KD'),
         this.makeAPICall(code, 'SP.POP.TOTL'),
         this.makeAPICall(code, 'IC.REG.DURS'),
         this.makeAPICall(code, 'FR.INR.RINR'),
       ]);
 
-
-      // console.log(gdp, pop, reg, int);
       const master = {
-        gdp, pop, reg, int, code,
+        gdpPerCapita, population, regulation, realInterestRate, code,
       };
       // console.log(master);
       this.$store.commit('cacheData', master);
+      this.$store.commit('toggleLoadingStatus'); // to false
+      this.chartData = this.$store.getters.getDataFromCache(code);
       console.log('here');
     },
   },
@@ -118,6 +122,9 @@ export default {
 
 <style scoped>
 
+  div > div{
+    color: red;
+  }
 
   /* .line-chart{
     position: relative;
