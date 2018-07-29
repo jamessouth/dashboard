@@ -1,27 +1,16 @@
 
 
 <script>
-import { Line } from 'vue-chartjs';
+import { Line, mixins } from 'vue-chartjs';
+
+const { reactiveProp } = mixins;
 
 export default {
   extends: Line,
-  props: ['masterData', 'indicator'],
-  computed: {
-    data() {
-      if (this.indicator) {
-        if (this.indicator.toLowerCase().includes('pop')) {
-          return this.masterData.population;
-        } else if (this.indicator.toLowerCase().includes('reg')) {
-          return this.masterData.regulation;
-        } else if (this.indicator.toLowerCase().includes('int')) {
-          return this.masterData.realInterestRate;
-        }
-      }
-      return this.masterData.gdpPerCapita;
-    },
-  },
+  mixins: [reactiveProp],
+  // props: ['chartLabels'],
   mounted() {
-    this.renderChart(this.data);
+    this.renderChart(this.chartData);
   },
   name: 'LineChart',
 };

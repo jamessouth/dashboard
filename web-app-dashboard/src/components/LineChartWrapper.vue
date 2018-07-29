@@ -1,10 +1,9 @@
 <template>
   <div>
-    <LineChart
+    <line-chart
       v-if="!this.$store.state.loading"
-      :master-data="chartData"
-      :indicator="indicator">
-    </LineChart>
+      :chart-data="chartData">
+    </line-chart>
     <div v-else>Loading...</div>
     <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p>
   </div>
@@ -19,6 +18,7 @@ export default {
   data() {
     return {
       error: false,
+      countryData: {},
       chartData: null,
     };
   },
@@ -28,16 +28,21 @@ export default {
     LineChart,
   },
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    console.log('enter');
+    next(async (vm) => {
       const code = vm.lookupCountryCode(vm.country);
-      vm.getData(code);
+      const indicatorName = vm.getIndicatorName(vm.indicator);
+      await vm.getData(code);
+      vm.setProps(indicatorName);
+      console.log('end enter');
     });
   },
-  beforeRouteUpdate(to, from, next) {
+  async beforeRouteUpdate(to, from, next) {
     console.log('update');
     this.$store.commit('toggleLoadingStatus'); // to true
-    const code = this.lookupCountryCode(to.params.country);
-
+    const code = await this.lookupCountryCode(to.params.country);
+    const indicatorName = await this.getIndicatorName(to.params.indicator);
+    console.log(indicatorName);
     if (code instanceof Error || code.message) {
       this.error = true;
       this.$store.commit('toggleLoadingStatus'); // to false
@@ -46,14 +51,40 @@ export default {
       this.error = false;
       if (this.$store.getters.dataIsCached(code)) {
         this.$store.commit('toggleLoadingStatus'); // to false
-        this.chartData = this.$store.getters.getDataFromCache(code);
+        this.countryData = await this.$store.getters.getDataFromCache(code);
+        this.setProps(indicatorName);
       } else {
-        this.getData(code);
+        await this.getData(code);
+        this.setProps(indicatorName);
       }
       next();
     }
   },
   methods: {
+    setProps(indicator) {
+      const data = this.countryData[indicator];
+      this.chartData = {
+        labels: data.labels,
+        datasets: [
+          {
+            data: data.data,
+          },
+        ],
+      };
+    },
+    getIndicatorName(indicator) {
+      if (indicator) {
+        if (indicator.toLowerCase().includes('pop')) {
+          return 'population';
+        } else if (indicator.toLowerCase().includes('reg')) {
+          return 'regulation';
+        } else if (indicator.toLowerCase().includes('int')) {
+          return 'realInterestRate';
+        }
+        return 'gdp';
+      }
+      return 'gdp';
+    },
     lookupCountryCode(country) {
       const lookup = countries.filter(c => c.country.toLowerCase().replace(/ /g, '-') === country);
       try {
@@ -62,16 +93,14 @@ export default {
         return err;
       }
     },
-    async makeAPICall(code, indicator) {
+    async makeAPICall(code, indicatorCode) {
       const slimData = {
         labels: [],
-        datasets: [{
-          data: [],
-        }],
+        data: [],
       };
       try {
         // console.log(code);
-        let data = await fetch(`http://api.worldbank.org/v2/countries/${code}/indicators/${indicator}?MRV=5&format=json`);
+        let data = await fetch(`http://api.worldbank.org/v2/countries/${code}/indicators/${indicatorCode}?MRV=5&format=json`);
         console.log('data fetch');
         // console.log(data);
         if (data.ok) {
@@ -81,26 +110,21 @@ export default {
         }
 
         if (data[1] === null) {
-          // commit('clearCurrentData');
           throw new Error('No data available for this location');
         }
 
         // console.log(data);
         await data[1].forEach((x) => {
           slimData.labels.push(x.date);
-          slimData.datasets[0].data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
+          slimData.data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
         });
-
-        // console.log(slimData);
-        // commit('setCurrentData', slimData);
-        // commit('cacheData');
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
       return slimData;
     },
     async getData(code) {
-      const [gdpPerCapita, population, regulation, realInterestRate] = await Promise.all([
+      const [gdp, population, regulation, realInterestRate] = await Promise.all([
         this.makeAPICall(code, 'NY.GDP.PCAP.KD'),
         this.makeAPICall(code, 'SP.POP.TOTL'),
         this.makeAPICall(code, 'IC.REG.DURS'),
@@ -108,12 +132,12 @@ export default {
       ]);
 
       const master = {
-        gdpPerCapita, population, regulation, realInterestRate, code,
+        gdp, population, regulation, realInterestRate, code,
       };
       // console.log(master);
       this.$store.commit('cacheData', master);
+      this.countryData = master;
       this.$store.commit('toggleLoadingStatus'); // to false
-      this.chartData = this.$store.getters.getDataFromCache(code);
       console.log('here');
     },
   },
