@@ -29,6 +29,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     console.log('enter');
+    console.log(to);
     next(async (vm) => {
       const code = vm.lookupCountryCode(vm.country);
       const indicatorName = vm.getIndicatorName(vm.indicator);
@@ -38,6 +39,7 @@ export default {
         vm.setProps(indicatorName);
       } else {
         vm.error = true;
+        vm.setProps('gdp');
       }
     });
   },

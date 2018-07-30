@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/united-states/gdp',
+      redirect: '/united-states/great',
     },
     {
       path: '/:country',

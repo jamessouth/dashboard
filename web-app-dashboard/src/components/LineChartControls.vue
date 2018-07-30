@@ -4,11 +4,11 @@
       <select>
         <option selected disabled value="">Select Country</option>
       </select>
-      <button @click="changeCountry">GO!</button>
+      <button @click="changeCountry_Route">GO!</button>
     </div>
     <div
     ref="linebuttons"
-    @click="changeIndicator"
+    @click="changeIndicator_Subroute"
     class="line-buttons">
       <button class="line-selected">GDP</button>
       <button>Population</button>
@@ -27,14 +27,9 @@ import countries from '@/assets/iso2countries';
 export default {
   name: 'LineChartControls',
   watch: {
-    $route(to, from) {
+    $route(to) { // 'from' parameter also available
       console.log(to.params.indicator);
-      if (to.params.indicator === 'gdp') {
-        this.$refs.linebuttons.children[this.lastSelectedIndicatorIndex].className = '';
-        this.$refs.linebuttons.children[0].className = 'line-selected';
-        this.$refs.linebuttons.children[0].focus();
-        this.lastSelectedIndicatorIndex = 0;
-      }
+      this.changeIndicatorSelection(to.params.indicator);
     },
   },
   computed: {
@@ -42,12 +37,12 @@ export default {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
-      return this.indicatorDetails[this.lastSelectedIndicatorIndex];
+      return this.indicatorDetails[this.selectedIndicatorIndex];
     },
   },
   data() {
     return {
-      lastSelectedIndicatorIndex: 0,
+      selectedIndicatorIndex: 0,
       indicatorDetails: [
         'GDP per capita (constant 2010 US$)',
         'Total population',
@@ -57,20 +52,25 @@ export default {
     };
   },
   methods: {
-    changeCountry() {
+    changeCountry_Route() {
       const country = document.querySelector('select').value;
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
     },
-    changeIndicator(e) {
-      const { target } = e;
-      // console.log(target);
-      const index = [...this.$refs.linebuttons.children].indexOf(target);
-      this.$refs.linebuttons.children[this.lastSelectedIndicatorIndex].className = '';
+    changeIndicatorSelection(subroute) {
+      let target;
+      for (let i = 0; i < this.$refs.linebuttons.children.length; i += 1) {
+        this.$refs.linebuttons.children[i].className = '';
+        if (this.$refs.linebuttons.children[i].textContent.toLowerCase() === subroute) {
+          target = this.$refs.linebuttons.children[i];
+          this.$refs.linebuttons.children[i].focus();
+          this.selectedIndicatorIndex = i;
+        }
+      }
       target.className = 'line-selected';
-      this.lastSelectedIndicatorIndex = index;
-
+    },
+    changeIndicator_Subroute(e) {
+      const { target } = e;
       const { country } = this.$route.params;
-      // console.log(country);
       const subroute = target.innerText.toLowerCase();
       this.$router.push(`/${country}/${subroute}`);
     },
