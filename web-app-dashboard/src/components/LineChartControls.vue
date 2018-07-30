@@ -6,38 +6,78 @@
       </select>
       <button @click="changeCountry">GO!</button>
     </div>
-    <div class="line-buttons">
-      <button>GDP</button>
+    <div
+    ref="linebuttons"
+    @click="changeIndicator"
+    class="line-buttons">
+      <button class="line-selected">GDP</button>
       <button>Population</button>
       <button>Regulation</button>
-      <button>Interest Rate</button>
+      <button>Taxation</button>
     </div>
     <p>
-      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span id="wbdata">Loading...</span>
+      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span>{{ indicatorDetail }}</span>
     </p>
   </div>
 </template>
 
 <script>
 import countries from '@/assets/iso2countries';
-// class="line-selected"
+
 export default {
   name: 'LineChartControls',
+  watch: {
+    $route(to, from) {
+      console.log(to.params.indicator);
+      if (to.params.indicator === 'gdp') {
+        this.$refs.linebuttons.children[this.lastSelectedIndicatorIndex].className = '';
+        this.$refs.linebuttons.children[0].className = 'line-selected';
+        this.$refs.linebuttons.children[0].focus();
+        this.lastSelectedIndicatorIndex = 0;
+      }
+    },
+  },
+  computed: {
+    indicatorDetail() {
+      if (this.$store.state.loading) {
+        return 'Loading...';
+      }
+      return this.indicatorDetails[this.lastSelectedIndicatorIndex];
+    },
+  },
+  data() {
+    return {
+      lastSelectedIndicatorIndex: 0,
+      indicatorDetails: [
+        'GDP per capita (constant 2010 US$)',
+        'Total population',
+        'Time required to start a business (days)',
+        'Total tax rate (% of commercial profits)',
+      ],
+    };
+  },
   methods: {
     changeCountry() {
       const country = document.querySelector('select').value;
-      // country = country.substring(0, country.length - 2);
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
-      // this.$store.dispatch('getData', {
-      //   countryCode: country[0].code.toLowerCase(),
-      // });
-      console.log(country);
+    },
+    changeIndicator(e) {
+      const { target } = e;
+      // console.log(target);
+      const index = [...this.$refs.linebuttons.children].indexOf(target);
+      this.$refs.linebuttons.children[this.lastSelectedIndicatorIndex].className = '';
+      target.className = 'line-selected';
+      this.lastSelectedIndicatorIndex = index;
+
+      const { country } = this.$route.params;
+      // console.log(country);
+      const subroute = target.innerText.toLowerCase();
+      this.$router.push(`/${country}/${subroute}`);
     },
   },
   mounted() {
     for (let i = 0; i < countries.length; i += 1) {
       const opt = document.createElement('option');
-      // opt.value = `${countries[i].country}${countries[i].code}`;
       opt.textContent = `${countries[i].country}`;
       document.querySelector('select').appendChild(opt);
     }
@@ -73,6 +113,9 @@ export default {
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
     margin-left: 6px;
+  }
+  span{
+    text-transform: none;
   }
   a{
     text-decoration: underline;

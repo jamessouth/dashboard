@@ -32,18 +32,20 @@ export default {
     next(async (vm) => {
       const code = vm.lookupCountryCode(vm.country);
       const indicatorName = vm.getIndicatorName(vm.indicator);
+      console.log(indicatorName);
       await vm.getData(code);
-      vm.setProps(indicatorName);
-      console.log('end enter');
+      if (indicatorName !== 'error') {
+        vm.setProps(indicatorName);
+      } else {
+        vm.error = true;
+      }
     });
   },
   async beforeRouteUpdate(to, from, next) {
-    console.log('update');
     this.$store.commit('toggleLoadingStatus'); // to true
-    const code = await this.lookupCountryCode(to.params.country);
-    const indicatorName = await this.getIndicatorName(to.params.indicator);
-    console.log(indicatorName);
-    if (code instanceof Error || code.message) {
+    const code = this.lookupCountryCode(to.params.country);
+    const indicatorName = this.getIndicatorName(to.params.indicator);
+    if (code instanceof Error || code.message || indicatorName === 'error') {
       this.error = true;
       this.$store.commit('toggleLoadingStatus'); // to false
       next(false);
@@ -73,17 +75,16 @@ export default {
       };
     },
     getIndicatorName(indicator) {
-      if (indicator) {
-        if (indicator.toLowerCase().includes('pop')) {
-          return 'population';
-        } else if (indicator.toLowerCase().includes('reg')) {
-          return 'regulation';
-        } else if (indicator.toLowerCase().includes('int')) {
-          return 'realInterestRate';
-        }
+      if (indicator.toLowerCase().includes('gdp')) {
         return 'gdp';
+      } else if (indicator.toLowerCase().includes('pop')) {
+        return 'population';
+      } else if (indicator.toLowerCase().includes('reg')) {
+        return 'regulation';
+      } else if (indicator.toLowerCase().includes('tax')) {
+        return 'taxation';
       }
-      return 'gdp';
+      return 'error';
     },
     lookupCountryCode(country) {
       const lookup = countries.filter(c => c.country.toLowerCase().replace(/ /g, '-') === country);
@@ -124,15 +125,15 @@ export default {
       return slimData;
     },
     async getData(code) {
-      const [gdp, population, regulation, realInterestRate] = await Promise.all([
+      const [gdp, population, regulation, taxation] = await Promise.all([
         this.makeAPICall(code, 'NY.GDP.PCAP.KD'),
         this.makeAPICall(code, 'SP.POP.TOTL'),
         this.makeAPICall(code, 'IC.REG.DURS'),
-        this.makeAPICall(code, 'FR.INR.RINR'),
+        this.makeAPICall(code, 'IC.TAX.TOTL.CP.ZS'),
       ]);
 
       const master = {
-        gdp, population, regulation, realInterestRate, code,
+        gdp, population, regulation, taxation, code,
       };
       // console.log(master);
       this.$store.commit('cacheData', master);

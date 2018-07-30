@@ -9,10 +9,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/united-states',
+      redirect: '/united-states/gdp',
     },
     {
-      path: '/:country/:indicator?',
+      path: '/:country',
+      redirect: '/:country/gdp',
+    },
+    {
+      path: '/:country/:indicator',
       name: 'country',
       props: true,
       component: LineChartWrapper,
