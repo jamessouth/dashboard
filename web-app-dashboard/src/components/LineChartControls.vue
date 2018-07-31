@@ -10,10 +10,13 @@
     ref="linebuttons"
     @click="changeIndicator_Subroute"
     class="line-buttons">
-      <button class="line-selected">GDP</button>
-      <button>Population</button>
-      <button>Regulation</button>
-      <button>Taxation</button>
+      <button
+      :value="item[0].toLowerCase()"
+      :key="index"
+      :class="{ lineSelected: item[0].toLowerCase() === indicator }"
+      v-for="(item, index) in indicators">
+        {{ item[0] }}
+      </button>
     </div>
     <p>
       <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span>{{ indicatorDetail }}</span>
@@ -26,10 +29,13 @@ import countries from '@/assets/iso2countries';
 
 export default {
   name: 'LineChartControls',
+  props: ['country', 'indicator'],
   watch: {
     $route(to) { // 'from' parameter also available
-      console.log(to.params.indicator);
-      this.changeIndicatorSelection(to.params.indicator);
+      const buttonToFocus = [...this.$refs.linebuttons.children].filter(x => x.value === to.params.indicator)[0];
+      if (buttonToFocus !== document.activeElement) {
+        buttonToFocus.focus();
+      }
     },
   },
   computed: {
@@ -37,17 +43,17 @@ export default {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
-      return this.indicatorDetails[this.selectedIndicatorIndex];
+      return this.indicators.filter(x => x[0].toLowerCase() === this.indicator)[0][1];
     },
   },
   data() {
     return {
       selectedIndicatorIndex: 0,
-      indicatorDetails: [
-        'GDP per capita (constant 2010 US$)',
-        'Total population',
-        'Time required to start a business (days)',
-        'Total tax rate (% of commercial profits)',
+      indicators: [
+        ['GDP', 'GDP per capita (constant 2010 US$)'],
+        ['Population', 'Total population'],
+        ['Regulation', 'Time required to start a business (days)'],
+        ['Taxation', 'Total tax rate (% of commercial profits)'],
       ],
     };
   },
@@ -56,26 +62,15 @@ export default {
       const country = document.querySelector('select').value;
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
     },
-    changeIndicatorSelection(subroute) {
-      let target;
-      for (let i = 0; i < this.$refs.linebuttons.children.length; i += 1) {
-        this.$refs.linebuttons.children[i].className = '';
-        if (this.$refs.linebuttons.children[i].textContent.toLowerCase() === subroute) {
-          target = this.$refs.linebuttons.children[i];
-          this.$refs.linebuttons.children[i].focus();
-          this.selectedIndicatorIndex = i;
-        }
-      }
-      target.className = 'line-selected';
-    },
     changeIndicator_Subroute(e) {
-      const { target } = e;
-      const { country } = this.$route.params;
-      const subroute = target.innerText.toLowerCase();
-      this.$router.push(`/${country}/${subroute}`);
+      // console.log(e.target);
+
+      const subroute = e.target.innerText.toLowerCase();
+      this.$router.push(`/${this.country}/${subroute}`);
     },
   },
   mounted() {
+    console.log('mount');
     for (let i = 0; i < countries.length; i += 1) {
       const opt = document.createElement('option');
       opt.textContent = `${countries[i].country}`;
@@ -116,6 +111,7 @@ export default {
   }
   span{
     text-transform: none;
+    color: #000;
   }
   a{
     text-decoration: underline;
@@ -129,7 +125,7 @@ export default {
   button:hover{
     cursor: pointer;
   }
-  button:not(.line-selected){
+  button:not(.lineSelected){
     color: #676666;
     background-color: transparent;
   }
@@ -148,7 +144,7 @@ export default {
     height: 14px;
     background: url('../assets/newwindow.png') 0 0 no-repeat;
   }
-  .line-selected{
+  .lineSelected{
     color: #fff;
     background-color: #81C98F;
     padding: 2px 10px;

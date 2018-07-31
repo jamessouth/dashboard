@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LineChartControls :country="country" :indicator="indicator"></LineChartControls>
     <line-chart
       v-if="!this.$store.state.loading"
       :chart-data="chartData">
@@ -12,6 +13,7 @@
 <script>
 import countries from '@/assets/iso2countries';
 import LineChart from './LineChart.vue';
+import LineChartControls from './LineChartControls.vue';
 
 export default {
 
@@ -26,6 +28,7 @@ export default {
   name: 'LineChartWrapper',
   components: {
     LineChart,
+    LineChartControls,
   },
   beforeRouteEnter(to, from, next) {
     console.log('enter');
