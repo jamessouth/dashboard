@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LineChartControls :country="country" :indicator="indicator"></LineChartControls>
     <line-chart
       v-if="!this.$store.state.loading"
       :chart-data="chartData">
@@ -12,42 +13,50 @@
 <script>
 import countries from '@/assets/iso2countries';
 import LineChart from './LineChart.vue';
+import LineChartControls from './LineChartControls.vue';
 
 export default {
 
   data() {
     return {
       error: false,
+      indicatorDetails: {
+        gdp: 'GDP per capita (constant 2010 US$)',
+        population: 'Total population',
+        regulation: 'Time required to start a business (days)',
+        tax: 'Total tax rate (% of commercial profits)',
+      },
       countryData: {},
       chartData: null,
+      chartOptions: {
+        gdp: {},
+        population: {},
+        regulation: {},
+        tax: {},
+      },
     };
   },
   props: ['country', 'indicator'],
   name: 'LineChartWrapper',
   components: {
     LineChart,
+    LineChartControls,
   },
   beforeRouteEnter(to, from, next) {
-    console.log('enter');
-    console.log(to);
     next(async (vm) => {
       const code = vm.lookupCountryCode(vm.country);
       const indicatorName = vm.getIndicatorName(vm.indicator);
-      console.log(indicatorName);
       await vm.getData(code);
-      if (indicatorName !== 'error') {
-        vm.setProps(indicatorName);
-      } else {
-        vm.error = true;
-        vm.setProps('gdp');
-      }
+      vm.setProps(indicatorName);
     });
   },
   async beforeRouteUpdate(to, from, next) {
+    // console.log('update');
     this.$store.commit('toggleLoadingStatus'); // to true
     const code = this.lookupCountryCode(to.params.country);
     const indicatorName = this.getIndicatorName(to.params.indicator);
     if (code instanceof Error || code.message || indicatorName === 'error') {
+      // console.log(indicatorName);
       this.error = true;
       this.$store.commit('toggleLoadingStatus'); // to false
       next(false);
@@ -56,11 +65,10 @@ export default {
       if (this.$store.getters.dataIsCached(code)) {
         this.$store.commit('toggleLoadingStatus'); // to false
         this.countryData = await this.$store.getters.getDataFromCache(code);
-        this.setProps(indicatorName);
       } else {
         await this.getData(code);
-        this.setProps(indicatorName);
       }
+      this.setProps(indicatorName);
       next();
     }
   },
@@ -71,20 +79,15 @@ export default {
         labels: data.labels,
         datasets: [
           {
+            label: this.indicatorDetails[indicator],
             data: data.data,
           },
         ],
       };
     },
     getIndicatorName(indicator) {
-      if (indicator.toLowerCase().includes('gdp')) {
-        return 'gdp';
-      } else if (indicator.toLowerCase().includes('pop')) {
-        return 'population';
-      } else if (indicator.toLowerCase().includes('reg')) {
-        return 'regulation';
-      } else if (indicator.toLowerCase().includes('tax')) {
-        return 'taxation';
+      if (['gdp', 'population', 'regulation', 'tax'].includes(indicator)) {
+        return indicator;
       }
       return 'error';
     },
@@ -118,8 +121,8 @@ export default {
 
         // console.log(data);
         await data[1].forEach((x) => {
-          slimData.labels.push(x.date);
-          slimData.data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
+          slimData.labels.unshift(x.date);
+          slimData.data.unshift(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
         });
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
@@ -127,7 +130,7 @@ export default {
       return slimData;
     },
     async getData(code) {
-      const [gdp, population, regulation, taxation] = await Promise.all([
+      const [gdp, population, regulation, tax] = await Promise.all([
         this.makeAPICall(code, 'NY.GDP.PCAP.KD'),
         this.makeAPICall(code, 'SP.POP.TOTL'),
         this.makeAPICall(code, 'IC.REG.DURS'),
@@ -135,7 +138,7 @@ export default {
       ]);
 
       const master = {
-        gdp, population, regulation, taxation, code,
+        gdp, population, regulation, tax, code,
       };
       // console.log(master);
       this.$store.commit('cacheData', master);

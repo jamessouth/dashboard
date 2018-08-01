@@ -10,13 +10,16 @@
     ref="linebuttons"
     @click="changeIndicator_Subroute"
     class="line-buttons">
-      <button class="line-selected">GDP</button>
-      <button>Population</button>
-      <button>Regulation</button>
-      <button>Taxation</button>
+      <button
+      :value="item.toLowerCase()"
+      :key="index"
+      :class="{ lineSelected: item.toLowerCase() === indicator }"
+      v-for="(item, index) in indicators">
+        {{ item }}
+      </button>
     </div>
     <p>
-      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span>{{ indicatorDetail }}</span>
+      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a>&nbsp;&nbsp;<span>{{ indicatorDetail }}</span>
     </p>
   </div>
 </template>
@@ -26,10 +29,14 @@ import countries from '@/assets/iso2countries';
 
 export default {
   name: 'LineChartControls',
+  props: ['country', 'indicator'],
   watch: {
     $route(to) { // 'from' parameter also available
-      console.log(to.params.indicator);
-      this.changeIndicatorSelection(to.params.indicator);
+      const buttonToFocus = [...this.$refs.linebuttons.children].filter(x =>
+        x.value === to.params.indicator)[0];
+      if (buttonToFocus !== document.activeElement) {
+        buttonToFocus.focus();
+      }
     },
   },
   computed: {
@@ -37,17 +44,16 @@ export default {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
-      return this.indicatorDetails[this.selectedIndicatorIndex];
     },
   },
   data() {
     return {
       selectedIndicatorIndex: 0,
-      indicatorDetails: [
-        'GDP per capita (constant 2010 US$)',
-        'Total population',
-        'Time required to start a business (days)',
-        'Total tax rate (% of commercial profits)',
+      indicators: [
+        'GDP',
+        'Population',
+        'Regulation',
+        'Tax',
       ],
     };
   },
@@ -56,23 +62,9 @@ export default {
       const country = document.querySelector('select').value;
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
     },
-    changeIndicatorSelection(subroute) {
-      let target;
-      for (let i = 0; i < this.$refs.linebuttons.children.length; i += 1) {
-        this.$refs.linebuttons.children[i].className = '';
-        if (this.$refs.linebuttons.children[i].textContent.toLowerCase() === subroute) {
-          target = this.$refs.linebuttons.children[i];
-          this.$refs.linebuttons.children[i].focus();
-          this.selectedIndicatorIndex = i;
-        }
-      }
-      target.className = 'line-selected';
-    },
     changeIndicator_Subroute(e) {
-      const { target } = e;
-      const { country } = this.$route.params;
-      const subroute = target.innerText.toLowerCase();
-      this.$router.push(`/${country}/${subroute}`);
+      const subroute = e.target.innerText.toLowerCase();
+      this.$router.push(`/${this.country}/${subroute}`);
     },
   },
   mounted() {
@@ -93,7 +85,7 @@ export default {
     display: grid;
     justify-items: center;
     grid-template-columns: 1fr;
-    grid-template-rows: 100px 60px 20px;
+    grid-template-rows: 100px 70px 34px;
     grid-template-areas: "drop" "line" "para";
   }
   .dropdown{
@@ -109,13 +101,13 @@ export default {
   }
   p{
     grid-area: para;
-    justify-self: start;
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
-    margin-left: 6px;
   }
   span{
+    font-family: 'Alegreya Sans SC', sans-serif;
     text-transform: none;
+    color: red;
   }
   a{
     text-decoration: underline;
@@ -129,7 +121,7 @@ export default {
   button:hover{
     cursor: pointer;
   }
-  button:not(.line-selected){
+  button:not(.lineSelected){
     color: #676666;
     background-color: transparent;
   }
@@ -148,7 +140,7 @@ export default {
     height: 14px;
     background: url('../assets/newwindow.png') 0 0 no-repeat;
   }
-  .line-selected{
+  .lineSelected{
     color: #fff;
     background-color: #81C98F;
     padding: 2px 10px;
@@ -192,7 +184,7 @@ export default {
       width: 310px;
     }
     .line-controls{
-      grid-template-rows: 60px 50px 30px;
+      grid-template-rows: 60px 54px 50px;
     }
     p{
       align-self: center;
@@ -211,7 +203,7 @@ export default {
   @media screen and (min-width: 768px){
     .line-controls{
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 70px 30px;
+      grid-template-rows: 70px 40px;
       grid-template-areas: "drop line" "para para";
     }
     p{
