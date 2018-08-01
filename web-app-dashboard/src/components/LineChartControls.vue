@@ -32,7 +32,8 @@ export default {
   props: ['country', 'indicator'],
   watch: {
     $route(to) { // 'from' parameter also available
-      const buttonToFocus = [...this.$refs.linebuttons.children].filter(x => x.value === to.params.indicator)[0];
+      const buttonToFocus = [...this.$refs.linebuttons.children].filter(x =>
+        x.value === to.params.indicator)[0];
       if (buttonToFocus !== document.activeElement) {
         buttonToFocus.focus();
       }
@@ -43,7 +44,11 @@ export default {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
-      return this.indicators.filter(x => x[0].toLowerCase() === this.indicator)[0][1];
+      try {
+        return this.indicators.filter(x => x[0].toLowerCase() === this.indicator)[0][1];
+      } catch (err) {
+        return this.indicators[0][1]; // on error just display gdp chart
+      }
     },
   },
   data() {
@@ -70,7 +75,7 @@ export default {
     },
   },
   mounted() {
-    console.log('mount');
+    // console.log('mount');
     for (let i = 0; i < countries.length; i += 1) {
       const opt = document.createElement('option');
       opt.textContent = `${countries[i].country}`;

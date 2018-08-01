@@ -31,18 +31,24 @@ export default {
     LineChartControls,
   },
   beforeRouteEnter(to, from, next) {
-    console.log('enter');
-    console.log(to);
     next(async (vm) => {
+      if (window.location.pathname !== '/') {
+        window.location.pathname = '/';
+      }
       const code = vm.lookupCountryCode(vm.country);
-      const indicatorName = vm.getIndicatorName(vm.indicator);
-      console.log(indicatorName);
-      await vm.getData(code);
-      if (indicatorName !== 'error') {
-        vm.setProps(indicatorName);
+      let indicatorName;
+      if (code instanceof Error || code.message) {
+        vm.setErrorToTrue(vm);
+        vm.$router.replace('/');
       } else {
-        vm.error = true;
-        vm.setProps('gdp');
+        indicatorName = vm.getIndicatorName(vm.indicator);
+        if (indicatorName === 'error') {
+          vm.setErrorToTrue(vm);
+          vm.$router.replace(`/${vm.country}`);
+        } else {
+          await vm.getData(code);
+          vm.setProps(indicatorName);
+        }
       }
     });
   },
@@ -68,6 +74,11 @@ export default {
     }
   },
   methods: {
+    setErrorToTrue(inst) { // get around linter no-param-reassign
+      const here = inst;
+      here.error = true;
+      alert(here.error);
+    },
     setProps(indicator) {
       const data = this.countryData[indicator];
       this.chartData = {
@@ -121,8 +132,8 @@ export default {
 
         // console.log(data);
         await data[1].forEach((x) => {
-          slimData.labels.push(x.date);
-          slimData.data.push(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
+          slimData.labels.unshift(x.date);
+          slimData.data.unshift(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
         });
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
