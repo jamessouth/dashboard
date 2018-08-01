@@ -11,15 +11,15 @@
     @click="changeIndicator_Subroute"
     class="line-buttons">
       <button
-      :value="item[0].toLowerCase()"
+      :value="item.toLowerCase()"
       :key="index"
-      :class="{ lineSelected: item[0].toLowerCase() === indicator }"
+      :class="{ lineSelected: item.toLowerCase() === indicator }"
       v-for="(item, index) in indicators">
-        {{ item[0] }}
+        {{ item }}
       </button>
     </div>
     <p>
-      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a> - <span>{{ indicatorDetail }}</span>
+      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a>&nbsp;&nbsp;<span>{{ indicatorDetail }}</span>
     </p>
   </div>
 </template>
@@ -44,21 +44,16 @@ export default {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
-      try {
-        return this.indicators.filter(x => x[0].toLowerCase() === this.indicator)[0][1];
-      } catch (err) {
-        return this.indicators[0][1]; // on error just display gdp chart
-      }
     },
   },
   data() {
     return {
       selectedIndicatorIndex: 0,
       indicators: [
-        ['GDP', 'GDP per capita (constant 2010 US$)'],
-        ['Population', 'Total population'],
-        ['Regulation', 'Time required to start a business (days)'],
-        ['Taxation', 'Total tax rate (% of commercial profits)'],
+        'GDP',
+        'Population',
+        'Regulation',
+        'Tax',
       ],
     };
   },
@@ -68,14 +63,11 @@ export default {
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
     },
     changeIndicator_Subroute(e) {
-      // console.log(e.target);
-
       const subroute = e.target.innerText.toLowerCase();
       this.$router.push(`/${this.country}/${subroute}`);
     },
   },
   mounted() {
-    // console.log('mount');
     for (let i = 0; i < countries.length; i += 1) {
       const opt = document.createElement('option');
       opt.textContent = `${countries[i].country}`;
@@ -93,7 +85,7 @@ export default {
     display: grid;
     justify-items: center;
     grid-template-columns: 1fr;
-    grid-template-rows: 100px 60px 20px;
+    grid-template-rows: 100px 70px 34px;
     grid-template-areas: "drop" "line" "para";
   }
   .dropdown{
@@ -109,14 +101,13 @@ export default {
   }
   p{
     grid-area: para;
-    justify-self: start;
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
-    margin-left: 6px;
   }
   span{
+    font-family: 'Alegreya Sans SC', sans-serif;
     text-transform: none;
-    color: #000;
+    color: red;
   }
   a{
     text-decoration: underline;
@@ -193,7 +184,7 @@ export default {
       width: 310px;
     }
     .line-controls{
-      grid-template-rows: 60px 50px 30px;
+      grid-template-rows: 60px 54px 50px;
     }
     p{
       align-self: center;
@@ -212,7 +203,7 @@ export default {
   @media screen and (min-width: 768px){
     .line-controls{
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 70px 30px;
+      grid-template-rows: 70px 40px;
       grid-template-areas: "drop line" "para para";
     }
     p{

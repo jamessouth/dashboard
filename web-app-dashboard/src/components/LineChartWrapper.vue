@@ -20,8 +20,20 @@ export default {
   data() {
     return {
       error: false,
+      indicatorDetails: {
+        gdp: 'GDP per capita (constant 2010 US$)',
+        population: 'Total population',
+        regulation: 'Time required to start a business (days)',
+        tax: 'Total tax rate (% of commercial profits)',
+      },
       countryData: {},
       chartData: null,
+      chartOptions: {
+        gdp: {},
+        population: {},
+        regulation: {},
+        tax: {},
+      },
     };
   },
   props: ['country', 'indicator'],
@@ -32,31 +44,19 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(async (vm) => {
-      if (window.location.pathname !== '/') {
-        window.location.pathname = '/';
-      }
       const code = vm.lookupCountryCode(vm.country);
-      let indicatorName;
-      if (code instanceof Error || code.message) {
-        vm.setErrorToTrue(vm);
-        vm.$router.replace('/');
-      } else {
-        indicatorName = vm.getIndicatorName(vm.indicator);
-        if (indicatorName === 'error') {
-          vm.setErrorToTrue(vm);
-          vm.$router.replace(`/${vm.country}`);
-        } else {
-          await vm.getData(code);
-          vm.setProps(indicatorName);
-        }
-      }
+      const indicatorName = vm.getIndicatorName(vm.indicator);
+      await vm.getData(code);
+      vm.setProps(indicatorName);
     });
   },
   async beforeRouteUpdate(to, from, next) {
+    // console.log('update');
     this.$store.commit('toggleLoadingStatus'); // to true
     const code = this.lookupCountryCode(to.params.country);
     const indicatorName = this.getIndicatorName(to.params.indicator);
     if (code instanceof Error || code.message || indicatorName === 'error') {
+      // console.log(indicatorName);
       this.error = true;
       this.$store.commit('toggleLoadingStatus'); // to false
       next(false);
@@ -65,40 +65,29 @@ export default {
       if (this.$store.getters.dataIsCached(code)) {
         this.$store.commit('toggleLoadingStatus'); // to false
         this.countryData = await this.$store.getters.getDataFromCache(code);
-        this.setProps(indicatorName);
       } else {
         await this.getData(code);
-        this.setProps(indicatorName);
       }
+      this.setProps(indicatorName);
       next();
     }
   },
   methods: {
-    setErrorToTrue(inst) { // get around linter no-param-reassign
-      const here = inst;
-      here.error = true;
-      alert(here.error);
-    },
     setProps(indicator) {
       const data = this.countryData[indicator];
       this.chartData = {
         labels: data.labels,
         datasets: [
           {
+            label: this.indicatorDetails[indicator],
             data: data.data,
           },
         ],
       };
     },
     getIndicatorName(indicator) {
-      if (indicator.toLowerCase().includes('gdp')) {
-        return 'gdp';
-      } else if (indicator.toLowerCase().includes('pop')) {
-        return 'population';
-      } else if (indicator.toLowerCase().includes('reg')) {
-        return 'regulation';
-      } else if (indicator.toLowerCase().includes('tax')) {
-        return 'taxation';
+      if (['gdp', 'population', 'regulation', 'tax'].includes(indicator)) {
+        return indicator;
       }
       return 'error';
     },
@@ -141,7 +130,7 @@ export default {
       return slimData;
     },
     async getData(code) {
-      const [gdp, population, regulation, taxation] = await Promise.all([
+      const [gdp, population, regulation, tax] = await Promise.all([
         this.makeAPICall(code, 'NY.GDP.PCAP.KD'),
         this.makeAPICall(code, 'SP.POP.TOTL'),
         this.makeAPICall(code, 'IC.REG.DURS'),
@@ -149,7 +138,7 @@ export default {
       ]);
 
       const master = {
-        gdp, population, regulation, taxation, code,
+        gdp, population, regulation, tax, code,
       };
       // console.log(master);
       this.$store.commit('cacheData', master);
