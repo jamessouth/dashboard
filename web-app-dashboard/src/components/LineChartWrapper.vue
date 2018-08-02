@@ -23,6 +23,21 @@ export default {
 
   data() {
     return {
+      baseToolTipOpts: {
+        backgroundColor: '#000',
+        displayColors: false,
+        titleFontColor: '#d5d5ec',
+        titleFontSize: 13,
+        bodyFontColor: '#ecd5d5',
+        bodyFontStyle: 'bold',
+        bodyFontSize: 13,
+        titleMarginBottom: 6,
+        callbacks: {
+          title(tooltipItem) {
+            return `${tooltipItem[0].xLabel}:`;
+          },
+        },
+      },
       error: false,
       indicatorDetails: {
         gdp: 'GDP per capita (constant 2010 US$)',
@@ -35,32 +50,108 @@ export default {
       masterOptions: {
         gdp: {
           tooltips: {
-            backgroundColor: '#000',
-            displayColors: false,
-            titleFontColor: '#d5d6ec',
-            titleFontSize: 13,
-            bodyFontColor: '#ecd5d5',
-            bodyFontStyle: 'bold',
-            bodyFontSize: 13,
-            titleMarginBottom: 6,
             callbacks: {
-              title(tooltipItem, data) {
-                return `${tooltipItem[0].xLabel}:`;
-              },
-              label(tooltipItem, data) {
+              label(tooltipItem) {
                 const currencyFormatter = new Intl.NumberFormat('en-US', {
                   style: 'currency',
                   currency: 'USD',
-                  minimumFractionDigits: 2
+                  minimumFractionDigits: 2,
                 });
-                return `${currencyFormatter.format(tooltipItem.yLabel)}`;
+                return currencyFormatter.format(tooltipItem.yLabel);
               },
             },
           },
+          scales: {
+            yAxes: [{
+              ticks: {
+                callback(value) {
+                  const currencyFormatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                  });
+                  return currencyFormatter.format(value);
+                },
+              },
+            }],
+          },
         },
-        population: {},
-        regulation: {},
-        tax: {},
+        population: {
+          tooltips: {
+            callbacks: {
+              label(tooltipItem) {
+                const largeNumberFormatter = new Intl.NumberFormat('en-US', {
+                  maximumFractionDigits: 0,
+                });
+                return largeNumberFormatter.format(tooltipItem.yLabel);
+              },
+            },
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                callback(value) {
+                  const largeNumberFormatter = new Intl.NumberFormat('en-US', {
+                    maximumFractionDigits: 0,
+                  });
+                  return largeNumberFormatter.format(value);
+                },
+              },
+            }],
+          },
+        },
+        regulation: {
+          tooltips: {
+            callbacks: {
+              label(tooltipItem) {
+                const numFormatter = new Intl.NumberFormat('en-US', {
+                  minimumFractionDigits: 1,
+                  maximumFractionDigits: 1,
+                });
+                return numFormatter.format(tooltipItem.yLabel);
+              },
+            },
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                callback(value) {
+                  const numFormatter = new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                  });
+                  return numFormatter.format(value);
+                },
+              },
+            }],
+          },
+        },
+        tax: {
+          tooltips: {
+            callbacks: {
+              label(tooltipItem) {
+                const percentFormatter = new Intl.NumberFormat('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                });
+                return `${percentFormatter.format(tooltipItem.yLabel)}%`;
+              },
+            },
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                callback(value) {
+                  const percentFormatter = new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  });
+                  return `${percentFormatter.format(value)}%`;
+                },
+              },
+            }],
+          },
+        },
       },
     };
   },
@@ -68,7 +159,16 @@ export default {
   name: 'LineChartWrapper',
   computed: {
     chartOptions() {
-      return this.masterOptions[this.indicator];
+      return {
+        scales: this.masterOptions[this.indicator].scales,
+        tooltips: {
+          ...this.baseToolTipOpts,
+          callbacks: {
+            ...this.masterOptions[this.indicator].tooltips.callbacks,
+            ...this.baseToolTipOpts.callbacks,
+          },
+        },
+      };
     },
   },
   components: {
