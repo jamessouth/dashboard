@@ -8,9 +8,15 @@ const { reactiveProp } = mixins;
 export default {
   extends: Line,
   mixins: [reactiveProp],
-  // props: ['chartLabels'],
+  props: ['options'],
   mounted() {
-    this.renderChart(this.chartData);
+    this.renderChart(this.chartData, this.options);
+  },
+  watch: {
+    chartOptions(newChartOptions) {
+      // this.$data._chart.destroy()
+      this.renderChart(this.chartData, newChartOptions);
+    },
   },
   name: 'LineChart',
 };

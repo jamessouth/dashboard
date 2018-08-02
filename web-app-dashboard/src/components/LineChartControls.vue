@@ -44,6 +44,7 @@ export default {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
+      return '';
     },
   },
   data() {
