@@ -1,9 +1,13 @@
 <template>
   <div>
-    <LineChartControls :country="country" :indicator="indicator"></LineChartControls>
+    <LineChartControls
+    :country="country"
+    :indicator="indicator">
+    </LineChartControls>
     <line-chart
-      v-if="!this.$store.state.loading"
-      :chart-data="chartData">
+    v-if="!this.$store.state.loading"
+    :chart-data="chartData"
+    :options="chartOptions">
     </line-chart>
     <div v-else>Loading...</div>
     <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p>
@@ -28,8 +32,32 @@ export default {
       },
       countryData: {},
       chartData: null,
-      chartOptions: {
-        gdp: {},
+      masterOptions: {
+        gdp: {
+          tooltips: {
+            backgroundColor: '#000',
+            displayColors: false,
+            titleFontColor: '#d5d6ec',
+            titleFontSize: 13,
+            bodyFontColor: '#ecd5d5',
+            bodyFontStyle: 'bold',
+            bodyFontSize: 13,
+            titleMarginBottom: 6,
+            callbacks: {
+              title(tooltipItem, data) {
+                return `${tooltipItem[0].xLabel}:`;
+              },
+              label(tooltipItem, data) {
+                const currencyFormatter = new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                  minimumFractionDigits: 2
+                });
+                return `${currencyFormatter.format(tooltipItem.yLabel)}`;
+              },
+            },
+          },
+        },
         population: {},
         regulation: {},
         tax: {},
@@ -38,6 +66,11 @@ export default {
   },
   props: ['country', 'indicator'],
   name: 'LineChartWrapper',
+  computed: {
+    chartOptions() {
+      return this.masterOptions[this.indicator];
+    },
+  },
   components: {
     LineChart,
     LineChartControls,
@@ -81,6 +114,15 @@ export default {
           {
             label: this.indicatorDetails[indicator],
             data: data.data,
+            backgroundColor: 'rgba(115,119,191,0.3)',
+            lineTension: 0,
+            borderColor: '#7377BF',
+            borderWidth: 1,
+            pointRadius: 4,
+            pointBorderWidth: 2,
+            pointBorderColor: '#7377BF',
+            pointBackgroundColor: '#fbfbfb',
+            pointHoverRadius: 4,
           },
         ],
       };
