@@ -179,7 +179,7 @@ export default {
     next(async (vm) => {
       const code = vm.lookupCountryCode(vm.country);
       const indicatorName = vm.getIndicatorName(vm.indicator);
-      await vm.getData(code);
+      // await vm.getData(code);
       vm.setProps(indicatorName);
     });
   },
@@ -199,7 +199,7 @@ export default {
         this.$store.commit('toggleLoadingStatus'); // to false
         this.countryData = await this.$store.getters.getDataFromCache(code);
       } else {
-        await this.getData(code);
+        // await this.getData(code);
       }
       this.setProps(indicatorName);
       next();

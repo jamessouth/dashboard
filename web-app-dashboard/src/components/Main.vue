@@ -24,7 +24,6 @@
 <script>
 import AlertBox from './AlertBox.vue';
 import LineChartWrapper from './LineChartWrapper.vue';
-
 import BarDonut from './BarDonut.vue';
 import Social from './Social.vue';
 import MembersActivity from './MembersActivity.vue';

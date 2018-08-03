@@ -1,9 +1,11 @@
 <template>
   <div class="bar_donut">
-    <p>daily traffic</p>
+    <p>Natural events from EONET - past 30 days</p>
     <button></button>
     <div class="bar-chart">
-      <canvas></canvas>
+      <BarChart :chart-data="chartData">
+
+      </BarChart>
     </div>
     <div class="dough">
       <div class="donut-chart">
@@ -17,8 +19,83 @@
 </template>
 
 <script>
+import BarChart from './BarChart.vue';
+
+
+// :options="">
 export default {
   name: 'BarDonut',
+  data() {
+    return {
+      chartData: null,
+    };
+  },
+  components: {
+    BarChart,
+  },
+  mounted() {
+    this.makeAPICall();
+  },
+  methods: {
+    async makeAPICall() {
+      try {
+        // console.log(code);
+        let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=4');
+        console.log('data fetch bar');
+        // console.log(data);
+        if (data.ok) {
+          data = await data.json();
+        } else {
+          throw new Error('Network problem - response not ok');
+        }
+
+        // if (data[1] === null) {
+        //   throw new Error('No data available for this location');
+        // }
+
+        console.log(data);
+
+        const slimData = data.events.reduce((obj, item) => {
+          obj[item.categories[0].title] = ++obj[item.categories[0].title] || 1;
+          return obj;
+        }, {});
+
+        console.log(slimData);
+
+        let dataLabels = [], dataData = [];
+
+        for (let event in slimData) {
+          dataLabels.push(event);
+          dataData.push(slimData[event]);
+        }
+
+        console.log(dataLabels, dataData);
+
+        this.chartData = {
+          labels: dataLabels,
+          datasets: [
+            {
+              // label: this.indicatorDetails[indicator],
+              data: dataData,
+              // backgroundColor: 'rgba(115,119,191,0.3)',
+              // lineTension: 0,
+              // borderColor: '#7377BF',
+              // borderWidth: 1,
+              // pointRadius: 4,
+              // pointBorderWidth: 2,
+              // pointBorderColor: '#7377BF',
+              // pointBackgroundColor: '#fbfbfb',
+              // pointHoverRadius: 4,
+            },
+          ],
+        };
+
+      } catch (err) {
+        alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
+      }
+      // return slimData;
+    },
+  },
 };
 </script>
 
