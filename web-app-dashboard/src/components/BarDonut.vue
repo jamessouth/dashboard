@@ -1,10 +1,17 @@
 <template>
   <div class="bar_donut">
-    <p>Natural events from EONET - past 30 days</p>
-    <button></button>
     <div class="bar-chart">
-      <BarChart :chart-data="chartData">
-
+      <p>Natural events from
+        <a
+        class="newwindow"
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://eonet.sci.gsfc.nasa.gov/eonet-project">EONET</a>
+      </p>
+      <button></button>
+      <BarChart
+      :options="chartOptions"
+      :chart-data="chartData">
       </BarChart>
     </div>
     <div class="dough">
@@ -21,13 +28,71 @@
 <script>
 import BarChart from './BarChart.vue';
 
-
-// :options="">
 export default {
   name: 'BarDonut',
   data() {
     return {
       chartData: null,
+      chartOptions: {
+        tooltips: {
+          backgroundColor: '#000',
+          displayColors: false,
+          titleFontSize: 13,
+          bodyFontSize: 13,
+          titleMarginBottom: 6,
+          callbacks: {
+            title(tooltipItem, data) {
+              console.log(tooltipItem[0], data.datasets[1]);
+              // return `${data.datasets[tooltipItem.datasetIndex].label}:`;
+            },
+            label(tooltipItem, data) {
+              console.log(tooltipItem, data);
+              return tooltipItem.yLabel;
+            },
+          },
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              fontSize: 13,
+            },
+            position: 'left',
+          },
+          {
+            ticks: {
+              callback() {
+                return '';
+              },
+            },
+            position: 'right',
+            gridLines:{
+              drawOnChartArea: false,
+              drawTicks: false,
+            },
+          }],
+          xAxes: [{
+            barPercentage: 1.0,
+            categoryPercentage: 1.0,
+            ticks: {
+              fontSize: 13,
+            },
+          }],
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          },
+        },
+        legend: {
+          labels: {
+            fontSize: 13,
+          },
+        },
+      },
     };
   },
   components: {
@@ -40,7 +105,7 @@ export default {
     async makeAPICall() {
       try {
         // console.log(code);
-        let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=4');
+        let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
         console.log('data fetch bar');
         // console.log(data);
         if (data.ok) {
@@ -55,41 +120,48 @@ export default {
 
         console.log(data);
 
-        const slimData = data.events.reduce((obj, item) => {
+        const slimData = data.events.reduce((obj, item) => { // eslint-disable-next-line
           obj[item.categories[0].title] = ++obj[item.categories[0].title] || 1;
           return obj;
         }, {});
 
         console.log(slimData);
 
-        let dataLabels = [], dataData = [];
+        const colors = ['#435058', '#dcf763', '#7377bf', '#bfb7b6', '#f1f2ee'];
+        const dataData = [];
+        //
+        Object.keys(slimData).forEach((evt, i) => {
+          // dataLabels.push(evt);
+          // dataData.push(slimData[evt]);
+          dataData.push({
+            label: evt,
+            data: [slimData[evt]],
+            backgroundColor: colors[i]
+          });
 
-        for (let event in slimData) {
-          dataLabels.push(event);
-          dataData.push(slimData[event]);
-        }
 
-        console.log(dataLabels, dataData);
+        });
+        //
+        console.log(dataData);
+
+        // [
+        //   {
+        //     label: dataLabels,
+        //     data: [10],
+        //     backgroundColor: '#7377BF',
+        //   },
+        //   {
+        //     label: 'honey',
+        //     data: [18],
+        //     backgroundColor: '#f67042',
+        //   },
+        // ],
+        // 'Number of events - past 30 days'
 
         this.chartData = {
-          labels: dataLabels,
-          datasets: [
-            {
-              // label: this.indicatorDetails[indicator],
-              data: dataData,
-              // backgroundColor: 'rgba(115,119,191,0.3)',
-              // lineTension: 0,
-              // borderColor: '#7377BF',
-              // borderWidth: 1,
-              // pointRadius: 4,
-              // pointBorderWidth: 2,
-              // pointBorderColor: '#7377BF',
-              // pointBackgroundColor: '#fbfbfb',
-              // pointHoverRadius: 4,
-            },
-          ],
+          labels: ['1', '2', '3', '4', '5'],
+          datasets: dataData,
         };
-
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
@@ -104,17 +176,22 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   .bar_donut{
-    position: relative;
     margin-top: 1em;
     display: flex;
     flex-direction: column;
     border-top: 1px solid #cecece;
     border-bottom: 1px solid #cecece;
   }
+  .newwindow::after{
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url('../assets/newwindow.png') 0 0 no-repeat;
+  }
   .bar-chart{
-    position: relative;
-    width: 96%;
-    margin: 3em auto;
+    width: 100%;
+    margin: 2em auto;
   }
   .donut-chart{
     position: relative;
@@ -130,6 +207,9 @@ export default {
     left: 50%;
     top: 15px;
     transform: translateX(-50%);
+  }
+  a{
+    text-decoration: underline;
   }
   .donut-chart > p{
     position: absolute;
@@ -176,13 +256,11 @@ export default {
     align-items: center;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  .bar_donut > p{
-    position: absolute;
+  .bar-chart > p{
+    text-align: center;
+    margin-bottom: 1em;
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
-    left: 50%;
-    top: 15px;
-    transform: translateX(-50%);
   }
   button{
     font-family: 'Alegreya Sans SC', sans-serif;
@@ -213,7 +291,7 @@ export default {
     button{
       left: 45%;
     }
-    .bar_donut > p{
+    .bar-chart > p{
       left: 8%;
     }
     span{

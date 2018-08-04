@@ -180,7 +180,7 @@ export default {
       const code = vm.lookupCountryCode(vm.country);
       const indicatorName = vm.getIndicatorName(vm.indicator);
       // await vm.getData(code);
-      vm.setProps(indicatorName);
+      // vm.setProps(indicatorName);
     });
   },
   async beforeRouteUpdate(to, from, next) {
@@ -201,7 +201,7 @@ export default {
       } else {
         // await this.getData(code);
       }
-      this.setProps(indicatorName);
+      // this.setProps(indicatorName);
       next();
     }
   },
