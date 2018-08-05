@@ -8,6 +8,9 @@
         target="_blank"
         href="https://eonet.sci.gsfc.nasa.gov/eonet-project">EONET</a>
       </p>
+      <div :style="{ marginBottom: '1em' }">
+        <ul :style="legendStyles" ref="legend"></ul>
+      </div>
       <button></button>
       <BarChart
       :options="chartOptions"
@@ -34,6 +37,11 @@ export default {
     return {
       chartData: null,
       chartOptions: {
+        title: {
+          display: true,
+          text: 'Number of Events - past 30 days',
+          fontSize: 13,
+        },
         tooltips: {
           backgroundColor: '#000',
           displayColors: false,
@@ -41,12 +49,10 @@ export default {
           bodyFontSize: 13,
           titleMarginBottom: 6,
           callbacks: {
-            title(tooltipItem, data) {
-              console.log(tooltipItem[0], data.datasets[1]);
-              // return `${data.datasets[tooltipItem.datasetIndex].label}:`;
+            title(tooltipItem) {
+              return `${tooltipItem[0].xLabel}:`;
             },
-            label(tooltipItem, data) {
-              console.log(tooltipItem, data);
+            label(tooltipItem) {
               return tooltipItem.yLabel;
             },
           },
@@ -66,7 +72,7 @@ export default {
               },
             },
             position: 'right',
-            gridLines:{
+            gridLines: {
               drawOnChartArea: false,
               drawTicks: false,
             },
@@ -75,7 +81,8 @@ export default {
             barPercentage: 1.0,
             categoryPercentage: 1.0,
             ticks: {
-              fontSize: 13,
+              fontSize: 1,
+              fontColor: 'transparent',
             },
           }],
         },
@@ -88,9 +95,7 @@ export default {
           },
         },
         legend: {
-          labels: {
-            fontSize: 13,
-          },
+          display: false,
         },
       },
     };
@@ -101,13 +106,46 @@ export default {
   mounted() {
     this.makeAPICall();
   },
+  computed: {
+    legendStyles() {
+      return {
+        display: 'flex',
+        flexDirection: 'row',
+        margin: 'auto',
+        justifyContent: 'space-around',
+        flexWrap: 'wrap',
+        minHeight: '50px',
+      };
+    },
+  },
   methods: {
+    legendCallback(barChartData) {
+      const colors = barChartData.datasets[0].backgroundColor;
+      let li;
+      let p;
+      let colorBox;
+      for (let i = 0; i < barChartData.datasets[0].data.length; i += 1) {
+        li = document.createElement('li');
+        p = document.createElement('p');
+        colorBox = document.createElement('div');
+        li.style.display = 'flex';
+        li.style.alignItems = 'center';
+        colorBox.style.width = '30px';
+        colorBox.style.height = '16px';
+        colorBox.style.backgroundColor = colors[i];
+        colorBox.style.marginRight = '5px';
+        p.textContent = barChartData.labels[i];
+        p.style.fontFamily = "'Alegreya Sans', sans-serif";
+        p.style.marginRight = '4px';
+        li.appendChild(colorBox);
+        li.appendChild(p);
+        this.$refs.legend.appendChild(li);
+      }
+    },
     async makeAPICall() {
       try {
-        // console.log(code);
         let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
-        console.log('data fetch bar');
-        // console.log(data);
+
         if (data.ok) {
           data = await data.json();
         } else {
@@ -118,54 +156,40 @@ export default {
         //   throw new Error('No data available for this location');
         // }
 
-        console.log(data);
+        // console.log(data);
 
         const slimData = data.events.reduce((obj, item) => { // eslint-disable-next-line
           obj[item.categories[0].title] = ++obj[item.categories[0].title] || 1;
           return obj;
         }, {});
 
-        console.log(slimData);
+        // console.log(slimData);
 
-        const colors = ['#435058', '#dcf763', '#7377bf', '#bfb7b6', '#f1f2ee'];
+        const dataLabels = [];
         const dataData = [];
-        //
-        Object.keys(slimData).forEach((evt, i) => {
-          // dataLabels.push(evt);
-          // dataData.push(slimData[evt]);
-          dataData.push({
-            label: evt,
-            data: [slimData[evt]],
-            backgroundColor: colors[i]
-          });
+        const colors = ['#7377bf', '#e88d67', '#8cd867', '#f6e27f', '#f71735', '#22181c', '#ffd289', '#522a27', '#bb999c', '#011627', '#c0e6de', '#d8cc34', '#e6e4ce'];
 
-
+        Object.keys(slimData).forEach((evt) => {
+          dataLabels.push(evt);
+          dataData.push(slimData[evt]);
         });
-        //
-        console.log(dataData);
 
-        // [
-        //   {
-        //     label: dataLabels,
-        //     data: [10],
-        //     backgroundColor: '#7377BF',
-        //   },
-        //   {
-        //     label: 'honey',
-        //     data: [18],
-        //     backgroundColor: '#f67042',
-        //   },
-        // ],
-        // 'Number of events - past 30 days'
+        // console.log(dataLabels, dataData);
 
         this.chartData = {
-          labels: ['1', '2', '3', '4', '5'],
-          datasets: dataData,
+          labels: dataLabels,
+          datasets: [
+            {
+              label: '',
+              data: dataData,
+              backgroundColor: colors,
+            },
+          ],
         };
+        this.legendCallback(this.chartData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
-      // return slimData;
     },
   },
 };
