@@ -1,9 +1,21 @@
 <template>
   <div class="bar_donut">
-    <p>daily traffic</p>
-    <button></button>
     <div class="bar-chart">
-      <canvas></canvas>
+      <p>Natural events from
+        <a
+        class="newwindow"
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://eonet.sci.gsfc.nasa.gov/eonet-project">EONET</a>
+      </p>
+      <div :style="{ marginBottom: '1em' }">
+        <ul :style="legendStyles" ref="legend"></ul>
+      </div>
+      <button></button>
+      <BarChart
+      :options="chartOptions"
+      :chart-data="chartData">
+      </BarChart>
     </div>
     <div class="dough">
       <div class="donut-chart">
@@ -17,8 +29,169 @@
 </template>
 
 <script>
+import BarChart from './BarChart.vue';
+
 export default {
   name: 'BarDonut',
+  data() {
+    return {
+      chartData: null,
+      chartOptions: {
+        title: {
+          display: true,
+          text: 'Number of Events - past 30 days',
+          fontSize: 13,
+        },
+        tooltips: {
+          backgroundColor: '#000',
+          displayColors: false,
+          titleFontSize: 13,
+          bodyFontSize: 13,
+          titleMarginBottom: 6,
+          callbacks: {
+            title(tooltipItem) {
+              return `${tooltipItem[0].xLabel}:`;
+            },
+            label(tooltipItem) {
+              return tooltipItem.yLabel;
+            },
+          },
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              fontSize: 13,
+            },
+            position: 'left',
+          },
+          {
+            ticks: {
+              callback() {
+                return '';
+              },
+            },
+            position: 'right',
+            gridLines: {
+              drawOnChartArea: false,
+              drawTicks: false,
+            },
+          }],
+          xAxes: [{
+            barPercentage: 1.0,
+            categoryPercentage: 1.0,
+            ticks: {
+              fontSize: 1,
+              fontColor: 'transparent',
+            },
+          }],
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          },
+        },
+        legend: {
+          display: false,
+        },
+      },
+    };
+  },
+  components: {
+    BarChart,
+  },
+  mounted() {
+    this.makeAPICall();
+  },
+  computed: {
+    legendStyles() {
+      return {
+        display: 'flex',
+        flexDirection: 'row',
+        margin: 'auto',
+        justifyContent: 'space-around',
+        flexWrap: 'wrap',
+        minHeight: '50px',
+      };
+    },
+  },
+  methods: {
+    legendCallback(barChartData) {
+      const colors = barChartData.datasets[0].backgroundColor;
+      let li;
+      let p;
+      let colorBox;
+      for (let i = 0; i < barChartData.datasets[0].data.length; i += 1) {
+        li = document.createElement('li');
+        p = document.createElement('p');
+        colorBox = document.createElement('div');
+        li.style.display = 'flex';
+        li.style.alignItems = 'center';
+        colorBox.style.width = '30px';
+        colorBox.style.height = '16px';
+        colorBox.style.backgroundColor = colors[i];
+        colorBox.style.marginRight = '5px';
+        p.textContent = barChartData.labels[i];
+        p.style.fontFamily = "'Alegreya Sans', sans-serif";
+        p.style.marginRight = '4px';
+        li.appendChild(colorBox);
+        li.appendChild(p);
+        this.$refs.legend.appendChild(li);
+      }
+    },
+    async makeAPICall() {
+      try {
+        let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
+
+        if (data.ok) {
+          data = await data.json();
+        } else {
+          throw new Error('Network problem - response not ok');
+        }
+
+        // if (data[1] === null) {
+        //   throw new Error('No data available for this location');
+        // }
+
+        // console.log(data);
+
+        const slimData = data.events.reduce((obj, item) => { // eslint-disable-next-line
+          obj[item.categories[0].title] = ++obj[item.categories[0].title] || 1;
+          return obj;
+        }, {});
+
+        // console.log(slimData);
+
+        const dataLabels = [];
+        const dataData = [];
+        const colors = ['#7377bf', '#e88d67', '#8cd867', '#f6e27f', '#f71735', '#22181c', '#ffd289', '#522a27', '#bb999c', '#011627', '#c0e6de', '#d8cc34', '#e6e4ce'];
+
+        Object.keys(slimData).forEach((evt) => {
+          dataLabels.push(evt);
+          dataData.push(slimData[evt]);
+        });
+
+        // console.log(dataLabels, dataData);
+
+        this.chartData = {
+          labels: dataLabels,
+          datasets: [
+            {
+              label: '',
+              data: dataData,
+              backgroundColor: colors,
+            },
+          ],
+        };
+        this.legendCallback(this.chartData);
+      } catch (err) {
+        alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
+      }
+    },
+  },
 };
 </script>
 
@@ -27,17 +200,22 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   .bar_donut{
-    position: relative;
     margin-top: 1em;
     display: flex;
     flex-direction: column;
     border-top: 1px solid #cecece;
     border-bottom: 1px solid #cecece;
   }
+  .newwindow::after{
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url('../assets/newwindow.png') 0 0 no-repeat;
+  }
   .bar-chart{
-    position: relative;
-    width: 96%;
-    margin: 3em auto;
+    width: 100%;
+    margin: 2em auto;
   }
   .donut-chart{
     position: relative;
@@ -53,6 +231,9 @@ export default {
     left: 50%;
     top: 15px;
     transform: translateX(-50%);
+  }
+  a{
+    text-decoration: underline;
   }
   .donut-chart > p{
     position: absolute;
@@ -99,13 +280,11 @@ export default {
     align-items: center;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  .bar_donut > p{
-    position: absolute;
+  .bar-chart > p{
+    text-align: center;
+    margin-bottom: 1em;
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
-    left: 50%;
-    top: 15px;
-    transform: translateX(-50%);
   }
   button{
     font-family: 'Alegreya Sans SC', sans-serif;
@@ -136,7 +315,7 @@ export default {
     button{
       left: 45%;
     }
-    .bar_donut > p{
+    .bar-chart > p{
       left: 8%;
     }
     span{
