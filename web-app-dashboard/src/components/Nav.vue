@@ -27,14 +27,11 @@
   </div>
 </template>
 
-
 <script>
 export default {
   name: 'Nav',
 };
-
 </script>
-
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
@@ -116,7 +113,6 @@ export default {
   a:focus:not(.selected){
     opacity: 0.7;
   }
-
   a:focus{
     outline: 2px solid #fff176;
   }
@@ -124,18 +120,12 @@ export default {
     .tooltip2:after{
       left: -18px;
     }
-
   }
-
-
   @media screen and (min-width: 400px){
-
     a{
       padding: 19px 27px 0;
     }
   }
-
-
   @media screen and (min-width: 768px){
     div{
       margin-bottom: 0;
@@ -171,7 +161,5 @@ export default {
     img{
       height: 32px;
     }
-
   }
-
 </style>

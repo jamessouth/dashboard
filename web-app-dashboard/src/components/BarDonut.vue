@@ -1,36 +1,20 @@
 <template>
   <div class="bar_donut">
-    <div class="bar-chart">
-      <p>Natural events from
-        <a
-        class="newwindow"
-        rel="noopener noreferrer"
-        target="_blank"
-        href="https://eonet.sci.gsfc.nasa.gov/eonet-project">EONET</a>
-      </p>
-      <div :style="{ margin: '0 auto', width: '90%' }">
-        <ul :style="legendStyles" ref="barlegend"></ul>
-      </div>
-      <BarChart
-      :options="barChartOptions"
-      :chart-data="barChartData">
-      </BarChart>
-    </div>
-    <div class="donut-chart">
-      <div :style="{ margin: '68px auto 0', width: '90%' }">
-        <ul :style="legendStyles" ref="donutlegend"></ul>
-      </div>
-      <DonutChart
-      :options="donutChartOptions"
-      :chart-data="donutChartData">
-      </DonutChart>
-    </div>
+    <Wrapper
+    :opts="barChartOptions"
+    :chData="barChartData"
+    :type="'bar'">
+    </Wrapper>
+    <Wrapper
+    :opts="donutChartOptions"
+    :chData="donutChartData"
+    :type="'donut'">
+    </Wrapper>
   </div>
 </template>
 
 <script>
-import BarChart from './BarChart.vue';
-import DonutChart from './DonutChart.vue';
+import Wrapper from './Wrapper.vue';
 
 export default {
   name: 'BarDonut',
@@ -109,7 +93,6 @@ export default {
           display: false,
         },
       },
-
       donutChartOptions: {
         title: {
           display: true,
@@ -155,50 +138,12 @@ export default {
     };
   },
   components: {
-    BarChart,
-    DonutChart,
+    Wrapper,
   },
   mounted() {
     this.makeAPICall();
   },
-  computed: {
-    legendStyles() {
-      return {
-        display: 'flex',
-        flexFlow: 'row wrap',
-        margin: 'auto',
-        justifyContent: 'space-around',
-        minHeight: '70px',
-      };
-    },
-  },
   methods: {
-    legendCallback(barChartData) {
-      const colors = barChartData.datasets[0].backgroundColor;
-      let li;
-      let p;
-      let colorBox;
-      let clone;
-      for (let i = 0; i < barChartData.datasets[0].data.length; i += 1) {
-        li = document.createElement('li');
-        p = document.createElement('p');
-        colorBox = document.createElement('div');
-        li.style.display = 'flex';
-        li.style.alignItems = 'center';
-        colorBox.style.width = '30px';
-        colorBox.style.height = '16px';
-        colorBox.style.backgroundColor = colors[i];
-        colorBox.style.marginRight = '5px';
-        p.textContent = barChartData.labels[i];
-        p.style.fontFamily = "'Alegreya Sans', sans-serif";
-        p.style.marginRight = '4px';
-        li.appendChild(colorBox);
-        li.appendChild(p);
-        clone = li.cloneNode(true);
-        this.$refs.barlegend.appendChild(li);
-        this.$refs.donutlegend.appendChild(clone);
-      }
-    },
     async makeAPICall() {
       try {
         let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
@@ -255,8 +200,6 @@ export default {
             },
           ],
         };
-
-        this.legendCallback(this.barChartData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
@@ -266,7 +209,6 @@ export default {
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   .bar_donut{
     margin-top: 1em;
     display: flex;
@@ -275,49 +217,10 @@ export default {
     border-top: 1px solid #cecece;
     border-bottom: 1px solid #cecece;
   }
-  .newwindow::after{
-    content: '';
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background: url('../assets/newwindow.png') 0 0 no-repeat;
-  }
-  .bar-chart{
-    width: 96%;
-    margin: 2em 0;
-  }
-  .donut-chart{
-    border-top: 1px solid #cecece;
-    width: 96%;
-    margin: 0 0 2em;
-  }
-  .bar-chart > div:last-of-type, .donut-chart > div:last-of-type{
-    position: relative;
-    min-width: 0;
-  }
-  a{
-    text-decoration: underline;
-  }
-  .bar-chart > p{
-    text-align: center;
-    margin-bottom: 1em;
-    font-family: 'Alegreya Sans', sans-serif;
-    text-transform: uppercase;
-  }
   @media screen and (min-width: 1024px){
-    .bar-chart,
-    .donut-chart{
-      margin-bottom: 0;
-      padding-bottom: 1em;
-      max-width: calc((98vw - 90px) / 2);
-    }
     .bar_donut{
       flex-direction: row;
       justify-content: space-around;
-    }
-    .donut-chart{
-      border-left: 1px solid #cecece;
-      border-top: none;
     }
   }
 </style>

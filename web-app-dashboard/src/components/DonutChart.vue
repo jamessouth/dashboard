@@ -11,7 +11,6 @@ export default {
   props: ['options'],
   mounted() {
     this.renderChart(this.chartData, this.options);
-    // this.$data._chart.generateLegend();
   },
   name: 'DonutChart',
 };
