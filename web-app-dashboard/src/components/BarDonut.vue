@@ -8,35 +8,37 @@
         target="_blank"
         href="https://eonet.sci.gsfc.nasa.gov/eonet-project">EONET</a>
       </p>
-      <div :style="{ marginBottom: '1em' }">
-        <ul :style="legendStyles" ref="legend"></ul>
+      <div :style="{ margin: '0 auto', width: '90%' }">
+        <ul :style="legendStyles" ref="barlegend"></ul>
       </div>
-      <button></button>
       <BarChart
-      :options="chartOptions"
-      :chart-data="chartData">
+      :options="barChartOptions"
+      :chart-data="barChartData">
       </BarChart>
     </div>
-    <div class="dough">
-      <div class="donut-chart">
-        <span>mobile users</span>
-        <p></p>
-        <canvas width="297" height="297"></canvas>
+    <div class="donut-chart">
+      <div :style="{ margin: '68px auto 0', width: '90%' }">
+        <ul :style="legendStyles" ref="donutlegend"></ul>
       </div>
-      <div class="donut-legend"></div>
+      <DonutChart
+      :options="donutChartOptions"
+      :chart-data="donutChartData">
+      </DonutChart>
     </div>
   </div>
 </template>
 
 <script>
 import BarChart from './BarChart.vue';
+import DonutChart from './DonutChart.vue';
 
 export default {
   name: 'BarDonut',
   data() {
     return {
-      chartData: null,
-      chartOptions: {
+      barChartData: null,
+      donutChartData: null,
+      barChartOptions: {
         title: {
           display: true,
           text: 'Number of Events - past 30 days',
@@ -57,11 +59,16 @@ export default {
             },
           },
         },
+        responsive: true,
         scales: {
           yAxes: [{
+            type: 'logarithmic',
             ticks: {
-              beginAtZero: true,
+              min: 0,
               fontSize: 13,
+              callback(value) {
+                return value;
+              },
             },
             position: 'left',
           },
@@ -84,6 +91,10 @@ export default {
               fontSize: 1,
               fontColor: 'transparent',
             },
+            gridLines: {
+              drawOnChartArea: false,
+              drawTicks: false,
+            },
           }],
         },
         layout: {
@@ -98,10 +109,54 @@ export default {
           display: false,
         },
       },
+
+      donutChartOptions: {
+        title: {
+          display: true,
+          text: 'Share of Events - past 30 days',
+          fontSize: 13,
+        },
+        responsive: true,
+        rotation: (Math.floor(Math.random() * 100) / 10) * Math.PI,
+        cutoutPercentage: 54,
+        animation: {
+          animateScale: true,
+        },
+        tooltips: {
+          backgroundColor: '#000',
+          displayColors: false,
+          titleFontSize: 13,
+          bodyFontSize: 13,
+          titleMarginBottom: 6,
+          callbacks: {
+            label(tooltipItem, data) {
+              const dataSet = data.datasets[0].data;
+              const dataPoint = dataSet[tooltipItem.index];
+              const sum = dataSet.reduce((a, b) => a + b, 0);
+              return `${data.labels[tooltipItem.index]}: ${(Math.round((dataPoint / sum) * 10000)) / 100}%`;
+            },
+          },
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          },
+        },
+        legend: {
+          display: false,
+          labels: {
+            fontSize: 13,
+          },
+        },
+      },
     };
   },
   components: {
     BarChart,
+    DonutChart,
   },
   mounted() {
     this.makeAPICall();
@@ -110,11 +165,10 @@ export default {
     legendStyles() {
       return {
         display: 'flex',
-        flexDirection: 'row',
+        flexFlow: 'row wrap',
         margin: 'auto',
         justifyContent: 'space-around',
-        flexWrap: 'wrap',
-        minHeight: '50px',
+        minHeight: '70px',
       };
     },
   },
@@ -124,6 +178,7 @@ export default {
       let li;
       let p;
       let colorBox;
+      let clone;
       for (let i = 0; i < barChartData.datasets[0].data.length; i += 1) {
         li = document.createElement('li');
         p = document.createElement('p');
@@ -139,7 +194,9 @@ export default {
         p.style.marginRight = '4px';
         li.appendChild(colorBox);
         li.appendChild(p);
-        this.$refs.legend.appendChild(li);
+        clone = li.cloneNode(true);
+        this.$refs.barlegend.appendChild(li);
+        this.$refs.donutlegend.appendChild(clone);
       }
     },
     async makeAPICall() {
@@ -176,7 +233,7 @@ export default {
 
         // console.log(dataLabels, dataData);
 
-        this.chartData = {
+        this.barChartData = {
           labels: dataLabels,
           datasets: [
             {
@@ -186,7 +243,20 @@ export default {
             },
           ],
         };
-        this.legendCallback(this.chartData);
+
+        this.donutChartData = {
+          labels: dataLabels,
+          datasets: [
+            {
+              label: '',
+              data: dataData,
+              backgroundColor: colors,
+              borderWidth: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            },
+          ],
+        };
+
+        this.legendCallback(this.barChartData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
@@ -196,13 +266,12 @@ export default {
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css?family=Josefin+Slab:400,600');
-  @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   .bar_donut{
     margin-top: 1em;
     display: flex;
     flex-direction: column;
+    align-items: center;
     border-top: 1px solid #cecece;
     border-bottom: 1px solid #cecece;
   }
@@ -214,71 +283,20 @@ export default {
     background: url('../assets/newwindow.png') 0 0 no-repeat;
   }
   .bar-chart{
-    width: 100%;
-    margin: 2em auto;
+    width: 96%;
+    margin: 2em 0;
   }
   .donut-chart{
-    position: relative;
     border-top: 1px solid #cecece;
     width: 96%;
-    padding-top: 1em;
-    margin: 0 auto 1em;
+    margin: 0 0 2em;
   }
-  span{
-    position: absolute;
-    font-family: 'Alegreya Sans', sans-serif;
-    text-transform: uppercase;
-    left: 50%;
-    top: 15px;
-    transform: translateX(-50%);
+  .bar-chart > div:last-of-type, .donut-chart > div:last-of-type{
+    position: relative;
+    min-width: 0;
   }
   a{
     text-decoration: underline;
-  }
-  .donut-chart > p{
-    position: absolute;
-    font-family: 'Josefin Slab', serif;
-    font-size: 22px;
-    white-space: pre;
-    bottom: 45%;
-    left: 50%;
-    transform: translateY(50%) translateX(-50%);
-  }
-  .donut-chart > canvas{
-    width: 297px;
-    height: 297px;
-    margin: auto;
-    margin-top: 20px;
-    opacity: 0;
-    background: url("../assets/shadow.jpg") no-repeat;
-    transition: opacity 0.5s linear;
-  }
-  .donut-legend{
-    margin-bottom: 1em;
-    position: relative;
-  }
-  .donut-legend > ul{
-    display: flex;
-    justify-content: center;
-  }
-  .donut-legend > ul li{
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-    font-family: 'Alegreya Sans', sans-serif;
-  }
-  .donut-legend > ul li p{
-    display: inline;
-  }
-  .donut-legend > ul li div{
-    display: inline-block;
-    margin-right: 5px;
-  }
-  .donut-legend > ul li:focus{
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-    font-family: 'Alegreya Sans', sans-serif;
   }
   .bar-chart > p{
     text-align: center;
@@ -286,66 +304,20 @@ export default {
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
   }
-  button{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 16px;
-    position: absolute;
-    width: 40px;
-    top: 15px;
-    right: 3%;
-    border: none;
-    background-color: transparent;
-    color: #7377bf;
-    cursor: pointer;
-  }
-  button:focus,
-  .donut-legend > ul li:focus{
-    outline: 2px solid #7377bf;
-  }
-
   @media screen and (min-width: 1024px){
     .bar-chart,
     .donut-chart{
       margin-bottom: 0;
       padding-bottom: 1em;
+      max-width: calc((98vw - 90px) / 2);
     }
     .bar_donut{
       flex-direction: row;
-    }
-    button{
-      left: 45%;
-    }
-    .bar-chart > p{
-      left: 8%;
-    }
-    span{
-      left: 25%;
-    }
-    .donut-chart > p{
-      bottom: 50%;
+      justify-content: space-around;
     }
     .donut-chart{
       border-left: 1px solid #cecece;
       border-top: none;
     }
-    .dough{
-      display: flex;
-      flex-direction: row;
-    }
-    .dough,
-    .bar-chart{
-      width: 50%;
-    }
-    .donut-legend > ul{
-      flex-direction: column;
-      justify-content: space-evenly;
-      height: 100%;
-      margin-right: 50px;
-    }
-    .bar-chart{
-      margin-left: 5px;
-      margin-right: -5px;
-    }
-
   }
 </style>
