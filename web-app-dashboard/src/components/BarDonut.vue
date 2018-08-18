@@ -2,12 +2,12 @@
   <div class="bar_donut">
     <Wrapper
     :opts="barChartOptions"
-    :chData="barChartData"
+    :chData="chartData"
     :type="'bar'">
     </Wrapper>
     <Wrapper
     :opts="donutChartOptions"
-    :chData="donutChartData"
+    :chData="chartData"
     :type="'donut'">
     </Wrapper>
   </div>
@@ -20,9 +20,10 @@ export default {
   name: 'BarDonut',
   data() {
     return {
-      barChartData: null,
-      donutChartData: null,
-      barChartOptions: {
+      mQ: window.matchMedia('(max-width: 540px)'),
+      mQon: null,
+      chartData: {},
+      baseBarChartOptions: {
         title: {
           display: true,
           text: 'Number of Events - past 30 days',
@@ -44,43 +45,6 @@ export default {
           },
         },
         responsive: true,
-        scales: {
-          yAxes: [{
-            type: 'logarithmic',
-            ticks: {
-              min: 0,
-              fontSize: 13,
-              callback(value) {
-                return value;
-              },
-            },
-            position: 'left',
-          },
-          {
-            ticks: {
-              callback() {
-                return '';
-              },
-            },
-            position: 'right',
-            gridLines: {
-              drawOnChartArea: false,
-              drawTicks: false,
-            },
-          }],
-          xAxes: [{
-            barPercentage: 1.0,
-            categoryPercentage: 1.0,
-            ticks: {
-              fontSize: 1,
-              fontColor: 'transparent',
-            },
-            gridLines: {
-              drawOnChartArea: false,
-              drawTicks: false,
-            },
-          }],
-        },
         layout: {
           padding: {
             left: 0,
@@ -140,10 +104,110 @@ export default {
   components: {
     Wrapper,
   },
-  mounted() {
+  computed: {
+    barChartOptions() {
+      const wide = {
+        yAxes: [{
+          type: 'logarithmic',
+          ticks: {
+            min: 0,
+            fontSize: 13,
+            callback(value) {
+              return value;
+            },
+          },
+          position: 'left',
+        },
+        {
+          ticks: {
+            callback() {
+              return '';
+            },
+          },
+          position: 'right',
+          gridLines: {
+            drawOnChartArea: false,
+            drawTicks: false,
+          },
+        }],
+        xAxes: [{
+          barPercentage: 1.0,
+          categoryPercentage: 1.0,
+          ticks: {
+            fontSize: 1,
+            fontColor: 'transparent',
+          },
+          gridLines: {
+            drawOnChartArea: false,
+            drawTicks: false,
+          },
+        }],
+      };
+
+      const narrow = {
+        yAxes: [{
+          type: 'logarithmic',
+          ticks: {
+            min: 0,
+            fontSize: 13,
+            callback(value) {
+              return value === 10 || value % 20 === 0 ? value : '';
+            },
+          },
+          position: 'left',
+        },
+        {
+          ticks: {
+            callback() {
+              return '';
+            },
+          },
+          position: 'right',
+          gridLines: {
+            drawOnChartArea: false,
+            drawTicks: false,
+          },
+        }],
+        xAxes: [{
+          barPercentage: 1.0,
+          categoryPercentage: 1.0,
+          ticks: {
+            fontSize: 1,
+            fontColor: 'transparent',
+          },
+          gridLines: {
+            drawOnChartArea: false,
+            drawTicks: false,
+          },
+        }],
+      };
+
+      if (this.mQon) {
+        return {
+          ...this.baseBarChartOptions,
+          scales: { ...narrow },
+        };
+      } else {
+        return {
+          ...this.baseBarChartOptions,
+          scales: { ...wide },
+        };
+      }
+    },
+  },
+  created() {
     this.makeAPICall();
+    this.mQ.addListener(this.handleMQ);
+    this.handleMQ(this.mQ);
   },
   methods: {
+    handleMQ(evt) {
+      if (evt.matches) {
+        this.mQon = true;
+      } else {
+        this.mQon = false;
+      }
+    },
     async makeAPICall() {
       try {
         let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
@@ -178,28 +242,17 @@ export default {
 
         // console.log(dataLabels, dataData);
 
-        this.barChartData = {
+        this.chartData = Object.assign({}, this.chartData, {
           labels: dataLabels,
           datasets: [
             {
               label: '',
               data: dataData,
               backgroundColor: colors,
+              borderWidth: Array(13).fill(0),
             },
           ],
-        };
-
-        this.donutChartData = {
-          labels: dataLabels,
-          datasets: [
-            {
-              label: '',
-              data: dataData,
-              backgroundColor: colors,
-              borderWidth: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            },
-          ],
-        };
+        });
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }

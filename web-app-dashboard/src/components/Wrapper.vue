@@ -34,8 +34,10 @@ export default {
     BarChart,
     DonutChart,
   },
-  mounted() {
-    this.legendCallback(this.chData);
+  watch: {
+    chData() {
+      this.legendCallback(this.chData);
+    },
   },
   computed: {
     legendStyles() {
