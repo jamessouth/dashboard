@@ -1,42 +1,41 @@
 <template>
-  <nav>
-    <ul>
-      <li tabindex="0" data-tip="Dashboard" class="tooltip">
-        <a class="selected" href="#">
-          <img src="../assets/icon-dashboard.svg" alt="dashboard link">
-        </a>
-      </li>
-      <li tabindex="0" data-tip="Members" class="tooltip">
-        <a href="#members">
-          <img src="../assets/icon-members.svg" alt="members link">
-        </a>
-      </li>
-      <li tabindex="0" data-tip="Visits" class="tooltip">
-        <a href="#visits">
-          <img src="../assets/icon-visits.svg" alt="visits link">
-        </a>
-      </li>
-      <li tabindex="0" data-tip="Settings" class="tooltip2">
-        <a href="#settings">
-          <img src="../assets/icon-settings.svg" alt="settings link">
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div>
+    <nav>
+      <ul>
+        <li tabindex="0" data-tip="Dashboard" class="tooltip">
+          <a class="selected" href="#">
+            <img src="../assets/icon-dashboard.svg" alt="dashboard link">
+          </a>
+        </li>
+        <li tabindex="0" data-tip="Members" class="tooltip">
+          <a href="#members">
+            <img src="../assets/icon-members.svg" alt="members link">
+          </a>
+        </li>
+        <li tabindex="0" data-tip="Visits" class="tooltip">
+          <a href="#visits">
+            <img src="../assets/icon-visits.svg" alt="visits link">
+          </a>
+        </li>
+        <li tabindex="0" data-tip="Settings" class="tooltip2">
+          <a href="#settings">
+            <img src="../assets/icon-settings.svg" alt="settings link">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
-
 
 <script>
 export default {
   name: 'Nav',
 };
-
 </script>
-
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
-  nav{
+  div{
     background-color: #4D4C72;
     position: -webkit-sticky;
     position: sticky;
@@ -114,7 +113,6 @@ export default {
   a:focus:not(.selected){
     opacity: 0.7;
   }
-
   a:focus{
     outline: 2px solid #fff176;
   }
@@ -122,21 +120,14 @@ export default {
     .tooltip2:after{
       left: -18px;
     }
-
   }
-
-
   @media screen and (min-width: 400px){
-
     a{
       padding: 19px 27px 0;
     }
   }
-
-
   @media screen and (min-width: 768px){
-
-    div > header{
+    div{
       margin-bottom: 0;
       flex-shrink: 0;
     }
@@ -155,7 +146,7 @@ export default {
       padding-top: 0.6em;
     }
     a{
-      padding: 30px 27px 12px;
+      padding: 30px 28px 12px 27px;
       border-bottom: 3px solid transparent;
       border-left: 3px solid transparent;
       border-top: 3px solid transparent;
@@ -170,7 +161,5 @@ export default {
     img{
       height: 32px;
     }
-
   }
-
 </style>
