@@ -20,7 +20,55 @@ export default {
   name: 'BarDonut',
   data() {
     return {
-      mQ: window.matchMedia('(max-width: 540px)'),
+      narrow: {
+        type: 'logarithmic',
+        ticks: {
+          min: 0,
+          fontSize: 13,
+          callback(value) {
+            return value === 10 || value % 20 === 0 ? value : '';
+          },
+        },
+        position: 'left',
+      },
+      wide: {
+        type: 'logarithmic',
+        ticks: {
+          min: 0,
+          fontSize: 13,
+          callback(value) {
+            return value;
+          },
+        },
+        position: 'left',
+      },
+      xs: {
+        xAxes: [{
+          barPercentage: 1.0,
+          categoryPercentage: 1.0,
+          ticks: {
+            fontSize: 1,
+            fontColor: 'transparent',
+          },
+          gridLines: {
+            drawOnChartArea: false,
+            drawTicks: false,
+          },
+        }],
+      },
+      yright: {
+        ticks: {
+          callback() {
+            return '';
+          },
+        },
+        position: 'right',
+        gridLines: {
+          drawOnChartArea: false,
+          drawTicks: false,
+        },
+      },
+      mQ: window.matchMedia('(max-width: 580px)'),
       mQon: null,
       chartData: {},
       baseBarChartOptions: {
@@ -106,93 +154,22 @@ export default {
   },
   computed: {
     barChartOptions() {
-      const wide = {
-        yAxes: [{
-          type: 'logarithmic',
-          ticks: {
-            min: 0,
-            fontSize: 13,
-            callback(value) {
-              return value;
-            },
-          },
-          position: 'left',
-        },
-        {
-          ticks: {
-            callback() {
-              return '';
-            },
-          },
-          position: 'right',
-          gridLines: {
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-        }],
-        xAxes: [{
-          barPercentage: 1.0,
-          categoryPercentage: 1.0,
-          ticks: {
-            fontSize: 1,
-            fontColor: 'transparent',
-          },
-          gridLines: {
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-        }],
-      };
-
-      const narrow = {
-        yAxes: [{
-          type: 'logarithmic',
-          ticks: {
-            min: 0,
-            fontSize: 13,
-            callback(value) {
-              return value === 10 || value % 20 === 0 ? value : '';
-            },
-          },
-          position: 'left',
-        },
-        {
-          ticks: {
-            callback() {
-              return '';
-            },
-          },
-          position: 'right',
-          gridLines: {
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-        }],
-        xAxes: [{
-          barPercentage: 1.0,
-          categoryPercentage: 1.0,
-          ticks: {
-            fontSize: 1,
-            fontColor: 'transparent',
-          },
-          gridLines: {
-            drawOnChartArea: false,
-            drawTicks: false,
-          },
-        }],
-      };
-
       if (this.mQon) {
         return {
           ...this.baseBarChartOptions,
-          scales: { ...narrow },
-        };
-      } else {
-        return {
-          ...this.baseBarChartOptions,
-          scales: { ...wide },
+          scales: {
+            yAxes: [this.narrow, this.yright],
+            ...this.xs,
+          },
         };
       }
+      return {
+        ...this.baseBarChartOptions,
+        scales: {
+          yAxes: [this.wide, this.yright],
+          ...this.xs,
+        },
+      };
     },
   },
   created() {
@@ -201,6 +178,16 @@ export default {
     this.handleMQ(this.mQ);
   },
   methods: {
+    getColors() {
+      const colorBank = ['#4a051c', '#f6f930', '#7a9e7e', '#31493c', '#ffa400', '#85c7f2', '#baa898', '#848586', '#c2847a', '#d1603d', '#c5dca0', '#f65be3', '#2a2a72'];
+      const nums = new Set();
+      let num;
+      while (nums.size < 13) {
+        num = Math.floor(Math.random() * 13);
+        nums.add(num);
+      }
+      return [...nums].map(x => colorBank[x]);
+    },
     handleMQ(evt) {
       if (evt.matches) {
         this.mQon = true;
@@ -211,36 +198,28 @@ export default {
     async makeAPICall() {
       try {
         let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
-
         if (data.ok) {
           data = await data.json();
         } else {
           throw new Error('Network problem - response not ok');
         }
-
-        // if (data[1] === null) {
-        //   throw new Error('No data available for this location');
-        // }
-
-        // console.log(data);
-
+        if (!data || !data.events || data.events.length === 0) {
+          throw new Error('No data available');
+        }
         const slimData = data.events.reduce((obj, item) => { // eslint-disable-next-line
           obj[item.categories[0].title] = ++obj[item.categories[0].title] || 1;
           return obj;
         }, {});
 
-        // console.log(slimData);
-
         const dataLabels = [];
         const dataData = [];
-        const colors = ['#7377bf', '#e88d67', '#8cd867', '#f6e27f', '#f71735', '#22181c', '#ffd289', '#522a27', '#bb999c', '#011627', '#c0e6de', '#d8cc34', '#e6e4ce'];
+
+        const colors = this.getColors();
 
         Object.keys(slimData).forEach((evt) => {
           dataLabels.push(evt);
           dataData.push(slimData[evt]);
         });
-
-        // console.log(dataLabels, dataData);
 
         this.chartData = Object.assign({}, this.chartData, {
           labels: dataLabels,
