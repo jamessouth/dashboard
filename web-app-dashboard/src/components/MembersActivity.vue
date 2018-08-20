@@ -2,14 +2,26 @@
   <div id="members" class="members_activity">
     <div class="new-members">
       <p>new members</p>
-      <Member></Member>
-
-
+      <Member
+      :name="item.name"
+      :email="item.email"
+      :photo="item.photo"
+      :date="item.date"
+      :key="index"
+      v-for="(item, index) in newMembersData">
+      </Member>
     </div>
     <div class="rec-activity">
       <p>recent activity</p>
-      <Activity></Activity>
-
+      <Activity
+      :name="item.name"
+      :action="item.action"
+      :photo="item.photo"
+      :time="item.time"
+      :date="item.date"
+      :key="index"
+      v-for="(item, index) in recActivityData">
+      </Activity>
     </div>
   </div>
 
@@ -21,9 +33,111 @@ import Activity from './Activity.vue';
 
 export default {
   name: 'MembersActivity',
+  data() {
+    return {
+      newMembersData: [],
+      recActivityData: [],
+      activities: [],
+    };
+  },
   components: {
     Member,
     Activity,
+  },
+  created() {
+    this.getUserData();
+  },
+  methods: {
+    makeAction() {
+      const rando = Math.floor(Math.random() * acts.length);
+      const acts = [
+        'commented on a post',
+        'posted',
+        'liked a post',
+        'shared a post',
+        'tweeted a post',
+        'retweeted a post',
+      ];
+      const posts = [
+        'Is Vue the awesomest framework? Prolly',
+        'Linting for Fun and Profit',
+        'SEO Tips',
+        'Facebook\'s Changes for 2018',
+        'Moving to AWS',
+        'Mobile Web Update',
+      ];
+      const comments = [
+        'Amazing!',
+        'Awesome!',
+        'Excellent!',
+        'Wow! This is great!',
+        'Nice work!',
+        'Sweet!',
+      ];
+
+
+    },
+    caps(match) {
+      return `${match[0].toUpperCase()}${match.substring(1)}`;
+    },
+    makeName(nameObj) {
+      let firstName = nameObj.first.trim();
+      let lastName = nameObj.last.trim();
+      firstName = firstName
+        .replace(/([A-zÀ-ÿğŞı]+|\w+[A-zÀ-ÿğŞı]*)\w*$/gi, this.caps)
+        .replace(/jean-/, 'Jean-')
+        .replace(/hans-/, 'Hans-')
+        .replace(/anne-/, 'Anne-')
+        .replace(/franz-/, 'Franz-');
+      lastName = lastName
+        .replace(/([A-zÀ-ÿğŞı]+|\w+[A-zÀ-ÿğŞı]*)\w*$/gi, this.caps)
+        .replace(/cdonal/, 'cDonal')
+        .replace(/toole/, "'Toole")
+        .replace(/brien/, "'Brien")
+        .replace(/donoghue/, "'Donoghue")
+        .replace(/mahony/, "'Mahony")
+        .replace(/(\w)\1{2}/g, '$1$1')
+        .replace(/jean-/, 'Jean-')
+        .replace(/^mccoy/i, 'McCoy')
+        .replace(/^mckinney/i, 'McKinney');
+      return `${firstName} ${lastName}`;
+    },
+    async getUserData() {
+      const numUsers = 40; // 5000 max
+      try {
+        let data = await fetch(`https://randomuser.me/api/?results=${numUsers}&inc=name,email,picture&noinfo`);
+        console.log(data);
+        if (data.ok) {
+          data = await data.json();
+          console.log(data);
+        } else {
+          throw new Error('Network problem - response not ok');
+        }
+        const dt = new Date();
+        let name;
+        let photo;
+        for (let i = 0; i < numUsers; i += 1) {
+          name = this.makeName(data.results[i].name);
+          photo = data.results[i].picture.thumbnail;
+
+          if (i < 4) {
+            this.$set(this.newMembersData, i, {
+              name,
+              email: data.results[i].email,
+              photo,
+              date: `${dt.getMonth() + 1}/${dt.getDate() - i}/${dt.getFullYear()}`,
+            });
+          }
+          this.$set(this.activities, i, {
+            name,
+            photo,
+            date: `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()}`,
+          });
+        }
+      } catch (err) {
+        alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
+      }
+    },
   },
 };
 </script>
