@@ -2,54 +2,95 @@
   <div id="members" class="members_activity">
     <div class="new-members">
       <p>new members</p>
-      <Member
+      <NewMemberRecActivity
       :name="item.name"
       :email="item.email"
       :photo="item.photo"
       :date="item.date"
+      :isArabic="item.isArabic"
       :key="index"
-      v-for="(item, index) in newMembersData">
-      </Member>
+      v-for="(item, index) in memberData">
+      </NewMemberRecActivity>
     </div>
     <div class="rec-activity">
       <p>recent activity</p>
-      <Activity
+      <NewMemberRecActivity
       :name="item.name"
-      :action="item.action"
+      :action="item.action.short"
       :photo="item.photo"
-      :time="item.time"
+      :isArabic="item.isArabic"
       :date="item.date"
       :key="index"
-      v-for="(item, index) in recActivityData">
-      </Activity>
+      v-for="(item, index) in activities">
+      </NewMemberRecActivity>
     </div>
   </div>
 
 </template>
 
 <script>
-import Member from './Member.vue';
-import Activity from './Activity.vue';
+import NewMemberRecActivity from './NewMemberRecActivity.vue';
 
 export default {
   name: 'MembersActivity',
   data() {
     return {
-      newMembersData: [],
-      recActivityData: [],
+      newMembersActivityData: [],
+      memberData: [],
+      activityData: [],
       activities: [],
     };
   },
   components: {
-    Member,
-    Activity,
+    NewMemberRecActivity,
   },
   created() {
     this.getUserData();
+          // :time="item.time"
+  },
+  computed: {
+
   },
   methods: {
+    loadActivitiesData() {
+
+    },
+    loadActivities(data) {
+      // console.log(data);
+      const dt = new Date();
+      for (let i = 0; i < data.length; i += 1) {
+        this.$set(this.activities, i, {
+          name: this.makeName(data[i].name),
+          photo: data[i].picture.thumbnail,
+          isArabic: this.isArabic(data[i].name.first),
+          action: this.makeAction(),
+          date: `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()}`,
+        });
+      }
+    },
+    loadMemberData(data) {
+      // console.log(data);
+      const dt = new Date();
+      for (let i = 0; i < data.length; i += 1) {
+        this.$set(this.memberData, i, {
+          name: this.makeName(data[i].name),
+          photo: data[i].picture.thumbnail,
+          isArabic: this.isArabic(data[i].name.first),
+          email: data[i].email,
+          date: `${dt.getMonth() + 1}/${dt.getDate() - i}/${dt.getFullYear()}`,
+        });
+      }
+    },
+    isArabic(name) {
+      if (new RegExp(/[A-zÀ-ÿğŞı]+/gim).test(name)) {
+        return false;
+      }
+      return true;
+    },
+    rando(acts) {
+      return Math.floor(Math.random() * acts.length);
+    },
     makeAction() {
-      const rando = Math.floor(Math.random() * acts.length);
       const acts = [
         'commented on a post',
         'posted',
@@ -74,8 +115,15 @@ export default {
         'Nice work!',
         'Sweet!',
       ];
-
-
+      const thisAct = acts[this.rando(acts)];
+      const text = {
+        short: `${thisAct}`,
+        long: `${thisAct}: ${posts[this.rando(acts)]}`,
+      };
+      if (text.short.includes('comment')) {
+        return { ...text, comment: `${comments[this.rando(acts)]}` };
+      }
+      return text;
     },
     caps(match) {
       return `${match[0].toUpperCase()}${match.substring(1)}`;
@@ -87,6 +135,7 @@ export default {
         .replace(/([A-zÀ-ÿğŞı]+|\w+[A-zÀ-ÿğŞı]*)\w*$/gi, this.caps)
         .replace(/jean-/, 'Jean-')
         .replace(/hans-/, 'Hans-')
+        .replace(/aart-/, 'Aart-')
         .replace(/anne-/, 'Anne-')
         .replace(/franz-/, 'Franz-');
       lastName = lastName
@@ -113,27 +162,23 @@ export default {
         } else {
           throw new Error('Network problem - response not ok');
         }
-        const dt = new Date();
-        let name;
-        let photo;
-        for (let i = 0; i < numUsers; i += 1) {
-          name = this.makeName(data.results[i].name);
-          photo = data.results[i].picture.thumbnail;
 
-          if (i < 4) {
-            this.$set(this.newMembersData, i, {
-              name,
-              email: data.results[i].email,
-              photo,
-              date: `${dt.getMonth() + 1}/${dt.getDate() - i}/${dt.getFullYear()}`,
-            });
-          }
-          this.$set(this.activities, i, {
-            name,
-            photo,
-            date: `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()}`,
-          });
+        // let name;
+        // let photo;
+        // let isArabic;
+        for (let i = 0; i < numUsers; i += 1) {
+
+          // name: this.makeName(data.results[i].name),
+          // photo: data.results[i].picture.thumbnail,
+          // isArabic: this.isArabic(data.results[i].name.first),
+          // email: data.results[i].email,
+          // action: this.makeAction(),
+
+          this.$set(this.newMembersActivityData, i, data.results[i]);
         }
+        this.loadMemberData(this.newMembersActivityData.slice(0, 4));
+        this.loadActivities(this.newMembersActivityData);
+
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
@@ -152,12 +197,19 @@ export default {
     flex-direction: column;
     align-items: center;
   }
-  .new-members,
-  .rec-activity{
+  .new-members{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 100%;
+  }
+  .rec-activity{
+    display: block;
+    max-height: 423px;
+    overflow-y: scroll;
     padding-top: 1em;
     padding-bottom: 1em;
     width: 100%;
@@ -174,6 +226,9 @@ export default {
     padding-top: 0.5em;
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
+  }
+  .rec-activity > p{
+    text-align: center;
   }
   @media screen and (max-width: 767px){
     #members:target{

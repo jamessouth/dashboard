@@ -1,8 +1,8 @@
 <template>
   <div class="activity">
-    <img class="m-a-imgs" src="../assets/loading.png" alt="user face or avatar">
+    <img class="m-a-imgs" :src="imgSrc" alt="user face or avatar">
     <div class="act-out">
-      <p></p>
+      <p>{{ name }}</p>
       <p></p>
     </div>
     <button>></button>
@@ -15,6 +15,15 @@
 <script>
 export default {
   name: 'Activity',
+  props: ['name', 'action', 'photo', 'date'],
+  computed: {
+    imgSrc() {
+      if (!this.photo) {
+        return '../assets/loading.png';
+      }
+      return this.photo;
+    },
+  },
 };
 </script>
 
