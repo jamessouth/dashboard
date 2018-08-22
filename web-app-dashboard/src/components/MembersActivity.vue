@@ -16,12 +16,13 @@
       <p>recent activity</p>
       <NewMemberRecActivity
       :name="item.name"
-      :action="item.action.short"
+      :action="item.action"
       :photo="item.photo"
       :isArabic="item.isArabic"
       :date="item.date"
+      :time="item.time"
       :key="index"
-      v-for="(item, index) in activities">
+      v-for="(item, index) in activityData">
       </NewMemberRecActivity>
     </div>
   </div>
@@ -30,11 +31,15 @@
 
 <script>
 import NewMemberRecActivity from './NewMemberRecActivity.vue';
+import moment from 'moment';
 
 export default {
   name: 'MembersActivity',
   data() {
     return {
+      count: 0,
+      timer: null,
+      lastTime: 7195,
       newMembersActivityData: [],
       memberData: [],
       activityData: [],
@@ -46,38 +51,56 @@ export default {
   },
   created() {
     this.getUserData();
-          // :time="item.time"
   },
   computed: {
 
   },
   methods: {
-    loadActivitiesData() {
+    rando(mult = 1, add = 0) {
+      return Math.floor(Math.random() * mult) + add;
+    },
+    // rando(arr) {
+    //   return Math.floor(Math.random() * arr.length);
+    // },
+    loadActivitiesData(timeStamp) {
+      this.timer = requestAnimationFrame(this.loadActivitiesData);
+      const randomInterval = this.rando(2194, 679);
+      // const dt = new Date();
+      if (timeStamp > this.lastTime) {
+        this.lastTime += randomInterval;
+        this.count += 1;
+
+        // this.$set(this.activityData, 0, this.activities[this.rando(this.activities.length)]);
+        this.activityData.unshift({
+          ...this.activities[this.rando(this.activities.length)],
+          action: this.makeAction(),
+          time: moment(),
+          // time: `${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`,
+        });
+
+        console.log('here', timeStamp, this.lastTime, randomInterval);
+        this.count > 10 && cancelAnimationFrame(this.timer);
+      }
 
     },
     loadActivities(data) {
       // console.log(data);
-      const dt = new Date();
       for (let i = 0; i < data.length; i += 1) {
         this.$set(this.activities, i, {
           name: this.makeName(data[i].name),
           photo: data[i].picture.thumbnail,
           isArabic: this.isArabic(data[i].name.first),
-          action: this.makeAction(),
-          date: `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()}`,
         });
       }
     },
     loadMemberData(data) {
-      // console.log(data);
-      const dt = new Date();
       for (let i = 0; i < data.length; i += 1) {
         this.$set(this.memberData, i, {
           name: this.makeName(data[i].name),
           photo: data[i].picture.thumbnail,
           isArabic: this.isArabic(data[i].name.first),
           email: data[i].email,
-          date: `${dt.getMonth() + 1}/${dt.getDate() - i}/${dt.getFullYear()}`,
+          date: moment(),
         });
       }
     },
@@ -86,9 +109,6 @@ export default {
         return false;
       }
       return true;
-    },
-    rando(acts) {
-      return Math.floor(Math.random() * acts.length);
     },
     makeAction() {
       const acts = [
@@ -115,13 +135,12 @@ export default {
         'Nice work!',
         'Sweet!',
       ];
-      const thisAct = acts[this.rando(acts)];
+      const thisAct = acts[this.rando(acts.length)];
       const text = {
-        short: `${thisAct}`,
-        long: `${thisAct}: ${posts[this.rando(acts)]}`,
+        long: `${thisAct}: ${posts[this.rando(acts.length)]}`,
       };
-      if (text.short.includes('comment')) {
-        return { ...text, comment: `${comments[this.rando(acts)]}` };
+      if (text.long.includes('comment')) {
+        return { ...text, comment: `${comments[this.rando(acts.length)]}` };
       }
       return text;
     },
@@ -135,6 +154,8 @@ export default {
         .replace(/([A-zÀ-ÿğŞı]+|\w+[A-zÀ-ÿğŞı]*)\w*$/gi, this.caps)
         .replace(/jean-/, 'Jean-')
         .replace(/hans-/, 'Hans-')
+        .replace(/zine-/, 'Zine-')
+        .replace(/klaus-/, 'Klaus-')
         .replace(/aart-/, 'Aart-')
         .replace(/anne-/, 'Anne-')
         .replace(/franz-/, 'Franz-');
@@ -176,9 +197,9 @@ export default {
 
           this.$set(this.newMembersActivityData, i, data.results[i]);
         }
-        this.loadMemberData(this.newMembersActivityData.slice(0, 4));
+        this.loadMemberData(this.newMembersActivityData.slice(0, 5));
         this.loadActivities(this.newMembersActivityData);
-
+        this.timer = requestAnimationFrame(this.loadActivitiesData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
@@ -208,7 +229,7 @@ export default {
   }
   .rec-activity{
     display: block;
-    max-height: 423px;
+    max-height: 523px;
     overflow-y: scroll;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -226,9 +247,10 @@ export default {
     padding-top: 0.5em;
     font-family: 'Alegreya Sans', sans-serif;
     text-transform: uppercase;
+    text-align: center;
   }
   .rec-activity > p{
-    text-align: center;
+    margin: auto;
   }
   @media screen and (max-width: 767px){
     #members:target{
@@ -241,11 +263,9 @@ export default {
       justify-content: space-around;
       align-items: flex-start;
     }
-    .rec-activity{
-      border-left: 1px solid #cecece;
-    }
     .new-members{
       border-bottom: none;
+      border-right: 1px solid #cecece;
     }
   }
   @media screen and (min-width: 1024px){

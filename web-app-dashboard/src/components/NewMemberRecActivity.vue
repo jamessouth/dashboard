@@ -4,7 +4,7 @@
     <div class="mem-act">
       <div>
         <p :style="nameFont">{{ name }}</p>
-        <p>{{ date }}</p>
+        <p>{{ timeOrDate }}</p>
       </div>
       <p :style="emailActStyle" tabindex="0">{{ emailOrAction }}</p>
     </div>
@@ -14,11 +14,12 @@
 <script>
 export default {
   name: 'Member',
-  props: ['name', 'email', 'photo', 'isArabic', 'action', 'date'],
+  props: ['name', 'email', 'photo', 'isArabic', 'action', 'date', 'time'],
   computed: {
     divMrgn() {
       return {
         margin: this.email ? '1em 0 0 0' : '1em auto 0',
+        height: this.email ? '80px' : '100px',
       };
     },
     emailActStyle() {
@@ -28,11 +29,23 @@ export default {
         fontWeight: '600',
       };
     },
+    timeOrDate() {
+      if (this.time) {
+        return this.time;
+      }
+      // if (!this.action.comment) {
+      //   return this.action.long;
+      // }
+      return this.date;
+    },
     emailOrAction() {
       if (this.email) {
         return this.email;
       }
-      return this.action;
+      if (!this.action.comment) {
+        return this.action.long;
+      }
+      return `${this.action.long} - "${this.action.comment}"`;
     },
     nameFont() {
       return {
@@ -63,7 +76,6 @@ export default {
     margin-right: 0.5em;
   }
   .member{
-    height: 75px;
     position: relative;
     overflow: hidden;
     display: flex;
