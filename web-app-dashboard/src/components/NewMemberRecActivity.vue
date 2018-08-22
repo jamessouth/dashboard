@@ -4,7 +4,8 @@
     <div class="mem-act">
       <div>
         <p :style="nameFont">{{ name }}</p>
-        <p>{{ timeOrDate }}</p>
+        <p v-if="date">{{ date | moment("M/DD/YY") }}</p>
+        <p v-else>{{ time | moment("h:mm:ss a M/DD/YY") }}</p>
       </div>
       <p :style="emailActStyle" tabindex="0">{{ emailOrAction }}</p>
     </div>
@@ -28,15 +29,6 @@ export default {
         fontFamily: "'Josefin Slab', serif",
         fontWeight: '600',
       };
-    },
-    timeOrDate() {
-      if (this.time) {
-        return this.time;
-      }
-      // if (!this.action.comment) {
-      //   return this.action.long;
-      // }
-      return this.date;
     },
     emailOrAction() {
       if (this.email) {

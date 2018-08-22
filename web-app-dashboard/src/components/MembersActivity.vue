@@ -19,19 +19,16 @@
       :action="item.action"
       :photo="item.photo"
       :isArabic="item.isArabic"
-      :date="item.date"
       :time="item.time"
       :key="index"
       v-for="(item, index) in activityData">
       </NewMemberRecActivity>
     </div>
   </div>
-
 </template>
 
 <script>
 import NewMemberRecActivity from './NewMemberRecActivity.vue';
-import moment from 'moment';
 
 export default {
   name: 'MembersActivity',
@@ -52,39 +49,27 @@ export default {
   created() {
     this.getUserData();
   },
-  computed: {
-
-  },
   methods: {
     rando(mult = 1, add = 0) {
       return Math.floor(Math.random() * mult) + add;
     },
-    // rando(arr) {
-    //   return Math.floor(Math.random() * arr.length);
-    // },
     loadActivitiesData(timeStamp) {
       this.timer = requestAnimationFrame(this.loadActivitiesData);
-      const randomInterval = this.rando(2194, 679);
-      // const dt = new Date();
+      const randomInterval = this.rando(2494, 379);
       if (timeStamp > this.lastTime) {
         this.lastTime += randomInterval;
         this.count += 1;
-
-        // this.$set(this.activityData, 0, this.activities[this.rando(this.activities.length)]);
         this.activityData.unshift({
           ...this.activities[this.rando(this.activities.length)],
           action: this.makeAction(),
-          time: moment(),
-          // time: `${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`,
+          time: this.$moment(),
         });
-
-        console.log('here', timeStamp, this.lastTime, randomInterval);
-        this.count > 10 && cancelAnimationFrame(this.timer);
+        if (this.count > 10) {
+          cancelAnimationFrame(this.timer);
+        }
       }
-
     },
     loadActivities(data) {
-      // console.log(data);
       for (let i = 0; i < data.length; i += 1) {
         this.$set(this.activities, i, {
           name: this.makeName(data[i].name),
@@ -100,7 +85,7 @@ export default {
           photo: data[i].picture.thumbnail,
           isArabic: this.isArabic(data[i].name.first),
           email: data[i].email,
-          date: moment(),
+          date: this.$moment().subtract(i, 'days'),
         });
       }
     },
@@ -176,25 +161,12 @@ export default {
       const numUsers = 40; // 5000 max
       try {
         let data = await fetch(`https://randomuser.me/api/?results=${numUsers}&inc=name,email,picture&noinfo`);
-        console.log(data);
         if (data.ok) {
           data = await data.json();
-          console.log(data);
         } else {
           throw new Error('Network problem - response not ok');
         }
-
-        // let name;
-        // let photo;
-        // let isArabic;
         for (let i = 0; i < numUsers; i += 1) {
-
-          // name: this.makeName(data.results[i].name),
-          // photo: data.results[i].picture.thumbnail,
-          // isArabic: this.isArabic(data.results[i].name.first),
-          // email: data.results[i].email,
-          // action: this.makeAction(),
-
           this.$set(this.newMembersActivityData, i, data.results[i]);
         }
         this.loadMemberData(this.newMembersActivityData.slice(0, 5));
@@ -275,5 +247,4 @@ export default {
       max-width: 492px;
     }
   }
-
 </style>
