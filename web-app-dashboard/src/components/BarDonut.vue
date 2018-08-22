@@ -173,7 +173,7 @@ export default {
     },
   },
   created() {
-    this.makeAPICall();
+    // this.makeAPICall();
     this.mQ.addListener(this.handleMQ);
     this.handleMQ(this.mQ);
   },
