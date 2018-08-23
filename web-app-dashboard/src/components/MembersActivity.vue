@@ -47,7 +47,7 @@ export default {
     NewMemberRecActivity,
   },
   created() {
-    this.getUserData();
+    // this.getUserData();
   },
   methods: {
     rando(mult = 1, add = 0) {
