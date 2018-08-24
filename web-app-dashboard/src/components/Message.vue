@@ -23,12 +23,6 @@ export default {
 </script>
 
 <style scoped>
-  @font-face {
-    font-family: 'uppereastsideregular';
-    src: url('../assets/UpperEastSide-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
   .messages{
     border-bottom: 1px solid #cecece;
     margin-bottom: 1em;
@@ -36,7 +30,7 @@ export default {
     width: 100%;
     padding: 1.5em 0 3em;
   }
-  .messages form > p{
+  form > p{
     position: absolute;
     display: none;
     background-color: transparent;
@@ -55,14 +49,14 @@ export default {
     z-index: 56;
     transition: all 1.5s;
   }
-  .messages fieldset{
+  fieldset{
     border: none;
     max-width: 492px;
     margin: 0 auto 5em;
     margin: 0 auto 1em;
     position: relative;
   }
-  .messages fieldset ul{
+  ul{
     max-height: 250px;
     overflow: auto;
     z-index: 55;
@@ -76,22 +70,22 @@ export default {
     left: 50%;
     transform: translateX(-50%);
   }
-  .messages fieldset ul li{
+  li{
     padding: 2px 4px;
     color: #000;
     font-size: 20px;
   }
-  .messages legend{
+  legend{
     text-transform: uppercase;
     font-family: 'Alegreya Sans', sans-serif;
     margin: auto;
     padding-bottom: 1em;
   }
-  .messages form{
+  form{
     width: 90%;
     margin: auto;
   }
-  .messages input[name="search"]{
+  input[name="search"]{
     outline: none;
     color: #676666;
     font-size: 18px;
@@ -105,21 +99,21 @@ export default {
     border-radius: 5px;
     transition: border 0.7s ease-out;
   }
-  .messages input[name="search"]::-webkit-input-placeholder{
+  input[name="search"]::-webkit-input-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  .messages input[name="search"]::-moz-placeholder{
+  input[name="search"]::-moz-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  .messages label{
+  label{
     color: transparent;
     display: block;
   }
-  .messages textarea{
+  textarea{
     outline: none;
     resize: none;
     width: 100%;
@@ -134,17 +128,17 @@ export default {
     padding: 0.75em 1em 1em;
     transition: all 0.7s ease-out;
   }
-  .messages textarea::-webkit-input-placeholder{
+  textarea::-webkit-input-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  .messages textarea::-moz-placeholder{
+  textarea::-moz-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  .messages button{
+  button{
     width: 100%;
     color: #fff;
     font-family: 'uppereastsideregular';
@@ -161,21 +155,21 @@ export default {
     display: block;
     max-width: 492px;
   }
-  .messages input[name="search"]:focus,
-  .messages textarea:focus{
+  input[name="search"]:focus,
+  textarea:focus{
     outline-offset: 0;
     border: 3px solid #4D4C72;
   }
-  .messages button:focus{
+  button:focus{
     outline-offset: 0;
     border: 3px solid #221122;
   }
   @media screen and (min-width: 768px){
-    .messages button{
+    button{
       margin-top: 4.22em;
     }
     @-moz-document url-prefix(){
-      .messages button{
+      button{
         margin-top: 4.33em;
       }
     }
@@ -184,11 +178,8 @@ export default {
     }
   }
   @media screen and (min-width: 1024px){
-    .messages legend{
+    legend{
       margin: 0;
     }
   }
-
-
-
 </style>
