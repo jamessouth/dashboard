@@ -1,28 +1,37 @@
 <template>
-
   <section>
     <p>{{ label }}</p>
-    <div>
-      <input checked :id="on" type="radio" value="on"/>
-      <label :for="on">on</label>
-      <input :id="off" type="radio" value="off"/>
-      <label :for="off">off</label>
+    <div @click="switchOn = !switchOn" :style="{ background: switchOn ? 'linear-gradient(to bottom right, #a6aaf2, #40448c)' : 'linear-gradient(to bottom right, #ea4e51, #840000)' }">
+      <input :id="onID" type="radio" value="true" v-model="switchOn"/>
+      <label :style="{ display: switchOn ? 'block' : 'none' }" @click.prevent="" :for="onID">on</label>
+      <input :id="offID" type="radio" value="false" v-model="switchOn"/>
+      <label :style="offLabel" @click.prevent="" :for="offID">off</label>
     </div>
   </section>
-
 </template>
 
 <script>
 export default {
-  // line 1488
   name: 'SwitchTwoWay',
   props: ['label', 'name'],
+  data() {
+    return {
+      switchOn: true,
+    };
+  },
   computed: {
-    off() {
+    offID() {
       return `off-${this.name}`;
     },
-    on() {
+    onID() {
       return `on-${this.name}`;
+    },
+    offLabel() {
+      return {
+        display: this.switchOn ? 'none' : 'block',
+        right: '10px',
+        left: 'inherit',
+      };
     },
   },
 };
@@ -35,7 +44,6 @@ export default {
     align-items: center;
     justify-content: space-between;
   }
-
   div{
     position: relative;
     background: linear-gradient(to bottom right, #a6aaf2, #40448c);
@@ -45,7 +53,6 @@ export default {
     border-radius: 50px;
     transition: background-color 1.25s;
   }
-
   input{
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -58,32 +65,6 @@ export default {
     outline: none;
     border: none;
   }
-
-  input:not(:checked){
-    z-index: -1;
-  }
-
-  input:after{
-    content: " ";
-    position: absolute;
-    top: -12px;
-    right: -10px;
-    display: inline-block;
-    width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #cecece;
-  }
-
-  input[value="off"]{
-    left: 14px;
-  }
-  input[value="off"]:after{
-    top: -12px;
-    left: -10px;
-  }
-
   p{
     font-family: 'Alegreya Sans', sans-serif;
   }
@@ -98,6 +79,4 @@ export default {
   label:last-of-type{
     display: none;
   }
-
-
 </style>

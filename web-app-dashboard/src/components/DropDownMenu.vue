@@ -1,8 +1,9 @@
 <template>
   <div>
     <label :for="forAttr">select {{ name.toLowerCase() }}</label>
-    <select ref="select" required :name="forAttr" :id="forAttr">
-      <option selected disabled value="">Select {{ name }}</option>
+    <select v-model="selected" required :name="forAttr" :id="forAttr">
+      <option disabled value="">Select {{ name }}</option>
+      <option :style="{ color: '#676666' }" v-for="opt in tzOptions" :value="opt">{{ opt }}</option>
     </select>
   </div>
 </template>
@@ -12,6 +13,8 @@ export default {
   name: 'DropDownMenu',
   data() {
     return {
+      tzOptions: [],
+      selected: '',
       timezoneFetch: 'https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*',
     };
   },
@@ -25,46 +28,13 @@ export default {
     },
   },
   methods: {
-
-    createOption(x, element) {
-      let nums = [];
-      let y = new Set(x);
-      y = [...y];
-      if (y.length > 6) {
-        nums = this.getRands(5, y.slice(1).length, true);
-      } else {
-        for (let j = 1; j < y.length; j += 1) {
-          nums.push(j);
-        }
-      }
-      for (let i = 0; i < nums.length; i += 1) {
-        const opt = document.createElement('option');
-        opt.value = `${y[0]} ${y[nums[i]]}`;
-        opt.textContent = `${y[0]}\u00A0\u00A0${y[nums[i]]}`;
-        opt.style.color = '#676666';
-        element.appendChild(opt);
+    createOption(arr) {
+      for (let i = 1; i < arr.length; i += 1) {
+        this.tzOptions.push(`${arr[0]}\u00A0\u00A0${arr[i]}`);
       }
     },
-    loadTZOptions(obj, timezoneSelect) {
-      obj.forEach((x) => {
-        this.createOption(x, timezoneSelect);
-      });
-    },
-    getRands(element, element2, plusOne) {
-      const len = element.length || element;
-      const nums = new Set();
-      if (plusOne) {
-        while (nums.size < len) {
-          const n = Math.floor(Math.random() * element2) + 1;
-          nums.add(n);
-        }
-      } else {
-        while (nums.size < len) {
-          const n = Math.floor(Math.random() * element2);
-          nums.add(n);
-        }
-      }
-      return [...nums];
+    loadTZOptions(arr) {
+      return arr.map((x) => [...new Set(x)]).forEach(this.createOption);
     },
     processTZData(data) {
       const reg = new RegExp(/\n*<([^>]*)>\n*/g);
@@ -117,8 +87,8 @@ export default {
         } else {
           throw new Error('Network problem - response not ok');
         }
-        const data2 = this.processTZData(data.parse.text['*']);
-        this.loadTZOptions(data2, this.$refs.select);
+        data = this.processTZData(data.parse.text['*']);
+        this.loadTZOptions(data);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
