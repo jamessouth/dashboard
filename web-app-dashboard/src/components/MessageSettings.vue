@@ -31,7 +31,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 2em;
+    /* margin-bottom: 2em; */
   }
   @media screen and (min-width: 768px){
     div{

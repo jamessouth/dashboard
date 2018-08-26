@@ -7,36 +7,64 @@
         <legend>settings</legend>
 
         <SwitchTwoWay
+        @store-onOff="email = $event"
         :label="'Send Email'"
         :name="'email'">
         </SwitchTwoWay>
 
         <SwitchTwoWay
+        @store-onOff="profile = $event"
         :label="'Set Profile'"
         :name="'profile'">
         </SwitchTwoWay>
 
         <DropDownMenu
+        @store-timezone="timezone = $event"
         :name="'Timezone'">
         </DropDownMenu>
 
       </fieldset>
-      <div>
-        <p>Your settings have been saved</p>
-        <button type="button">Save</button>
-        <button disabled type="button">Cancel</button>
-      </div>
+
+      <p>Your settings have been saved</p>
+
+      <BigButton
+      @click.native="setSettings({
+      timezone,
+      email,
+      profile,
+      })"
+      :text="'Save'">
+      </BigButton>
+
     </form>
   </div>
 </template>
 
 <script>
 import SwitchTwoWay from './SwitchTwoWay.vue';
+import BigButton from './BigButton.vue';
 import DropDownMenu from './DropDownMenu.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Settings',
+  data() {
+    return {
+      timezone: null,
+      email: true,
+      profile: true,
+    };
+  },
+  beforeCreate() {
+    console.log('here');
+  },
+  methods: {
+    ...mapActions([
+      'setSettings',
+    ]),
+  },
   components: {
+    BigButton,
     SwitchTwoWay,
     DropDownMenu,
   },
@@ -51,7 +79,8 @@ export default {
   fieldset{
     border: none;
     max-width: 492px;
-    margin: 0 auto 5em;
+    height: 264px;
+    margin: 0 auto;
   }
   legend{
     text-transform: uppercase;
@@ -59,44 +88,15 @@ export default {
     margin: auto;
     padding-bottom: 1em;
   }
-  form{
-    width: 90%;
-    margin: auto;
-  }
-  button{
-    width: 45%;
-    max-width: 233px;
-    color: #fff;
-    font-family: 'uppereastsideregular';
-    letter-spacing: 4px;
-    font-size: 50px;
-    height: 2em;
-    background-color: #7377bf;
-    border: none;
-    border-radius: 5px;
-    border: 3px solid transparent;
-    outline: none;
-    transition: all 0.7s ease-out;
-  }
-  button:focus{
-    outline-offset: 0;
-    border: 3px solid #221122;
-  }
-  form > div{
-    position: relative;
-    display: flex;
-    max-width: 492px;
-    margin: auto;
-    justify-content: space-between;
-  }
-  div > p{
+  p{
     opacity: 0;
     position: absolute;
     background-color: rgba(10,10,10,0.8);
     top: -48px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: 100%;
+    max-width: 492px;
     text-align: center;
     padding: 0.4em 0;
     font-family: 'Alegreya Sans', sans-serif;
@@ -105,8 +105,10 @@ export default {
     border-radius: 50px;
     transition: opacity 1.5s;
   }
-  button:last-of-type{
-    background-color: #B2B2B2;
+  form{
+    width: 90%;
+    margin: auto;
+    position: relative;
   }
   @media screen and (max-width: 767px){
     #settings:target{
@@ -117,10 +119,13 @@ export default {
     #settings{
       border-left: 1px solid #cecece;
     }
+    legend{
+      margin-bottom: 10px;
+    }
   }
   @media screen and (min-width: 1024px){
     legend{
-      margin: 0;
+      margin: 0 0 10px;
     }
   }
 </style>

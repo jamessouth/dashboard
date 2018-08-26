@@ -1,9 +1,16 @@
 <template>
   <section>
     <p>{{ label }}</p>
-    <div @click="switchOn = !switchOn" :style="{ background: switchOn ? 'linear-gradient(to bottom right, #a6aaf2, #40448c)' : 'linear-gradient(to bottom right, #ea4e51, #840000)' }">
+    <div
+    @click="handleClick"
+    :style="{ background: switchOn ?
+    'linear-gradient(to bottom right, #a6aaf2, #40448c)' :
+    'linear-gradient(to bottom right, #ea4e51, #840000)' }">
       <input :id="onID" type="radio" value="true" v-model="switchOn"/>
-      <label :style="{ display: switchOn ? 'block' : 'none' }" @click.prevent="" :for="onID">on</label>
+      <label
+      :style="{ display: switchOn ? 'block' : 'none' }"
+      @click.prevent=""
+      :for="onID">on</label>
       <input :id="offID" type="radio" value="false" v-model="switchOn"/>
       <label :style="offLabel" @click.prevent="" :for="offID">off</label>
     </div>
@@ -18,6 +25,17 @@ export default {
     return {
       switchOn: true,
     };
+  },
+  methods: {
+    handleClick() {
+      this.switchOn = !this.switchOn;
+      this.$emit('store-onOff', this.switchOn);
+    },
+  },
+  mounted() {
+    if (localStorage.getItem('settings')) {
+      this.switchOn = JSON.parse(localStorage.getItem('settings'))[this.name];
+    }
   },
   computed: {
     offID() {

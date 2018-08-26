@@ -14,6 +14,7 @@ export default new Vuex.Store({
     dataIsCached: state => countryCode =>
       Object.prototype.hasOwnProperty.call(state.cache, countryCode),
     getDataFromCache: state => countryCode => state.cache[countryCode],
+    getSettings: state => state.settings,
   },
   mutations: {
     toggleLoadingStatus(state) {
@@ -32,6 +33,7 @@ export default new Vuex.Store({
   actions: {
     setSettings ({ commit }, settings) {
       commit('setSettings', settings);
+      localStorage.setItem('settings', JSON.stringify(settings));
     },
   },
 });

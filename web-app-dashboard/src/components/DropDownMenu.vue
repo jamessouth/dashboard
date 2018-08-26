@@ -1,9 +1,9 @@
 <template>
   <div>
     <label :for="forAttr">select {{ name.toLowerCase() }}</label>
-    <select v-model="selected" required :name="forAttr" :id="forAttr">
+    <select @change="$emit('store-timezone', selected)" v-model="selected" required :name="forAttr" :id="forAttr">
       <option disabled value="">Select {{ name }}</option>
-      <option :style="{ color: '#676666' }" v-for="opt in tzOptions" :value="opt">{{ opt }}</option>
+      <option :style="{ color: '#676666' }" v-for="(opt, index) in tzOptions" :key="index" :value="opt">{{ opt }}</option>
     </select>
   </div>
 </template>
@@ -21,6 +21,11 @@ export default {
   props: ['name'],
   created() {
     this.loadOptions();
+  },
+  mounted() {
+    if (localStorage.getItem('settings')) {
+      this.selected = JSON.parse(localStorage.getItem('settings'))[timezone];
+    }
   },
   computed: {
     forAttr() {
@@ -99,7 +104,7 @@ export default {
 
 <style scoped>
   div{
-    margin-top: 2.5em;
+    margin-top: 45px;
     position: relative;
   }
   label{

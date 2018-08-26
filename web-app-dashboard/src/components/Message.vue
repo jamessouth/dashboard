@@ -11,26 +11,42 @@
         <textarea name="message" placeholder="Message for User" id="message"></textarea>
       </fieldset>
       <p></p>
-      <button type="button">Send</button>
+      <BigButton
+      :text="'Send'">
+      </BigButton>
     </form>
   </div>
 </template>
 
 <script>
+import BigButton from './BigButton.vue';
+
 export default {
   name: 'Message',
+  components: {
+    BigButton,
+  },
 };
 </script>
 
 <style scoped>
   .messages{
     border-bottom: 1px solid #cecece;
-    margin-bottom: 1em;
-    position: relative;
     width: 100%;
     padding: 1.5em 0 3em;
   }
-  form > p{
+  fieldset{
+    border: none;
+    max-width: 492px;
+    margin: 0 auto;
+  }
+  legend{
+    text-transform: uppercase;
+    font-family: 'Alegreya Sans', sans-serif;
+    margin: auto;
+    padding-bottom: 1em;
+  }
+  p{
     position: absolute;
     display: none;
     background-color: transparent;
@@ -49,13 +65,7 @@ export default {
     z-index: 56;
     transition: all 1.5s;
   }
-  fieldset{
-    border: none;
-    max-width: 492px;
-    margin: 0 auto 5em;
-    margin: 0 auto 1em;
-    position: relative;
-  }
+
   ul{
     max-height: 250px;
     overflow: auto;
@@ -75,12 +85,7 @@ export default {
     color: #000;
     font-size: 20px;
   }
-  legend{
-    text-transform: uppercase;
-    font-family: 'Alegreya Sans', sans-serif;
-    margin: auto;
-    padding-bottom: 1em;
-  }
+
   form{
     width: 90%;
     margin: auto;
@@ -138,41 +143,12 @@ export default {
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  button{
-    width: 100%;
-    color: #fff;
-    font-family: 'uppereastsideregular';
-    letter-spacing: 4px;
-    font-size: 50px;
-    height: 2em;
-    background-color: #7377bf;
-    border: none;
-    border-radius: 5px;
-    border: 3px solid transparent;
-    outline: none;
-    transition: all 0.7s ease-out;
-    margin: 2em auto 0;
-    display: block;
-    max-width: 492px;
-  }
   input[name="search"]:focus,
   textarea:focus{
     outline-offset: 0;
     border: 3px solid #4D4C72;
   }
-  button:focus{
-    outline-offset: 0;
-    border: 3px solid #221122;
-  }
   @media screen and (min-width: 768px){
-    button{
-      margin-top: 4.22em;
-    }
-    @-moz-document url-prefix(){
-      button{
-        margin-top: 4.33em;
-      }
-    }
     .messages{
       border-bottom: none;
     }
