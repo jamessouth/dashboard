@@ -24,7 +24,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('settings')) {
-      this.selected = JSON.parse(localStorage.getItem('settings'))[timezone];
+      this.selected = JSON.parse(localStorage.getItem('settings'))['timezone'];
     }
   },
   computed: {

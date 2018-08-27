@@ -4,14 +4,25 @@
       <fieldset>
         <legend>message user</legend>
         <label for="user_search">search for user</label>
-        <input spellcheck=false id="user_search" name="search"
-               type="search" placeholder="Search for User"/>
-        <ul tabindex=0></ul>
+        <input spellcheck=false list="names" id="user_search" name="search"
+        type="search" placeholder="Search for User"/>
+          <datalist id="names">
+            <option :key="index" v-for="(user, index) in userList">{{ user.name.first }}</option>
+          </datalist>
         <label for="message">message for user</label>
         <textarea name="message" placeholder="Message for User" id="message"></textarea>
       </fieldset>
-      <p></p>
+
+
+      <transition
+      @after-enter="afterEnter"
+      name="sent">
+        <p v-if="sent">Message sent!</p>
+      </transition>
+
+
       <BigButton
+      @click.native="handleClick"
       :text="'Send'">
       </BigButton>
     </form>
@@ -23,6 +34,24 @@ import BigButton from './BigButton.vue';
 
 export default {
   name: 'Message',
+  data() {
+    return {
+      sent: false,
+    };
+  },
+  computed: {
+    userList() {
+      return this.$store.state.users;
+    },
+  },
+  methods: {
+    handleClick() {
+      this.sent = true;
+    },
+    afterEnter() {
+      this.sent = false;
+    },
+  },
   components: {
     BigButton,
   },
@@ -48,47 +77,29 @@ export default {
   }
   p{
     position: absolute;
-    display: none;
-    background-color: transparent;
-    margin: auto;
-    opacity: 1;
-    top: 70px;
-    left: 50%;
-    letter-spacing: 4px;
-    transform-origin: center center;
-    transform: translateX(-50%) rotateX(4deg) rotateY(-50deg) rotate(-8deg);
-    width: 97%;
-    text-align: center;
-    font-family: 'uppereastsideregular';
-    font-size: 90px;
-    color: #fff;
-    z-index: 56;
-    transition: all 1.5s;
-  }
-
-  ul{
-    max-height: 250px;
-    overflow: auto;
-    z-index: 55;
-    display: none;
-    background: radial-gradient(circle at right center, #7377bf -115%, #fbfbfb 100%);
-    border: 2px solid #676666;
-    position: absolute;
-    border-radius: 4px;
-    width: 100%;
-    font-family: 'Alegreya Sans', sans-serif;
+    background-color: rgba(10,10,10,0.8);
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
-  }
-  li{
-    padding: 2px 4px;
-    color: #000;
+    width: 100%;
+    max-width: 492px;
+    text-align: center;
+    padding: 0.4em 0;
+    font-family: 'Alegreya Sans', sans-serif;
     font-size: 20px;
+    color: #fff;
+    border-radius: 50px;
   }
-
+  .sent-enter-active, .sent-leave-active{
+    transition: opacity 2.1s;
+  }
+  .sent-enter, .sent-leave-to{
+    opacity: 0;
+  }
   form{
     width: 90%;
     margin: auto;
+    position: relative;
   }
   input[name="search"]{
     outline: none;

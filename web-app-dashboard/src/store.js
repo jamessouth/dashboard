@@ -9,6 +9,7 @@ export default new Vuex.Store({
     loading: true,
     cache: {},
     settings: {},
+    users: [],
   },
   getters: {
     dataIsCached: state => countryCode =>
@@ -29,11 +30,17 @@ export default new Vuex.Store({
     setSettings(state, payload) {
       state.settings = payload;
     },
+    setUsers(state, payload) {
+      state.users = payload;
+    },
   },
   actions: {
     setSettings ({ commit }, settings) {
       commit('setSettings', settings);
       localStorage.setItem('settings', JSON.stringify(settings));
+    },
+    setUsers ({ commit }, users) {
+      commit('setUsers', users);
     },
   },
 });

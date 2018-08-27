@@ -1,41 +1,36 @@
 <template>
-
-
   <div id="settings">
     <form>
       <fieldset>
         <legend>settings</legend>
-
         <SwitchTwoWay
         @store-onOff="email = $event"
         :label="'Send Email'"
         :name="'email'">
         </SwitchTwoWay>
-
         <SwitchTwoWay
         @store-onOff="profile = $event"
         :label="'Set Profile'"
         :name="'profile'">
         </SwitchTwoWay>
-
         <DropDownMenu
         @store-timezone="timezone = $event"
         :name="'Timezone'">
         </DropDownMenu>
-
       </fieldset>
-
-      <p>Your settings have been saved</p>
-
+      <transition
+      @after-enter="afterEnter"
+      name="saved">
+        <p v-if="saved">Your settings have been saved</p>
+      </transition>
       <BigButton
       @click.native="setSettings({
       timezone,
       email,
       profile,
-      })"
+      }); handleClick();"
       :text="'Save'">
       </BigButton>
-
     </form>
   </div>
 </template>
@@ -50,18 +45,25 @@ export default {
   name: 'Settings',
   data() {
     return {
-      timezone: null,
-      email: true,
-      profile: true,
+      saved: false,
+      timezone: !!JSON.parse(localStorage.getItem('settings')) ?
+        JSON.parse(localStorage.getItem('settings'))['timezone'] : null,
+      email: !!JSON.parse(localStorage.getItem('settings')) ?
+        JSON.parse(localStorage.getItem('settings'))['email'] : true,
+      profile: !!JSON.parse(localStorage.getItem('settings')) ?
+        JSON.parse(localStorage.getItem('settings'))['profile'] : true,
     };
-  },
-  beforeCreate() {
-    console.log('here');
   },
   methods: {
     ...mapActions([
       'setSettings',
     ]),
+    handleClick() {
+      this.saved = true;
+    },
+    afterEnter() {
+      this.saved = false;
+    },
   },
   components: {
     BigButton,
@@ -89,10 +91,9 @@ export default {
     padding-bottom: 1em;
   }
   p{
-    opacity: 0;
     position: absolute;
     background-color: rgba(10,10,10,0.8);
-    top: -48px;
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -103,12 +104,17 @@ export default {
     font-size: 20px;
     color: #fff;
     border-radius: 50px;
-    transition: opacity 1.5s;
   }
   form{
     width: 90%;
     margin: auto;
     position: relative;
+  }
+  .saved-enter-active, .saved-leave-active{
+    transition: opacity 2.1s;
+  }
+  .saved-enter, .saved-leave-to{
+    opacity: 0;
   }
   @media screen and (max-width: 767px){
     #settings:target{

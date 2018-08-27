@@ -29,6 +29,7 @@
 
 <script>
 import NewMemberRecActivity from './NewMemberRecActivity.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'MembersActivity',
@@ -47,9 +48,10 @@ export default {
     NewMemberRecActivity,
   },
   created() {
-    // this.getUserData();
+    this.getUserData();
   },
   methods: {
+    ...mapActions(['setUsers']),
     rando(mult = 1, add = 0) {
       return Math.floor(Math.random() * mult) + add;
     },
@@ -169,6 +171,7 @@ export default {
         for (let i = 0; i < numUsers; i += 1) {
           this.$set(this.newMembersActivityData, i, data.results[i]);
         }
+        this.setUsers(this.newMembersActivityData);
         this.loadMemberData(this.newMembersActivityData.slice(0, 5));
         this.loadActivities(this.newMembersActivityData);
         this.timer = requestAnimationFrame(this.loadActivitiesData);
