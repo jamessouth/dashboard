@@ -8,13 +8,14 @@ export default new Vuex.Store({
     name: 'James South',
     loading: true,
     cache: {},
+    settings: {},
+    users: [],
   },
   getters: {
-    // dataIsCurrent: state => countryCode =>
-    //   Object.prototype.hasOwnProperty.call(state.currentData, countryCode),
     dataIsCached: state => countryCode =>
       Object.prototype.hasOwnProperty.call(state.cache, countryCode),
     getDataFromCache: state => countryCode => state.cache[countryCode],
+    getSettings: state => state.settings,
   },
   mutations: {
     toggleLoadingStatus(state) {
@@ -26,22 +27,20 @@ export default new Vuex.Store({
       };
       state.cache = { ...state.cache, ...dataToAdd };
     },
+    setSettings(state, payload) {
+      state.settings = payload;
+    },
+    setUsers(state, payload) {
+      state.users = payload;
+    },
   },
   actions: {
-    // async getData({ commit, getters }, countryCode) {
-    //   const code = countryCode.countryCode;
-    //
-    //   if (getters.dataIsCurrent(code)) {
-    //     console.log(getters.dataIsCurrent(code));
-    //     return;
-    //   }
-    //
-    //   if (getters.dataIsCached(code)) {
-    //     console.log(getters.dataIsCached(code));
-    //     console.log(getters.getDataFromCache(code));
-    //     commit('setCurrentData', getters.getDataFromCache(code));
-    //     return;
-    //   }
-    // },
+    setSettings({ commit }, settings) {
+      commit('setSettings', settings);
+      localStorage.setItem('settings', JSON.stringify(settings));
+    },
+    setUsers({ commit }, users) {
+      commit('setUsers', users);
+    },
   },
 });
