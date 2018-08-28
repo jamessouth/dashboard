@@ -4,23 +4,21 @@
       <fieldset>
         <legend>message user</legend>
         <label for="user_search">search for user</label>
-        <input spellcheck=false list="names" id="user_search" name="search"
+        <input v-model="nameInput" spellcheck=false list="names" id="user_search" name="search"
         type="search" placeholder="Search for User"/>
           <datalist id="names">
-            <option :key="index" v-for="(user, index) in userList">{{ user.name.first }}</option>
+            <option :key="index" v-for="(user, index) in userList">{{ user.name }}</option>
           </datalist>
         <label for="message">message for user</label>
-        <textarea name="message" placeholder="Message for User" id="message"></textarea>
+        <textarea v-model="messageInput" name="message"
+        placeholder="Message for User" id="message"></textarea>
       </fieldset>
-
-
       <transition
       @after-enter="afterEnter"
+      @before-leave="beforeLeave"
       name="sent">
-        <p v-if="sent">Message sent!</p>
+        <p v-if="sent">{{ popupMessage }}</p>
       </transition>
-
-
       <BigButton
       @click.native="handleClick"
       :text="'Send'">
@@ -36,12 +34,20 @@ export default {
   name: 'Message',
   data() {
     return {
+      nameInput: null,
+      messageInput: null,
       sent: false,
     };
   },
   computed: {
     userList() {
       return this.$store.state.users;
+    },
+    popupMessage() {
+      if (this.nameInput && this.messageInput) {
+        return 'Message sent!';
+      }
+      return 'Both fields required';
     },
   },
   methods: {
@@ -50,6 +56,12 @@ export default {
     },
     afterEnter() {
       this.sent = false;
+    },
+    beforeLeave() {
+      if (this.nameInput && this.messageInput) {
+        this.nameInput = '';
+        this.messageInput = '';
+      }
     },
   },
   components: {
@@ -91,7 +103,7 @@ export default {
     border-radius: 50px;
   }
   .sent-enter-active, .sent-leave-active{
-    transition: opacity 2.1s;
+    transition: opacity 2.3s cubic-bezier(.06,.89,.25,.9);
   }
   .sent-enter, .sent-leave-to{
     opacity: 0;
@@ -101,7 +113,7 @@ export default {
     margin: auto;
     position: relative;
   }
-  input[name="search"]{
+  input{
     outline: none;
     color: #676666;
     font-size: 18px;
@@ -115,12 +127,12 @@ export default {
     border-radius: 5px;
     transition: border 0.7s ease-out;
   }
-  input[name="search"]::-webkit-input-placeholder{
+  input::-webkit-input-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  input[name="search"]::-moz-placeholder{
+  input::-moz-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
@@ -154,7 +166,7 @@ export default {
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
   }
-  input[name="search"]:focus,
+  input:focus,
   textarea:focus{
     outline-offset: 0;
     border: 3px solid #4D4C72;

@@ -21,10 +21,10 @@
       <transition
       @after-enter="afterEnter"
       name="saved">
-        <p v-if="saved">Your settings have been saved</p>
+        <p v-if="saved">{{ popupMessage }}</p>
       </transition>
       <BigButton
-      @click.native="setSettings({
+      @click.native="timezone && setSettings({
       timezone,
       email,
       profile,
@@ -36,22 +36,22 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import SwitchTwoWay from './SwitchTwoWay.vue';
 import BigButton from './BigButton.vue';
 import DropDownMenu from './DropDownMenu.vue';
-import { mapActions } from 'vuex';
 
 export default {
   name: 'Settings',
   data() {
     return {
       saved: false,
-      timezone: !!JSON.parse(localStorage.getItem('settings')) ?
-        JSON.parse(localStorage.getItem('settings'))['timezone'] : null,
-      email: !!JSON.parse(localStorage.getItem('settings')) ?
-        JSON.parse(localStorage.getItem('settings'))['email'] : true,
-      profile: !!JSON.parse(localStorage.getItem('settings')) ?
-        JSON.parse(localStorage.getItem('settings'))['profile'] : true,
+      timezone: JSON.parse(localStorage.getItem('settings')) ?
+        JSON.parse(localStorage.getItem('settings')).timezone : null,
+      email: JSON.parse(localStorage.getItem('settings')) ?
+        JSON.parse(localStorage.getItem('settings')).email : true,
+      profile: JSON.parse(localStorage.getItem('settings')) ?
+        JSON.parse(localStorage.getItem('settings')).profile : true,
     };
   },
   methods: {
@@ -63,6 +63,14 @@ export default {
     },
     afterEnter() {
       this.saved = false;
+    },
+  },
+  computed: {
+    popupMessage() {
+      if (!this.timezone) {
+        return 'Please select a timezone';
+      }
+      return 'Your settings have been saved';
     },
   },
   components: {
@@ -111,7 +119,7 @@ export default {
     position: relative;
   }
   .saved-enter-active, .saved-leave-active{
-    transition: opacity 2.1s;
+    transition: opacity 2.3s cubic-bezier(.06,.89,.25,.9);
   }
   .saved-enter, .saved-leave-to{
     opacity: 0;

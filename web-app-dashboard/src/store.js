@@ -35,11 +35,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setSettings ({ commit }, settings) {
+    setSettings({ commit }, settings) {
       commit('setSettings', settings);
       localStorage.setItem('settings', JSON.stringify(settings));
     },
-    setUsers ({ commit }, users) {
+    setUsers({ commit }, users) {
       commit('setUsers', users);
     },
   },

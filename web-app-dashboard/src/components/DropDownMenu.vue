@@ -1,9 +1,19 @@
 <template>
   <div>
     <label :for="forAttr">select {{ name.toLowerCase() }}</label>
-    <select @change="$emit('store-timezone', selected)" v-model="selected" required :name="forAttr" :id="forAttr">
+    <select
+    @change="$emit('store-timezone', selected)"
+    v-model="selected"
+    required
+    :name="forAttr"
+    :id="forAttr">
       <option disabled value="">Select {{ name }}</option>
-      <option :style="{ color: '#676666' }" v-for="(opt, index) in tzOptions" :key="index" :value="opt">{{ opt }}</option>
+      <option
+      :style="{ color: '#676666' }"
+      v-for="(opt, index) in tzOptions"
+      :key="index"
+      :value="opt">{{ opt }}
+      </option>
     </select>
   </div>
 </template>
@@ -24,7 +34,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('settings')) {
-      this.selected = JSON.parse(localStorage.getItem('settings'))['timezone'];
+      this.selected = JSON.parse(localStorage.getItem('settings')).timezone;
     }
   },
   computed: {
@@ -39,7 +49,7 @@ export default {
       }
     },
     loadTZOptions(arr) {
-      return arr.map((x) => [...new Set(x)]).forEach(this.createOption);
+      return arr.map(x => [...new Set(x)]).forEach(this.createOption);
     },
     processTZData(data) {
       const reg = new RegExp(/\n*<([^>]*)>\n*/g);

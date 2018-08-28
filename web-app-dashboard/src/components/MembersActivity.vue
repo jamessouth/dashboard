@@ -9,7 +9,7 @@
       :date="item.date"
       :isArabic="item.isArabic"
       :key="index"
-      v-for="(item, index) in memberData">
+      v-for="(item, index) in newMembersActivityData.slice(0, 5)">
       </NewMemberRecActivity>
     </div>
     <div class="rec-activity">
@@ -28,20 +28,19 @@
 </template>
 
 <script>
-import NewMemberRecActivity from './NewMemberRecActivity.vue';
 import { mapActions } from 'vuex';
+import NewMemberRecActivity from './NewMemberRecActivity.vue';
 
 export default {
   name: 'MembersActivity',
   data() {
     return {
       count: 0,
+      act: null,
       timer: null,
       lastTime: 7195,
       newMembersActivityData: [],
-      memberData: [],
       activityData: [],
-      activities: [],
     };
   },
   components: {
@@ -61,34 +60,15 @@ export default {
       if (timeStamp > this.lastTime) {
         this.lastTime += randomInterval;
         this.count += 1;
-        this.activityData.unshift({
-          ...this.activities[this.rando(this.activities.length)],
+        this.act = {
+          ...this.newMembersActivityData[this.rando(this.newMembersActivityData.length)],
           action: this.makeAction(),
           time: this.$moment(),
-        });
+        };
+        this.activityData.unshift(this.act);
         if (this.count > 10) {
           cancelAnimationFrame(this.timer);
         }
-      }
-    },
-    loadActivities(data) {
-      for (let i = 0; i < data.length; i += 1) {
-        this.$set(this.activities, i, {
-          name: this.makeName(data[i].name),
-          photo: data[i].picture.thumbnail,
-          isArabic: this.isArabic(data[i].name.first),
-        });
-      }
-    },
-    loadMemberData(data) {
-      for (let i = 0; i < data.length; i += 1) {
-        this.$set(this.memberData, i, {
-          name: this.makeName(data[i].name),
-          photo: data[i].picture.thumbnail,
-          isArabic: this.isArabic(data[i].name.first),
-          email: data[i].email,
-          date: this.$moment().subtract(i, 'days'),
-        });
       }
     },
     isArabic(name) {
@@ -159,6 +139,21 @@ export default {
         .replace(/^mckinney/i, 'McKinney');
       return `${firstName} ${lastName}`;
     },
+    processData(datum, i) {
+      const obj = {
+        name: this.makeName(datum.name),
+        photo: datum.picture.thumbnail,
+        isArabic: this.isArabic(datum.name.first),
+      };
+      if (i < 5) {
+        return {
+          ...obj,
+          email: datum.email,
+          date: this.$moment().subtract(i, 'days'),
+        };
+      }
+      return obj;
+    },
     async getUserData() {
       const numUsers = 40; // 5000 max
       try {
@@ -169,11 +164,9 @@ export default {
           throw new Error('Network problem - response not ok');
         }
         for (let i = 0; i < numUsers; i += 1) {
-          this.$set(this.newMembersActivityData, i, data.results[i]);
+          this.$set(this.newMembersActivityData, i, this.processData(data.results[i], i));
         }
         this.setUsers(this.newMembersActivityData);
-        this.loadMemberData(this.newMembersActivityData.slice(0, 5));
-        this.loadActivities(this.newMembersActivityData);
         this.timer = requestAnimationFrame(this.loadActivitiesData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
