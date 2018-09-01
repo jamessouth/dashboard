@@ -30,7 +30,7 @@ export default {
   },
   props: ['name'],
   created() {
-    this.loadOptions();
+    // this.loadOptions();
   },
   mounted() {
     if (localStorage.getItem('settings')) {
