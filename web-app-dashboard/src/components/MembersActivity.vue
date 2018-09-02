@@ -123,6 +123,7 @@ export default {
         .replace(/hans-/, 'Hans-')
         .replace(/zine-/, 'Zine-')
         .replace(/sue-/, 'Sue-')
+        .replace(/ernst-/, 'Ernst-')
         .replace(/klaus-/, 'Klaus-')
         .replace(/aart-/, 'Aart-')
         .replace(/anne-/, 'Anne-')

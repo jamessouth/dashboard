@@ -66,6 +66,16 @@ export default {
       socket.addEventListener('message', function (e) {
         console.log(e);
       });
+
+      // setTimeout(() => {
+      //   socket.send('more info');
+      // }, 2000);
+
+      // setTimeout(() => {
+      //   socket.close(1000, 'closing...');
+      // }, 3000);
+
+
     },
     handleClick() {
       this.sent = true;

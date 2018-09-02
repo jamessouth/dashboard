@@ -18,18 +18,58 @@ server.on('upgrade', (req, socket, head) => {
   const encode = hash.digest('base64');
   socket.write(`HTTP/1.1 101 Web Socket Protocol Handshake\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ${encode}\r\n\r\n`);
   socket.pipe(socket);
-});
 
-server.on('connection', socket => {
-  socket.id = counter++;
-  console.log(`Client ${socket.id} connected`);
-
-  socket.on('data', data => {
-    console.log(data.toString());
-  });
   // socket.setEncoding('utf8');
 
+  // console.log(socket);
+  socket.on('data', data => {
+    let len = 0;
+    let mask = '';
+    let tot = '';
+    data.forEach((item) => {
+      for(let g of (item).toString(2)){
+        tot += g;
+        if(len > 15 && len < 49){
+          mask += g;
+        }
+        len++;
+      }
+    });
+    console.log(len);
+    const step1 = parseInt((data[1]).toString(2).substring(1), 2);
+    console.log(step1);
+
+    console.log(tot);
+    console.log(mask, mask.length);
+
+  });
+
+  socket.on('end', () => {
+    console.log('end');
+  });
 });
+
+// server.on('socket', x => {
+//   console.log(x);
+// })
+
+// server.on('connect', (res, socket, head) => {
+  // socket.id = counter++;
+  // console.log(`Client ${socket.id} connected`);
+  //
+  // socket.on('data', data => {
+  //   // socket.pipe(data);
+  // });
+  //
+  //
+
+
+  // console.log(res, socket);
+  // console.log(head, head.toString());
+
+
+
+// });
 
 server.listen(3000, () => {
   console.log('running on port 3000');
