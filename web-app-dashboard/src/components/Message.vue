@@ -67,13 +67,13 @@ export default {
         console.log(e);
       });
 
-      // setTimeout(() => {
-      //   socket.send('more info');
-      // }, 2000);
+      setTimeout(() => {
+        socket.send('more information55555555555555555555555555555555555555555555555555555 444444444444444449944883444444444p4444444444444444444444');
+      }, 2000);
 
-      // setTimeout(() => {
-      //   socket.close(1000, 'closing...');
-      // }, 3000);
+      setTimeout(() => {
+        socket.close(1000, 'closing...');
+      }, 3000);
 
 
     },
