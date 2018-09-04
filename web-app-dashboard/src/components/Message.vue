@@ -6,9 +6,9 @@
         <label for="user_search">search for user</label>
         <input v-model="nameInput" spellcheck=false list="names" id="user_search" name="search"
         type="search" placeholder="Search for User"/>
-          <datalist id="names">
-            <option :key="index" v-for="(user, index) in userList">{{ user.name }}</option>
-          </datalist>
+        <datalist id="names">
+          <option :key="index" v-for="(user, index) in userList">{{ user.name }}</option>
+        </datalist>
         <label for="message">message for user</label>
         <textarea v-model="messageInput" name="message"
         placeholder="Message for User" id="message"></textarea>

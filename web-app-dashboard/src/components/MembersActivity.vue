@@ -122,6 +122,8 @@ export default {
         .replace(/jean-/, 'Jean-')
         .replace(/hans-/, 'Hans-')
         .replace(/zine-/, 'Zine-')
+        .replace(/sue-/, 'Sue-')
+        .replace(/ernst-/, 'Ernst-')
         .replace(/klaus-/, 'Klaus-')
         .replace(/aart-/, 'Aart-')
         .replace(/anne-/, 'Anne-')
@@ -155,7 +157,7 @@ export default {
       return obj;
     },
     async getUserData() {
-      const numUsers = 40; // 5000 max
+      const numUsers = 10; // 5000 max
       try {
         let data = await fetch(`https://randomuser.me/api/?results=${numUsers}&inc=name,email,picture&noinfo`);
         if (data.ok) {
@@ -167,7 +169,7 @@ export default {
           this.$set(this.newMembersActivityData, i, this.processData(data.results[i], i));
         }
         this.setUsers(this.newMembersActivityData);
-        this.timer = requestAnimationFrame(this.loadActivitiesData);
+        // this.timer = requestAnimationFrame(this.loadActivitiesData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
