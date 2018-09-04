@@ -20,12 +20,15 @@ server.on('upgrade', (req, socket, head) => {
   socket.pipe(socket);
 
   // socket.setEncoding('utf8');
-
+  let temp = [];
   // console.log(socket);
   socket.on('data', data => {
-    console.log(data, data.toString());
-    let len = 0;
-    let tot = '';
+    console.log('line 26', data.length); // 65536 bytes max
+    if(temp[0] && data.length <= temp[0]){
+      data = Buffer.concat([temp[1], data], temp[1].length + data.length);
+      temp = [];
+    }
+
     const frame = {
       fin: null,
       opcode: '',
@@ -37,52 +40,86 @@ server.on('upgrade', (req, socket, head) => {
     };
     console.log();
 
-    let meta = Buffer.from(data.slice(0, 6));
-    console.log(meta);
 
-    let finopcode = meta.readUIntBE(0, 1).toString(2);
-    console.log(finopcode, finopcode.length);
+    let finopcode = data.readUIntBE(0, 1).toString(2);
+    console.log('line 42', finopcode, finopcode.length);
     console.log();
     console.log();
 
     frame.fin = finopcode[0];
     frame.opcode = finopcode.slice(4);
 
-    let mskpylodlen = meta.readUIntBE(1, 1).toString(2);
-    console.log(mskpylodlen, mskpylodlen.length);
+    let mskpylodlen = data.readUIntBE(1, 1).toString(2);
+    console.log('line 50', mskpylodlen, mskpylodlen.length);
     console.log();
     console.log();
     let maskkey;
     frame.mask = mskpylodlen[0];
     let ppp = parseInt(mskpylodlen.slice(1), 2);
 
+    let ENCODED;
+
+
     if (ppp <= 125) {
-
-
+      console.log(ppp, 6 + ppp === data.length);
       frame.payloadsize = ppp;
-      maskkey = Buffer.from(meta.slice(2));
+      maskkey = data.slice(2, 6);
+      console.log('125', maskkey);
+      ENCODED = data.slice(6);
+
     } else if (ppp === 126) {
-      let pyldlenstep2 = meta.readUIntBE(2, 2).toString(2);
+
+      let pyldlenstep2 = data.readUIntBE(2, 2).toString(2);
       console.log('126 length', pyldlenstep2, pyldlenstep2.length);
       let ooo = parseInt(pyldlenstep2, 2);
       console.log(ooo);
+      console.log(ppp, 8 + ooo === data.length);
+
+
+      if(8 + ooo !== data.length){
+        temp[0] = ooo;
+        temp[1] = Buffer.from(data);
+        return;
+      }
+
+
+
       console.log();
       frame.payloadsize = ooo;
-      maskkey = Buffer.from(meta.slice(4));
+      maskkey = data.slice(4, 8);
+      console.log('126', maskkey);
+
+      ENCODED = data.slice(8);
+
     } else if (ppp === 127) {
-      // let pyldlenstep2 = meta.readUIntBE(2, 2).toString(2);
-      // console.log('126 length', pyldlenstep2, pyldlenstep2.length);
-      // let ooo = parseInt(pyldlenstep2, 2);
-      // console.log(ooo);
-      // console.log();
-      // frame.payloadsize = ooo;
+      // aborting further implementation as 65536 is long enough for this
 
 
+      let pyldlenstep3 = data.readUIntBE(2, 8).toString(2);
+      console.log('127 length', pyldlenstep3, pyldlenstep3.length);
+      let ooohh = parseInt(pyldlenstep3, 2);
+      console.log(ooohh);
+      console.log(ppp, 14 + ooohh === data.length);
+
+      if(14 + ooohh !== data.length){
+        temp[0] = ooohh;
+        temp[1] = Buffer.from(data);
+        return;
+      }
+
+
+
+      console.log();
+      frame.payloadsize = ooohh;
+      maskkey = data.slice(10, 14);
+      console.log('127', maskkey);
+
+      ENCODED = data.slice(14);
 
     }
 
 
-
+    console.log();
 
 
     console.log(maskkey);
@@ -91,41 +128,20 @@ server.on('upgrade', (req, socket, head) => {
 
     frame.maskingkey = maskkey;
 
-    let ENCODED = data.slice(6);
-    console.log('enc', ENCODED);
+
+    // console.log('enc', ENCODED);
     let DECODED = Buffer.allocUnsafe(frame.payloadsize).fill(0);
     for(let i = 0; i < ENCODED.length; i++){
       DECODED[i] = ENCODED[i] ^ frame.maskingkey[i % 4];
     }
-    console.log(DECODED);
-    console.log(DECODED.toString());
+    // console.log(DECODED);
+    console.log('line 112', DECODED.toString());
     console.log();
 
     console.log(frame);
-    // data.forEach((byte) => {
-    //   // console.log(byte, (byte).toString(2).split('').reverse().join(''));
-    //   for(let bit of (byte).toString(2).split('').reverse().join('')){
-    //     tot += bit;
-    //     if(len === 0){
-    //       frame.fin = bit;
-    //     } else if (len > 3 && len < 8) {
-    //       frame.opcode += bit;
-    //     } else if (len === 8) {
-    //       frame.mask = bit;
-    //     } else if (len > 8 && len < 16) {
-    //       frame.payloadsize += bit;
-    //     } else if (len > 15 && len < 48) {
-    //       frame.maskingkey += bit;
-    //     } else if (len > 47) {
-    //       frame.payloaddata += bit;
-    //     }
-    //     len++;
-    //   }
-    // });
-    // console.log();
-    // console.log(len);
-    // console.log(tot);
-    // console.log();
+    console.log();
+    console.log();
+    console.log();
     //
     // switch (parseInt(frame.opcode, 2).toString(16).toUpperCase()) {
     //   case '0':

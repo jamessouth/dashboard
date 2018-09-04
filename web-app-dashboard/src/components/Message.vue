@@ -65,15 +65,22 @@ export default {
 
       socket.addEventListener('message', function (e) {
         console.log(e);
+
       });
 
-      setTimeout(() => {
-        socket.send('more information55555555555555555555555555555555555555555555555555555 444444444444444449944883444444444p4444444444444444444444');
-      }, 2000);
-
-      setTimeout(() => {
-        socket.close(1000, 'closing...');
-      }, 3000);
+      // setTimeout(() => {
+      //   let gogo = '';
+      //   for(let i = 0; i < 65536; i += 1){
+      //     gogo += `${i % 10}`;
+      //   }
+      //   socket.send(gogo);
+      //   console.log(socket.bufferedAmount);
+      // }, 2000);
+      //
+      // setTimeout(() => {
+      //   socket.close(1000, 'bye bye');
+      //   console.log(socket.bufferedAmount);
+      // }, 5000);
 
 
     },
