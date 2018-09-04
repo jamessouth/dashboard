@@ -9,9 +9,6 @@
         <datalist id="names">
           <option :key="index" v-for="(user, index) in userList">{{ user.name }}</option>
         </datalist>
-
-        <button type="button" @click="conn(nameInput)">connect</button>
-
         <label for="message">message for user</label>
         <textarea v-model="messageInput" name="message"
         placeholder="Message for User" id="message"></textarea>
@@ -54,36 +51,6 @@ export default {
     },
   },
   methods: {
-    conn(userName) {
-      // console.log(userName);
-      const socket = new WebSocket('ws://localhost:3000');
-
-      socket.addEventListener('open', function (event) {
-        // console.log(userName);
-        socket.send(userName);
-      });
-
-      socket.addEventListener('message', function (e) {
-        console.log(e);
-
-      });
-
-      // setTimeout(() => {
-      //   let gogo = '';
-      //   for(let i = 0; i < 65536; i += 1){
-      //     gogo += `${i % 10}`;
-      //   }
-      //   socket.send(gogo);
-      //   console.log(socket.bufferedAmount);
-      // }, 2000);
-      //
-      // setTimeout(() => {
-      //   socket.close(1000, 'bye bye');
-      //   console.log(socket.bufferedAmount);
-      // }, 5000);
-
-
-    },
     handleClick() {
       this.sent = true;
     },
