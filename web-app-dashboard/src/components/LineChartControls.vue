@@ -19,7 +19,7 @@
       </button>
     </div>
     <p>
-      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a>&nbsp;&nbsp;<span>{{ indicatorDetail }}</span>
+      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a>&nbsp;&nbsp;<span :style="spanCols">{{ loadingOrCountry }}</span>
     </p>
   </div>
 </template>
@@ -40,11 +40,16 @@ export default {
     },
   },
   computed: {
-    indicatorDetail() {
+    spanCols() {
+      return {
+        color: this.$store.state.loading ? 'red' : '#7377bf'
+      }
+    },
+    loadingOrCountry() {
       if (this.$store.state.loading) {
         return 'Loading...';
       }
-      return '';
+      return ` for: ${this.country.replace(/-/g, ' ')}`;
     },
   },
   data() {
@@ -108,7 +113,6 @@ export default {
   span{
     font-family: 'Alegreya Sans SC', sans-serif;
     text-transform: none;
-    color: red;
   }
   a{
     text-decoration: underline;

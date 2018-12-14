@@ -10,7 +10,7 @@
     :options="chartOptions">
     </line-chart>
     <div v-else>Loading...</div>
-    <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p>
+    <!-- <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p> -->
   </div>
 </template>
 
@@ -179,8 +179,8 @@ export default {
     next(async (vm) => {
       const code = vm.lookupCountryCode(vm.country);
       const indicatorName = vm.getIndicatorName(vm.indicator);
-      // await vm.getData(code);
-      // vm.setProps(indicatorName);
+      await vm.getData(code);
+      vm.setProps(indicatorName);
     });
   },
   async beforeRouteUpdate(to, from, next) {
@@ -199,9 +199,9 @@ export default {
         this.$store.commit('toggleLoadingStatus'); // to false
         this.countryData = await this.$store.getters.getDataFromCache(code);
       } else {
-        // await this.getData(code);
+        await this.getData(code);
       }
-      // this.setProps(indicatorName);
+      this.setProps(indicatorName);
       next();
     }
   },

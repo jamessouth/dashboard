@@ -169,7 +169,7 @@ export default {
           this.$set(this.newMembersActivityData, i, this.processData(data.results[i], i));
         }
         this.setUsers(this.newMembersActivityData);
-        // this.timer = requestAnimationFrame(this.loadActivitiesData);
+        this.timer = requestAnimationFrame(this.loadActivitiesData);
       } catch (err) {
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }

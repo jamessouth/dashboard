@@ -50,7 +50,7 @@ export default {
   }
   header{
     height: 70px;
-    background-color: #7477BF;
+    background-color: #7377BF;
     display: flex;
     justify-content: space-between;
     align-items: center;

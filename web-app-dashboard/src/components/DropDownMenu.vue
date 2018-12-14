@@ -30,7 +30,7 @@ export default {
   },
   props: ['name'],
   created() {
-    // this.loadOptions();
+    this.loadOptions();
   },
   mounted() {
     if (localStorage.getItem('settings')) {
@@ -66,10 +66,10 @@ export default {
         if (!res[i][2] || !res[i][2].trim()) {
           res[i].splice(2);
         }
-        res[i][1] = res[i][1].replace(/ *\(([^\)]*)\)/g, '');
+        res[i][1] = res[i][1].replace(/ *\(([^)]*)\)/g, '');
         res[i][1] = res[i][1].split(', ').map(x => x.trim().replace(/[&#\d;]/g, ''));
         if (res[i][2]) {
-          res[i][2] = res[i][2].replace(/ *\(([^\)]*)\)/g, '');
+          res[i][2] = res[i][2].replace(/ *\(([^)]*)\)/g, '');
           res[i][2] = res[i][2].split(', ').map(x => x.trim().replace(/[&#\d;]/g, ''));
           res[i] = [res[i][0], ...res[i][1], ...res[i][2]];
         } else {
@@ -91,7 +91,7 @@ export default {
     abbrev(match) {
       return match[0].toUpperCase();
     },
-    abbrev2(match, p1, p2, p3, p4, p5, string) {
+    abbrev2(match, p1, p2, p3, p4, p5) {
       return `${p1[0].toUpperCase() + p2[0].toUpperCase()} ${p5}`;
     },
     async loadOptions() {
