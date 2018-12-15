@@ -5,10 +5,17 @@
     :indicator="indicator">
     </LineChartControls>
     <line-chart
-    v-if="!this.$store.state.loading"
+    v-if="!this.$store.state.loading && isData"
     :chart-data="chartData"
     :options="chartOptions">
     </line-chart>
+
+    <img
+    width="300"
+    height="360"
+    v-else-if="!this.$store.state.loading && !isData"
+    src="../assets/nodata.png" alt="no data"/>
+
     <div v-else>Loading...</div>
     <!-- <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p> -->
   </div>
@@ -158,6 +165,9 @@ export default {
   props: ['country', 'indicator'],
   name: 'LineChartWrapper',
   computed: {
+    isData() {
+      return this.chartData && this.chartData.datasets[0].data.length > 0;
+    },
     chartOptions() {
       return {
         scales: this.masterOptions[this.indicator].scales,
@@ -258,7 +268,7 @@ export default {
         }
 
         if (data[1] === null) {
-          throw new Error('No data available for this location');
+          throw new Error('No data available for this location or series');
         }
 
         // console.log(data);
@@ -296,6 +306,11 @@ export default {
 
   div > div{
     color: red;
+  }
+
+  img{
+    display: block;
+    margin: auto;
   }
 
   /* .line-chart{

@@ -22,7 +22,5 @@ export default {
 </script>
 
 <style scoped>
- canvas{
-   background-color: blue;
- }
+
 </style>
