@@ -1,5 +1,5 @@
 <template>
-  <div id="visits" class="line-controls">
+  <div id="charts" class="line-controls">
     <div class="dropdown">
       <select>
         <option selected disabled value="">Select Country</option>
@@ -42,8 +42,8 @@ export default {
   computed: {
     spanCols() {
       return {
-        color: this.$store.state.loading ? 'red' : '#7377bf'
-      }
+        color: this.$store.state.loading ? 'red' : '#7377bf',
+      };
     },
     loadingOrCountry() {
       if (this.$store.state.loading) {
@@ -178,7 +178,7 @@ export default {
     color: #676666;
   }
   @media screen and (max-width: 399px){
-    #visits:target > p{
+    #charts:target > p{
       top: 67px;
     }
   }
@@ -196,12 +196,12 @@ export default {
     }
   }
   @media screen and (min-width: 400px) and (max-width: 767px){
-    #visits:target > p{
+    #charts:target > p{
       top: 54px;
     }
   }
   @media screen and (max-width: 767px){
-    #visits:target{
+    #charts:target{
       padding-top: 41px;
     }
   }

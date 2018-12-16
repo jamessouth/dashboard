@@ -29,7 +29,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -117,5 +116,4 @@ export default {
       left: 7%;
     }
   }
-
 </style>

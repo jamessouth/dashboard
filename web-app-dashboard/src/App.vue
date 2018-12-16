@@ -3,16 +3,8 @@
     <Header></Header>
     <div id="hold">
       <Nav></Nav>
-
       <Main></Main>
-      <!-- <router-view/> -->
-
     </div>
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
-
   </div>
 </template>
 
@@ -31,8 +23,6 @@ export default{
 </script>
 
 <style>
-
-
   *{
     margin: 0;
     padding: 0;
@@ -40,12 +30,9 @@ export default{
     list-style-type: none;
     text-decoration: none;
   }
-
   @media screen and (min-width: 768px){
     #hold{
       display: flex;
     }
   }
-
-
 </style>

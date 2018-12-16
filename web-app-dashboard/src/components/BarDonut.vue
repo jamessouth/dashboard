@@ -74,7 +74,7 @@ export default {
       baseBarChartOptions: {
         title: {
           display: true,
-          text: 'Number of Events - past 30 days',
+          text: 'Number of Events - past 60 days',
           fontSize: 13,
         },
         tooltips: {
@@ -108,7 +108,7 @@ export default {
       donutChartOptions: {
         title: {
           display: true,
-          text: 'Share of Events - past 30 days',
+          text: 'Share of Events - past 60 days',
           fontSize: 13,
         },
         responsive: true,
@@ -197,7 +197,7 @@ export default {
     },
     async makeAPICall() {
       try {
-        let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=30');
+        let data = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?days=60');
         if (data.ok) {
           data = await data.json();
         } else {
@@ -210,17 +210,13 @@ export default {
           obj[item.categories[0].title] = ++obj[item.categories[0].title] || 1;
           return obj;
         }, {});
-
         const dataLabels = [];
         const dataData = [];
-
         const colors = this.getColors();
-
         Object.keys(slimData).forEach((evt) => {
           dataLabels.push(evt);
           dataData.push(slimData[evt]);
         });
-
         this.chartData = Object.assign({}, this.chartData, {
           labels: dataLabels,
           datasets: [

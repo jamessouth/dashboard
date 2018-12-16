@@ -4,22 +4,16 @@
       <h1>Dashboard</h1>
       <div></div>
     </div>
-
     <AlertBox></AlertBox>
-
-
     <router-view>
       <LineChartWrapper></LineChartWrapper>
     </router-view>
-
     <BarDonut></BarDonut>
     <Social></Social>
     <MembersActivity></MembersActivity>
     <MessageSettings></MessageSettings>
   </main>
-
 </template>
-
 
 <script>
 import AlertBox from './AlertBox.vue';
@@ -28,7 +22,6 @@ import BarDonut from './BarDonut.vue';
 import Social from './Social.vue';
 import MembersActivity from './MembersActivity.vue';
 import MessageSettings from './MessageSettings.vue';
-
 
 export default {
   name: 'Main',
@@ -41,9 +34,7 @@ export default {
     MessageSettings,
   },
 };
-
 </script>
-
 
 <style scoped>
   @font-face {
@@ -70,9 +61,7 @@ export default {
     width: 40%;
     position: relative;
   }
-
   @media screen and (min-width: 768px){
-
     .main-title{
       padding-bottom: 0;
       height: 63px;
@@ -93,6 +82,5 @@ export default {
     main{
       flex-grow: 1;
     }
-
   }
 </style>

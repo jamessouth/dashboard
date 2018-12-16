@@ -23,8 +23,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'Header',
   data() {
@@ -159,6 +157,4 @@ export default {
       padding-right: 1em;
     }
   }
-
-
 </style>

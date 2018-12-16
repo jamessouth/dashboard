@@ -1,23 +1,36 @@
 <template>
-  <div class="alert-div">
+  <div ref="alertdiv">
     <p>
-      <span>Alert</span>&nbsp;&nbsp;&nbsp;Featuring: <a href="http://www.chartjs.org/">Chart.js</a>, <a href="http://momentjs.com/">Moment.js</a>, two API calls (<a href="https://www.mediawiki.org/wiki/API:Main_page">Wikipedia</a> and <a href="https://randomuser.me/">randomuser.me</a>), a homemade dropdown menu and homemade switches! You can use the keyboard as well, no mouse required!
+      <span>Alert</span>&nbsp;&nbsp;to do....
+      <!-- &nbsp;Featuring: <a href="http://www.chartjs.org/">Chart.js</a>, <a href="http://momentjs.com/">Moment.js</a>, two API calls (<a href="https://www.mediawiki.org/wiki/API:Main_page">Wikipedia</a> and <a href="https://randomuser.me/">randomuser.me</a>), a homemade dropdown menu and homemade switches! You can use the keyboard as well, no mouse required! -->
     </p>
-    <button>x</button>
+    <button @click="close" ref="alertbtn">x</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'AlertBox',
+  methods: {
+      close() {
+        this.$refs.alertdiv.style.opacity = '0';
+        setTimeout(() => {
+          this.$refs.alertdiv.style.lineHeight = '0px';
+          this.$refs.alertbtn.style.height = '0px';
+        }, 1501);
+        setTimeout(() => {
+          this.$refs.alertdiv.children[0].style.display = 'none';
+          this.$refs.alertbtn.style.display = 'none';
+        }, 3005);
+      }
+  }
 };
 </script>
-
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
-  .alert-div{
+  div{
     display: flex;
     justify-content: flex-start;
     width: 90%;
@@ -67,12 +80,9 @@ export default {
   a:focus{
     outline: 2px solid #fff176;
   }
-
   @media screen and (min-width: 768px){
-    .alert-div{
+    div{
       width: 96%;
     }
-
   }
-
 </style>

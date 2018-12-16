@@ -9,15 +9,12 @@
     :chart-data="chartData"
     :options="chartOptions">
     </line-chart>
-
     <img
     width="300"
     height="360"
     v-else-if="!this.$store.state.loading && !isData"
     src="../assets/nodata.png" alt="no data"/>
-
     <div v-else>Loading...</div>
-    <!-- <p>{{ country }} {{ indicator }} {{ error }} {{ this.$store.state.loading }}</p> -->
   </div>
 </template>
 
@@ -27,7 +24,6 @@ import LineChart from './LineChart.vue';
 import LineChartControls from './LineChartControls.vue';
 
 export default {
-
   data() {
     return {
       baseToolTipOpts: {
@@ -194,12 +190,10 @@ export default {
     });
   },
   async beforeRouteUpdate(to, from, next) {
-    // console.log('update');
     this.$store.commit('toggleLoadingStatus'); // to true
     const code = this.lookupCountryCode(to.params.country);
     const indicatorName = this.getIndicatorName(to.params.indicator);
     if (code instanceof Error || code.message || indicatorName === 'error') {
-      // console.log(indicatorName);
       this.error = true;
       this.$store.commit('toggleLoadingStatus'); // to false
       next(false);
@@ -257,21 +251,15 @@ export default {
         data: [],
       };
       try {
-        // console.log(code);
         let data = await fetch(`http://api.worldbank.org/v2/countries/${code}/indicators/${indicatorCode}?MRV=5&format=json`);
-        console.log('data fetch');
-        // console.log(data);
         if (data.ok) {
           data = await data.json();
         } else {
           throw new Error('Network problem - response not ok');
         }
-
         if (data[1] === null) {
           throw new Error('No data available for this location or series');
         }
-
-        // console.log(data);
         await data[1].forEach((x) => {
           slimData.labels.unshift(x.date);
           slimData.data.unshift(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
@@ -288,40 +276,23 @@ export default {
         this.makeAPICall(code, 'IC.REG.DURS'),
         this.makeAPICall(code, 'IC.TAX.TOTL.CP.ZS'),
       ]);
-
       const master = {
         gdp, population, regulation, tax, code,
       };
-      // console.log(master);
       this.$store.commit('cacheData', master);
       this.countryData = master;
       this.$store.commit('toggleLoadingStatus'); // to false
-      console.log('here');
     },
   },
 };
 </script>
 
 <style scoped>
-
   div > div{
     color: red;
   }
-
   img{
     display: block;
     margin: auto;
   }
-
-  /* .line-chart{
-    position: relative;
-    width: 96%;
-    margin: 1.5em auto 1em;
-  }
-
-  @media screen and (min-width: 768px){
-    .line-chart{
-      width: 94%;
-    }
-  } */
 </style>

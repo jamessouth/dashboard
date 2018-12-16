@@ -1,5 +1,3 @@
-
-
 <script>
 import { Doughnut, mixins } from 'vue-chartjs';
 

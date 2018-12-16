@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LineChartWrapper from './components/LineChartWrapper.vue';
-// import About from './views/About.vue';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '(\/|\/charts|\/members|\/settings)',
       redirect: '/united-states/gdp',
     },
     {

@@ -12,9 +12,9 @@
             <img src="../assets/icon-members.svg" alt="members link">
           </a>
         </li>
-        <li tabindex="0" data-tip="Visits" class="tooltip">
-          <a href="#visits">
-            <img src="../assets/icon-visits.svg" alt="visits link">
+        <li tabindex="0" data-tip="Charts" class="tooltip">
+          <a href="#charts">
+            <img src="../assets/icon-visits.svg" alt="charts link">
           </a>
         </li>
         <li tabindex="0" data-tip="Settings" class="tooltip2">
