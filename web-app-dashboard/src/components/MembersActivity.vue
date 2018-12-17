@@ -170,7 +170,7 @@ export default {
         }
         this.setUsers(this.newMembersActivityData);
         this.timer = requestAnimationFrame(this.loadActivitiesData);
-      } catch (err) {
+      } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
     },

@@ -264,7 +264,7 @@ export default {
           slimData.labels.unshift(x.date);
           slimData.data.unshift(x.indicator.id.includes('POP') ? x.value : (Math.round(x.value * 100) / 100).toFixed(2));
         });
-      } catch (err) {
+      } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
       return slimData;

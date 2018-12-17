@@ -12,18 +12,18 @@
 export default {
   name: 'AlertBox',
   methods: {
-      close() {
-        this.$refs.alertdiv.style.opacity = '0';
-        setTimeout(() => {
-          this.$refs.alertdiv.style.lineHeight = '0px';
-          this.$refs.alertbtn.style.height = '0px';
-        }, 1501);
-        setTimeout(() => {
-          this.$refs.alertdiv.children[0].style.display = 'none';
-          this.$refs.alertbtn.style.display = 'none';
-        }, 3005);
-      }
-  }
+    close() {
+      this.$refs.alertdiv.style.opacity = '0';
+      setTimeout(() => {
+        this.$refs.alertdiv.style.lineHeight = '0px';
+        this.$refs.alertbtn.style.height = '0px';
+      }, 1501);
+      setTimeout(() => {
+        this.$refs.alertdiv.children[0].style.display = 'none';
+        this.$refs.alertbtn.style.display = 'none';
+      }, 3005);
+    },
+  },
 };
 </script>
 

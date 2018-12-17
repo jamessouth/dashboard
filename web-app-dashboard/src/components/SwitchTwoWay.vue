@@ -72,8 +72,6 @@ export default {
     transition: background-color 1.25s;
   }
   input{
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     position: absolute;
     right: 14px;

@@ -228,7 +228,7 @@ export default {
             },
           ],
         });
-      } catch (err) {
+      } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
     },

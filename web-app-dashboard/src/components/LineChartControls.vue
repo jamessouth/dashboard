@@ -163,8 +163,6 @@ export default {
     border: 3px solid transparent;
     border-radius: 5px;
     padding: 0.75em 0.5em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     transition: border 0.7s ease-out;
   }

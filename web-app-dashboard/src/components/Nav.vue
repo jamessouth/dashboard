@@ -37,7 +37,6 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
   div{
     background-color: #4D4C72;
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     right: 0;
@@ -132,7 +131,6 @@ export default {
       flex-shrink: 0;
     }
     nav{
-      position: -webkit-sticky;
       position: sticky;
       top: 0;
       right: 0;

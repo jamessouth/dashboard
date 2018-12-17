@@ -6,7 +6,7 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
+    { // eslint-disable-next-line
       path: '(\/|\/charts|\/members|\/settings)',
       redirect: '/united-states/gdp',
     },
