@@ -251,7 +251,7 @@ export default {
         data: [],
       };
       try {
-        let data = await fetch(`http://api.worldbank.org/v2/countries/${code}/indicators/${indicatorCode}?MRV=5&format=json`);
+        let data = await fetch(`https://api.worldbank.org/v2/countries/${code}/indicators/${indicatorCode}?MRV=5&format=json`);
         if (data.ok) {
           data = await data.json();
         } else {
