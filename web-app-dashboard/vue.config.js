@@ -8,5 +8,8 @@ module.exports = {
     plugins: [
       new MomentLocalesPlugin(),
     ]
+  },
+  pwa: {
+    themeColor: '#7377bf',
   }
 }
