@@ -10,6 +10,10 @@ module.exports = {
     ]
   },
   pwa: {
-    themeColor: '#7377bf',
+    themeColor: '#012345',
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: "src/service-worker.js"
+    }
   }
 }
