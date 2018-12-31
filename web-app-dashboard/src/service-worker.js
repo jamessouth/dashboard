@@ -34,9 +34,9 @@ workbox.routing.registerRoute(
   workbox.strategies.cacheFirst({
     cacheName: `${prefix}-google-fonts-webfonts`,
     plugins: [
-      new workbox.cacheableResponse.Plugin({
-        statuses: [0, 200],
-      }),
+      // new workbox.cacheableResponse.Plugin({
+      //   statuses: [0, 200],
+      // }),
       new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 365,
       }),
@@ -55,6 +55,12 @@ workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/\?results=10&inc=name,email,picture&noinfo/,
   workbox.strategies.networkFirst({
     cacheName: `${prefix}-randomuser-data`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 50,
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+      }),
+    ],
   }),
 );
 
@@ -97,6 +103,7 @@ workbox.routing.registerRoute(
       //   statuses: [0, 200],
       // }),
       new workbox.expiration.Plugin({
+        maxEntries: 50,
         maxAgeSeconds: 60 * 60 * 24 * 365,
       }),
     ],
