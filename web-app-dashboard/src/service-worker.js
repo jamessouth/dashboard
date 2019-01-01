@@ -16,17 +16,15 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.googleapis\.com/,
-  workbox.strategies.cacheFirst({
+  workbox.strategies.staleWhileRevalidate({
     cacheName: `${prefix}-google-fonts-css`,
     plugins: [
-      // new workbox.cacheableResponse.Plugin({
-      //   statuses: [0, 200],
-      // }),
       new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
       }),
     ],
-  }),
+  })
 );
 
 workbox.routing.registerRoute(
@@ -34,11 +32,9 @@ workbox.routing.registerRoute(
   workbox.strategies.cacheFirst({
     cacheName: `${prefix}-google-fonts-webfonts`,
     plugins: [
-      // new workbox.cacheableResponse.Plugin({
-      //   statuses: [0, 200],
-      // }),
       new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
       }),
     ],
   }),
@@ -48,6 +44,12 @@ workbox.routing.registerRoute(
   /^https:\/\/eonet\.sci\.gsfc\.nasa\.gov\/api\/v2\.1\/events\?days=60/,
   workbox.strategies.staleWhileRevalidate({
     cacheName: `${prefix}-natural-events-data`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        purgeOnQuotaError: true,
+      }),
+    ],
   }),
 );
 
@@ -59,6 +61,7 @@ workbox.routing.registerRoute(
       new workbox.expiration.Plugin({
         maxEntries: 50,
         maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
       }),
     ],
   }),
@@ -69,11 +72,9 @@ workbox.routing.registerRoute(
   workbox.strategies.cacheFirst({
     cacheName: `${prefix}-wikipedia-timezones`,
     plugins: [
-      // new workbox.cacheableResponse.Plugin({
-      //   statuses: [0, 200],
-      // }),
       new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
       }),
     ],
   }),
@@ -84,11 +85,9 @@ workbox.routing.registerRoute(
   workbox.strategies.cacheFirst({
     cacheName: `${prefix}-worldbank-data`,
     plugins: [
-      // new workbox.cacheableResponse.Plugin({
-      //   statuses: [0, 200],
-      // }),
       new workbox.expiration.Plugin({
         maxAgeSeconds: 60 * 60 * 24 * 30,
+        purgeOnQuotaError: true,
       }),
     ],
   }),
@@ -99,12 +98,10 @@ workbox.routing.registerRoute(
   workbox.strategies.cacheFirst({
     cacheName: `${prefix}-randomuser-pics`,
     plugins: [
-      // new workbox.cacheableResponse.Plugin({
-      //   statuses: [0, 200],
-      // }),
       new workbox.expiration.Plugin({
         maxEntries: 50,
         maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
       }),
     ],
   }),
