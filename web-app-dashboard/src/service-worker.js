@@ -107,10 +107,18 @@ workbox.routing.registerRoute(
   }),
 );
 
-
-
-
-
+workbox.routing.registerRoute(
+  /nodata\.\w*\.?png$/,
+  workbox.strategies.cacheFirst({
+    cacheName: `${prefix}-unprecached`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
 
 // workbox.routing.registerRoute(
 //   /\.(?:js|css)$/,
