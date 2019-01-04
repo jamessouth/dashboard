@@ -4,7 +4,7 @@
       <h1>Dashboard</h1>
       <div></div>
     </div>
-    <AlertBox></AlertBox>
+    <AlertBox :reg-obj="rego" v-if="newAlert"></AlertBox>
     <router-view>
       <LineChartWrapper></LineChartWrapper>
     </router-view>
@@ -25,6 +25,18 @@ import MessageSettings from './MessageSettings.vue';
 
 export default {
   name: 'Main',
+  data() {
+    return {
+      newAlert: false,
+      rego: null,
+    };
+  },
+  methods: {
+    changeAlert(registration) {
+      this.rego = registration;
+
+    },
+  },
   components: {
     AlertBox,
     LineChartWrapper,

@@ -1,8 +1,7 @@
 <template>
   <div ref="alertdiv">
     <p>
-      <span>Alert</span>&nbsp;&nbsp;to do....
-      <!-- &nbsp;Featuring: <a href="http://www.chartjs.org/">Chart.js</a>, <a href="http://momentjs.com/">Moment.js</a>, two API calls (<a href="https://www.mediawiki.org/wiki/API:Main_page">Wikipedia</a> and <a href="https://randomuser.me/">randomuser.me</a>), a homemade dropdown menu and homemade switches! You can use the keyboard as well, no mouse required! -->
+      <span>Alert</span>&nbsp;&nbsp;Updates available! Please close this alert box to see the changes!!
     </p>
     <button @click="close" ref="alertbtn">x</button>
   </div>
@@ -10,9 +9,30 @@
 
 <script>
 export default {
+  props: ['regObj'],
   name: 'AlertBox',
   methods: {
+    onNewSW(cb) {
+      if (this.regObj.waiting) return cb();
+      function listenForInstalledStateChange() {
+        this.regObj.installing.addEventListener('statechange', e => {
+          if (e.target.state === 'installed') cb();
+        });
+      };
+      if (this.regObj.installing) return listenForInstalledStateChange();
+      this.regObj.addEventListener('updatefound', listenForInstalledStateChange);
+    },
+    swHandle() {
+      if (!this.regObj.waiting) {
+        return;
+      }
+      this.regObj.waiting.postMessage('skipWaiting');
+    },
     close() {
+      this.swHandle();
+      this.closeStyles();
+    },
+    closeStyles() {
       this.$refs.alertdiv.style.opacity = '0';
       setTimeout(() => {
         this.$refs.alertdiv.style.lineHeight = '0px';
