@@ -12,16 +12,7 @@ export default {
   props: ['regObj'],
   name: 'AlertBox',
   methods: {
-    onNewSW(cb) {
-      if (this.regObj.waiting) return cb();
-      function listenForInstalledStateChange() {
-        this.regObj.installing.addEventListener('statechange', e => {
-          if (e.target.state === 'installed') cb();
-        });
-      };
-      if (this.regObj.installing) return listenForInstalledStateChange();
-      this.regObj.addEventListener('updatefound', listenForInstalledStateChange);
-    },
+
     swHandle() {
       if (!this.regObj.waiting) {
         return;

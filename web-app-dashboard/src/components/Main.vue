@@ -31,10 +31,13 @@ export default {
       rego: null,
     };
   },
+  mounted() {
+    document.addEventListener('swUpdated', this.changeAlert);
+  },
   methods: {
-    changeAlert(registration) {
-      this.rego = registration;
-
+    changeAlert(e) {
+      this.newAlert = true;
+      this.rego = e.detail;
     },
   },
   components: {

@@ -10,9 +10,10 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings(false);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-// self.addEventListener('message', (msg) => {
-//   if (msg.data.action === 'skipWaiting') self.skipWaiting();
-// });
+self.addEventListener('message', e => {
+  if (!e.data) return;
+  if (e.data === 'skipWaiting') self.skipWaiting();
+});
 
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.googleapis\.com/,
