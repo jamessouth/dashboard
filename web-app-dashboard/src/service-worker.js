@@ -21,7 +21,7 @@ workbox.routing.registerRoute(
     cacheName: `${prefix}-google-fonts-css`,
     plugins: [
       new workbox.expiration.Plugin({
-        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxAgeSeconds: 60 * 60 * 24 * 30,
         purgeOnQuotaError: true,
       }),
     ],
@@ -43,7 +43,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   /^https:\/\/eonet\.sci\.gsfc\.nasa\.gov\/api\/v2\.1\/events\?days=60/,
-  workbox.strategies.staleWhileRevalidate({
+  workbox.strategies.networkFirst({
     cacheName: `${prefix}-natural-events-data`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -121,20 +121,10 @@ workbox.routing.registerRoute(
   }),
 );
 
-// workbox.routing.registerRoute(
-//   /\.(?:js|css)$/,
-//   workbox.strategies.staleWhileRevalidate(),
-// );
-//
-// workbox.routing.registerRoute(
-//   /\.(?:png|gif|jpg|jpeg|svg)$/,
-//   workbox.strategies.cacheFirst({
-//     cacheName: 'images',
-//     plugins: [
-//       new workbox.expiration.Plugin({
-//         maxEntries: 60,
-//         maxAgeSeconds: 60 * 60 * 24 * 30,
-//       }),
-//     ],
-//   }),
-// );
+workbox.routing.setDefaultHandler(
+  workbox.strategies.staleWhileRevalidate(),
+);
+
+workbox.routing.setCatchHandler(() => {
+  return Response.error();
+});
