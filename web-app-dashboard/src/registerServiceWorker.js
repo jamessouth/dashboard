@@ -4,14 +4,14 @@ import { register } from 'register-service-worker';
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready(registration) {
+    ready() {
       console.log('App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB');
     },
-    registered(registration) {
-      console.log('Service worker has been registered.', registration);
+    registered() {
+      console.log('Service worker has been registered.');
     },
-    cached(registration) {
+    cached() {
       console.log('Content has been cached for offline use.');
     },
     updatefound(registration) {
@@ -23,12 +23,8 @@ if (process.env.NODE_ENV === 'production') {
         window.location.reload();
         refreshing = true;
       });
-
     },
     updated(registration) {
-
-
-
       console.log('New content is available; please refresh.');
       // notifyUserOfNewContent(registration.waiting);
       const UpdatedEvent = new CustomEvent('swUpdated', { detail: registration });
@@ -41,5 +37,4 @@ if (process.env.NODE_ENV === 'production') {
       console.error('Error during service worker registration:', error);
     },
   });
-
 }

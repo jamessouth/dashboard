@@ -1,7 +1,8 @@
 <template>
   <div ref="alertdiv">
     <p>
-      <span>Alert</span>&nbsp;&nbsp;Updates available! Please close this alert box to see the changes!!
+      <span>Alert</span>
+      &nbsp;&nbsp;Updates available! Please close this alert box to see the changes!!
     </p>
     <button @click="close" ref="alertbtn">x</button>
   </div>

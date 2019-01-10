@@ -1,8 +1,10 @@
+/* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
+
 const prefix = 'web-app-dashboard';
 const suffix = 'v1';
 
-workbox.setConfig({ debug: false });
-workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
+// workbox.setConfig({ debug: false });
+// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
 workbox.core.setCacheNameDetails({ prefix, suffix });
 
@@ -10,7 +12,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings(false);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-self.addEventListener('message', e => {
+self.addEventListener('message', (e) => {
   if (!e.data) return;
   if (e.data === 'skipWaiting') self.skipWaiting();
 });
@@ -25,7 +27,7 @@ workbox.routing.registerRoute(
         purgeOnQuotaError: true,
       }),
     ],
-  })
+  }),
 );
 
 workbox.routing.registerRoute(
@@ -104,6 +106,9 @@ workbox.routing.registerRoute(
         maxAgeSeconds: 60 * 60 * 24 * 365,
         purgeOnQuotaError: true,
       }),
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
     ],
   }),
 );
@@ -121,10 +126,6 @@ workbox.routing.registerRoute(
   }),
 );
 
-workbox.routing.setDefaultHandler(
-  workbox.strategies.staleWhileRevalidate(),
-);
+workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate());
 
-workbox.routing.setCatchHandler(() => {
-  return Response.error();
-});
+workbox.routing.setCatchHandler(() => Response.error());
