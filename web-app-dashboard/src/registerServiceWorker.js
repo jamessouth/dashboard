@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === 'production') {
       console.log('New content is available; please refresh.');
       // notifyUserOfNewContent(registration.waiting);
       const UpdatedEvent = new CustomEvent('swUpdated', { detail: registration });
+      console.log('swUpdate dispatch ', new Date().toLocaleString());
       document.dispatchEvent(UpdatedEvent);
     },
     offline() {

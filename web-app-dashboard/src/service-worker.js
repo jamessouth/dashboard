@@ -13,6 +13,7 @@ workbox.precaching.suppressWarnings(false);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 self.addEventListener('message', (e) => {
+  console.log('message handler ', new Date().toLocaleString());
   if (!e.data) return;
   if (e.data === 'skipWaiting') self.skipWaiting();
 });

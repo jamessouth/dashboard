@@ -32,6 +32,7 @@ export default {
     };
   },
   mounted() {
+    console.log('main mounted ', new Date().toLocaleString());
     document.addEventListener('swUpdated', this.changeAlert);
   },
   methods: {
