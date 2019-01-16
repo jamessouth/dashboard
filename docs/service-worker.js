@@ -1,4 +1,4 @@
-importScripts("/precache-manifest.03960f7d17e06ea00bab8a045886235d.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/Vue-Project-9/precache-manifest.3fcf24b706fa344a59feb0d6000eb268.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
