@@ -18,6 +18,7 @@ export default {
       if (!this.regObj.waiting) {
         return;
       }
+      console.log('swhandle ', new Date().toLocaleString());
       this.regObj.waiting.postMessage('skipWaiting');
     },
     close() {

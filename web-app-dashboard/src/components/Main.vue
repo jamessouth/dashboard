@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     changeAlert(e) {
+      console.log('chg alert ', new Date().toLocaleString());
       this.newAlert = true;
       this.rego = e.detail;
     },

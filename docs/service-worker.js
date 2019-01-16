@@ -1,29 +1,143 @@
-/**
- * Welcome to your Workbox-powered service worker!
- *
- * You'll need to register this file in your web app and you should
- * disable HTTP caching for this file too.
- * See https://goo.gl/nhQhGp
- *
- * The rest of the code is auto-generated. Please don't update this file
- * directly; instead, make changes to your Workbox build configuration
- * and re-run your build process.
- * See https://goo.gl/2aRDsh
- */
+importScripts("/precache-manifest.03960f7d17e06ea00bab8a045886235d.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+/* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-importScripts(
-  "/Vue-Project-9/precache-manifest.18e76b3bc413ed54b7d0ddbc02a80c87.js"
-);
+const prefix = 'web-app-dashboard';
+const suffix = 'v11';
 
-workbox.core.setCacheNameDetails({prefix: "web-app-dashboard"});
+const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
+// workbox.setConfig({ debug: false });
+// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
-/**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
- * requests for URLs in the manifest.
- * See https://goo.gl/S9QRab
- */
+workbox.core.setCacheNameDetails({ prefix, suffix });
+
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+self.addEventListener('message', (e) => {
+  console.log('message handler ', new Date().toLocaleString());
+  if (!e.data) return;
+  if (e.data === 'skipWaiting') self.skipWaiting();
+});
+
+
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.googleapis\.com/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: `${prefix}-google-fonts-css`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.gstatic\.com/,
+  workbox.strategies.cacheFirst({
+    cacheName: `${prefix}-google-fonts-webfonts`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/eonet\.sci\.gsfc\.nasa\.gov\/api\/v2\.1\/events\?days=60/,
+  workbox.strategies.networkFirst({
+    cacheName: `${prefix}-natural-events-data`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/randomuser\.me\/api\/\?results=10&inc=name,email,picture&noinfo/,
+  workbox.strategies.networkFirst({
+    cacheName: `${prefix}-randomuser-data`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 50,
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/en\.wikipedia\.org\/w\/api\.php\?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=\*/,
+  workbox.strategies.cacheFirst({
+    cacheName: `${prefix}-wikipedia-timezones`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/api\.worldbank\.org\/v2\/countries/,
+  workbox.strategies.cacheFirst({
+    cacheName: `${prefix}-worldbank-data`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 30,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/randomuser\.me\/api\/portraits/,
+  workbox.strategies.networkOnly(),
+);
+
+workbox.routing.registerRoute(
+  /nodata\.\w*\.?png$/,
+  workbox.strategies.cacheFirst({
+    cacheName: `${prefix}-unprecached`,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
+
+// workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate(
+//   {
+//   cacheName: `${prefix}-default-handler`,
+//   plugins: [
+//     new workbox.expiration.Plugin({
+//       maxAgeSeconds: 60 * 60 * 24 * 365,
+//       purgeOnQuotaError: true,
+//     }),
+//   ],
+// }
+// ));
+
+
+workbox.routing.setCatchHandler(({event}) => {
+  console.log('ev req dest, ', event);
+  if (event.request.destination === 'image' && /^https:\/\/randomuser\.me\/api\/portraits/.test(event.request.url)) {
+    return caches.match(FALLBACK_IMAGE_URL);
+  } else {
+    return Response.error();
+  }
+});
+

@@ -120,6 +120,7 @@ export default {
       firstName = firstName
         .replace(/([A-zÀ-ÿğŞı]+|\w+[A-zÀ-ÿğŞı]*)\w*$/gi, this.caps)
         .replace(/jean-/, 'Jean-')
+        .replace(/filipe/, 'Filipe')
         .replace(/hans-/, 'Hans-')
         .replace(/zine-/, 'Zine-')
         .replace(/sue-/, 'Sue-')
