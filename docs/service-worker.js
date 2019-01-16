@@ -6,7 +6,7 @@ const prefix = 'web-app-dashboard';
 const suffix = 'v11';
 
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
-// workbox.setConfig({ debug: false });
+workbox.setConfig({ debug: true });
 workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
 workbox.core.setCacheNameDetails({ prefix, suffix });
