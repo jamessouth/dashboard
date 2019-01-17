@@ -1,13 +1,14 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
 const prefix = 'web-app-dashboard';
-const suffix = 'v11';
+const version = 'v19';
+
 
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
 // workbox.setConfig({ debug: false });
 // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
 
-workbox.core.setCacheNameDetails({ prefix, suffix });
+workbox.core.setCacheNameDetails({ prefix });
 
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
@@ -18,7 +19,6 @@ self.addEventListener('message', (e) => {
   if (!e.data) return;
   if (e.data === 'skipWaiting') self.skipWaiting();
 });
-
 
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.googleapis\.com/,
@@ -99,10 +99,13 @@ workbox.routing.registerRoute(
   }),
 );
 
+
+
 workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/portraits/,
   workbox.strategies.networkOnly(),
 );
+
 
 workbox.routing.registerRoute(
   /nodata\.\w*\.?png$/,
@@ -117,17 +120,17 @@ workbox.routing.registerRoute(
   }),
 );
 
-// workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate(
-//   {
-//   cacheName: `${prefix}-default-handler`,
-//   plugins: [
-//     new workbox.expiration.Plugin({
-//       maxAgeSeconds: 60 * 60 * 24 * 365,
-//       purgeOnQuotaError: true,
-//     }),
-//   ],
-// }
-// ));
+workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate(
+  {
+  cacheName: `${prefix}-default-handler`,
+  plugins: [
+    new workbox.expiration.Plugin({
+      maxAgeSeconds: 60 * 60 * 24 * 365,
+      purgeOnQuotaError: true,
+    }),
+  ],
+}
+));
 
 
 workbox.routing.setCatchHandler(({event}) => {

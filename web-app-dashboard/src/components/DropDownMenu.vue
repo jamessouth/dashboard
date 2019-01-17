@@ -52,6 +52,7 @@ export default {
       return arr.map(x => [...new Set(x)]).forEach(this.createOption);
     },
     processTZData(data) {
+      console.log(data);
       const reg = new RegExp(/\n*<([^>]*)>\n*/g);
       let res = data.substring(data.indexOf('<tr>'), data.lastIndexOf('</tr>') + 5);
       res = res.split('</tr>\n<tr>');
@@ -81,6 +82,9 @@ export default {
         }
         if (/british/i.test(res[i][3])) {
           res[i][3] = res[i][3].replace(/\w+ */gi, this.abbrev);
+        }
+        if (/,$/.test(res[i][17])) {
+          res[i][17] = res[i][17].replace(/,/, '');
         }
         if (/demo/i.test(res[i][5])) {
           res[i][5] = res[i][5].replace(/(\w+)\s(\w+)\s(\w+)\s(\w+)\s(\w+)/gi, this.abbrev2);
