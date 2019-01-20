@@ -43,61 +43,40 @@ export default {
     },
   },
   methods: {
+    cutOutTable(str) => str.substring(str.indexOf('<tr>'), str.lastIndexOf('</tr>') + 5),
+    splitIntoRows(str) => str.split('</tr>\n<tr>'),
+    removeColumnHeaders(arr) => arr.splice(1),
+    pipe(...fns) => start => fns.reduce((val, fn) => fn(val), start),
+    splitIntoColumns(str) => str.split('</td>\n<td>'),
+    removeUnneededColumns(arr) => !arr[2].trim() ? [arr[0], arr[3]]
+      : !arr[3].trim() ? [arr[0], arr[2]]
+      : [arr[0], `${arr[2]},${arr[3]}`],
+    removeHTMLandParens(arr) => arr.map(x => x
+      .replace(/\n*<([^>]*)>\n*/g, '')
+      .replace(/ *\(([^)]*)\)/g, '')),
+    splitCountries(arr) => [arr[0], ...arr[1].split(/, ?/)],
+    trimCountryNames(arr) => arr.map(x => x.trim()),
+    finalTouches(arr) => [arr[0], ...arr.slice(1).map(x => x
+      .replace(/South Georgia and the South Sandwich Islands/, 'S Georgia/S Sandwich Islands')
+      .replace(/British Indian Ocean Territory/, 'BIOT')
+      .replace(/,/, '')
+      .replace(/Democratic Republic of the Congo/, 'DR Congo')
+      .replace(/[&#\d;]/g, ''))],
+    sortNames(arr) => [arr[0], ...arr.slice(1).sort((a,b) => a > b ? 1 : -1)],
+    removeBlanks(arr) => arr.filter(x => !!x),
+    deDupe(arr) => [...new Set(arr)],
+
+
     createOption(arr) {
       for (let i = 1; i < arr.length; i += 1) {
         this.tzOptions.push(`${arr[0]}\u00A0\u00A0${arr[i]}`);
       }
     },
-    loadTZOptions(arr) {
-      return arr.map(x => [...new Set(x)]).forEach(this.createOption);
-    },
-    processTZData(data) {
-      console.log(data);
-      const reg = new RegExp(/\n*<([^>]*)>\n*/g);
-      let res = data.substring(data.indexOf('<tr>'), data.lastIndexOf('</tr>') + 5);
-      res = res.split('</tr>\n<tr>');
-      res.shift();
-      for (let i = 0; i < res.length; i += 1) {
-        res[i] = res[i].split('</td>\n<td>');
-        res[i].splice(1, 1);
-        [res[i][0], res[i][1], res[i][2]] = [res[i][0].replace(reg, ''), res[i][1].replace(reg, ''), res[i][2].replace(reg, '')];
-        if (!res[i][1] || !res[i][1].trim()) {
-          res[i].splice(1, 1);
-        }
-        if (!res[i][2] || !res[i][2].trim()) {
-          res[i].splice(2);
-        }
-        res[i][1] = res[i][1].replace(/ *\(([^)]*)\)/g, '');
-        res[i][1] = res[i][1].split(', ').map(x => x.trim().replace(/[&#\d;]/g, ''));
-        if (res[i][2]) {
-          res[i][2] = res[i][2].replace(/ *\(([^)]*)\)/g, '');
-          res[i][2] = res[i][2].split(', ').map(x => x.trim().replace(/[&#\d;]/g, ''));
-          res[i] = [res[i][0], ...res[i][1], ...res[i][2]];
-        } else {
-          res[i] = [res[i][0], ...res[i][1]];
-        }
-        if (/(south )(?!(africa|korea|sudan))/gi.test(res[i][2])) {
-          res[i][3] = res[i][2].slice(22).replace(/south/i, 'S');
-          res[i][2] = res[i][2].slice(0, 13);
-        }
-        if (/british/i.test(res[i][3])) {
-          res[i][3] = res[i][3].replace(/\w+ */gi, this.abbrev);
-        }
-        if (/,$/.test(res[i][17])) {
-          res[i][17] = res[i][17].replace(/,/, '');
-        }
-        if (/demo/i.test(res[i][5])) {
-          res[i][5] = res[i][5].replace(/(\w+)\s(\w+)\s(\w+)\s(\w+)\s(\w+)/gi, this.abbrev2);
-        }
-      }
-      return res;
-    },
-    abbrev(match) {
-      return match[0].toUpperCase();
-    },
-    abbrev2(match, p1, p2, p3, p4, p5) {
-      return `${p1[0].toUpperCase() + p2[0].toUpperCase()} ${p5}`;
-    },
+    // loadTZOptions(arr) {
+    //   return arr.map(x => [...new Set(x)]).forEach(this.createOption);
+    // },
+
+
     async loadOptions() {
       try {
         let data = await fetch(this.timezoneFetch);
@@ -106,7 +85,22 @@ export default {
         } else {
           throw new Error('Network problem - response not ok');
         }
-        data = this.processTZData(data.parse.text['*']);
+        [this.cutOutTable,
+          this.splitIntoRows,
+          this.removeColumnHeaders]
+        .reduce((res, nextFn) => nextFn(res), data.parse.text['*'])
+        .map(pipe(this.splitIntoColumns,
+          this.removeUnneededColumns,
+          this.removeHTMLandParens,
+          this.splitCountries,
+          this.trimCountryNames,
+          this.finalTouches,
+          this.sortNames,
+          this.removeBlanks,
+          this.deDupe));
+
+
+
         this.loadTZOptions(data);
       } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
