@@ -100,7 +100,6 @@ workbox.routing.registerRoute(
 );
 
 
-
 workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/portraits/,
   workbox.strategies.networkOnly(),
@@ -120,8 +119,7 @@ workbox.routing.registerRoute(
   }),
 );
 
-workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate(
-  {
+workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
   cacheName: `${prefix}-default-handler`,
   plugins: [
     new workbox.expiration.Plugin({
@@ -129,15 +127,13 @@ workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate(
       purgeOnQuotaError: true,
     }),
   ],
-}
-));
+}));
 
 
-workbox.routing.setCatchHandler(({event}) => {
+workbox.routing.setCatchHandler(({ event }) => {
   console.log('ev req dest, ', event);
   if (event.request.destination === 'image' && /^https:\/\/randomuser\.me\/api\/portraits/.test(event.request.url)) {
     return caches.match(FALLBACK_IMAGE_URL);
-  } else {
-    return Response.error();
   }
+  return Response.error();
 });

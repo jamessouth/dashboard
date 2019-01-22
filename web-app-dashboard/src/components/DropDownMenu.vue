@@ -43,40 +43,42 @@ export default {
     },
   },
   methods: {
-    cutOutTable(str) => str.substring(str.indexOf('<tr>'), str.lastIndexOf('</tr>') + 5),
-    splitIntoRows(str) => str.split('</tr>\n<tr>'),
-    removeColumnHeaders(arr) => arr.splice(1),
-    pipe(...fns) => start => fns.reduce((val, fn) => fn(val), start),
-    splitIntoColumns(str) => str.split('</td>\n<td>'),
-    removeUnneededColumns(arr) => !arr[2].trim() ? [arr[0], arr[3]]
-      : !arr[3].trim() ? [arr[0], arr[2]]
-      : [arr[0], `${arr[2]},${arr[3]}`],
-    removeHTMLandParens(arr) => arr.map(x => x
-      .replace(/\n*<([^>]*)>\n*/g, '')
-      .replace(/ *\(([^)]*)\)/g, '')),
-    splitCountries(arr) => [arr[0], ...arr[1].split(/, ?/)],
-    trimCountryNames(arr) => arr.map(x => x.trim()),
-    finalTouches(arr) => [arr[0], ...arr.slice(1).map(x => x
-      .replace(/South Georgia and the South Sandwich Islands/, 'S Georgia/S Sandwich Islands')
-      .replace(/British Indian Ocean Territory/, 'BIOT')
-      .replace(/,/, '')
-      .replace(/Democratic Republic of the Congo/, 'DR Congo')
-      .replace(/[&#\d;]/g, ''))],
-    sortNames(arr) => [arr[0], ...arr.slice(1).sort((a,b) => a > b ? 1 : -1)],
-    removeBlanks(arr) => arr.filter(x => !!x),
-    deDupe(arr) => [...new Set(arr)],
-
-
-    createOption(arr) {
-      for (let i = 1; i < arr.length; i += 1) {
-        this.tzOptions.push(`${arr[0]}\u00A0\u00A0${arr[i]}`);
-      }
+    cutOutTable(str) { return str.substring(str.indexOf('<tr>'), str.lastIndexOf('</tr>') + 5); },
+    splitIntoRows(str) { return str.split('</tr>\n<tr>'); },
+    removeColumnHeaders(arr) { return arr.splice(1); },
+    pipe(...fns) {
+      return function inner(start) {
+        return fns.reduce((val, fn) => fn(val), start);
+      };
     },
-    // loadTZOptions(arr) {
-    //   return arr.map(x => [...new Set(x)]).forEach(this.createOption);
-    // },
-
-
+    splitIntoColumns(str) { return str.split('</td>\n<td>'); },
+    removeUnneededColumns(arr) {
+      if (!arr[2].trim()) {
+        return [arr[0], arr[3]];
+      } else if (!arr[3].trim()) {
+        return [arr[0], arr[2]];
+      }
+      return [arr[0], `${arr[2]},${arr[3]}`];
+    },
+    removeHTMLandParens(arr) {
+      return arr.map(x => x
+        .replace(/\n*<([^>]*)>\n*/g, '')
+        .replace(/ *\(([^)]*)\)/g, ''));
+    },
+    splitCountries(arr) { return [arr[0], ...arr[1].split(/, ?/)]; },
+    trimCountryNames(arr) { return arr.map(x => x.trim()); },
+    finalTouches(arr) {
+      return [arr[0], ...arr.slice(1).map(x => x
+        .replace(/South Georgia and the South Sandwich Islands/, 'S Georgia/S Sandwich Islands')
+        .replace(/British Indian Ocean Territory/, 'BIOT')
+        .replace(/,/, '')
+        .replace(/Democratic Republic of the Congo/, 'DR Congo')
+        .replace(/[&#\d;]/g, ''))];
+    },
+    sortNames(arr) { return [arr[0], ...arr.slice(1).sort((a, b) => (a > b ? 1 : -1))]; },
+    removeBlanks(arr) { return arr.filter(x => !!x); },
+    deDupe(arr) { return [...new Set(arr)]; },
+    makeOptions(arr) { return arr.slice(1).map((x, i, a) => `${arr[0]}\u00A0\u00A0${a[i]}`); },
     async loadOptions() {
       try {
         let data = await fetch(this.timezoneFetch);
@@ -85,23 +87,25 @@ export default {
         } else {
           throw new Error('Network problem - response not ok');
         }
-        [this.cutOutTable,
+        this.tzOptions = [
+          this.cutOutTable,
           this.splitIntoRows,
-          this.removeColumnHeaders]
-        .reduce((res, nextFn) => nextFn(res), data.parse.text['*'])
-        .map(pipe(this.splitIntoColumns,
-          this.removeUnneededColumns,
-          this.removeHTMLandParens,
-          this.splitCountries,
-          this.trimCountryNames,
-          this.finalTouches,
-          this.sortNames,
-          this.removeBlanks,
-          this.deDupe));
-
-
-
-        this.loadTZOptions(data);
+          this.removeColumnHeaders,
+        ]
+          .reduce((res, nextFn) => nextFn(res), data.parse.text['*'])
+          .map(this.pipe(
+            this.splitIntoColumns,
+            this.removeUnneededColumns,
+            this.removeHTMLandParens,
+            this.splitCountries,
+            this.trimCountryNames,
+            this.finalTouches,
+            this.sortNames,
+            this.removeBlanks,
+            this.deDupe,
+            this.makeOptions,
+          ))
+          .reduce((acc, nextArr) => [...acc, ...nextArr]);
       } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
