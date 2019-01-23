@@ -9,6 +9,9 @@ module.exports = {
       new MomentLocalesPlugin(),
     ],
   },
+  // chainWebpack: config => {
+  //   config.plugins.delete('prefetch')
+  // },
   pwa: {
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {

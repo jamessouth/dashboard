@@ -5,10 +5,10 @@
       <div></div>
     </div>
     <AlertBox :reg-obj="rego" v-if="newAlert"></AlertBox>
-    <router-view>
+    <router-view @in-view="BarDonutflag = true">
       <LineChartWrapper></LineChartWrapper>
     </router-view>
-    <BarDonut></BarDonut>
+    <BarDonut v-if="BarDonutflag"></BarDonut>
     <Social></Social>
     <MembersActivity></MembersActivity>
     <MessageSettings></MessageSettings>
@@ -18,7 +18,6 @@
 <script>
 import AlertBox from './AlertBox.vue';
 import LineChartWrapper from './LineChartWrapper.vue';
-import BarDonut from './BarDonut.vue';
 import Social from './Social.vue';
 import MembersActivity from './MembersActivity.vue';
 import MessageSettings from './MessageSettings.vue';
@@ -29,13 +28,18 @@ export default {
     return {
       newAlert: false,
       rego: null,
+      BarDonutflag: false,
     };
   },
   mounted() {
     console.log('main mounted ', new Date().toLocaleString());
     document.addEventListener('swUpdated', this.changeAlert);
+    // this.loadBD();
   },
   methods: {
+    // loadBD() {
+    //   setTimeout(() => this.BarDonutflag = true, 20123);
+    // },
     changeAlert(e) {
       console.log('chg alert ', new Date().toLocaleString());
       this.newAlert = true;
@@ -45,7 +49,7 @@ export default {
   components: {
     AlertBox,
     LineChartWrapper,
-    BarDonut,
+    BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
     Social,
     MembersActivity,
     MessageSettings,
