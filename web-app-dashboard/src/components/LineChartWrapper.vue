@@ -15,7 +15,6 @@
     v-else-if="!this.$store.state.loading && !isData"
     src="../assets/nodata.png" alt="no data"/>
     <div v-else>Loading...</div>
-    <p ref="BarDonutSentinel">uuuuuu</p>
   </div>
 </template>
 
@@ -27,11 +26,6 @@ import LineChartControls from './LineChartControls.vue';
 export default {
   data() {
     return {
-      IOoptions: {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0,
-      },
       baseToolTipOpts: {
         backgroundColor: '#000',
         displayColors: false,
@@ -215,22 +209,7 @@ export default {
       next();
     }
   },
-  mounted() {
-    window.addEventListener('load', e => {
-      this.loadBD();
-      console.log(e);
-    });
-  },
   methods: {
-    IOcallback(entries, observer) {
-      console.log(entries, observer);
-      this.$emit('in-view');
-    },
-    loadBD() {
-      const observer = new IntersectionObserver(this.IOcallback, this.IOoptions);
-      observer.observe(this.$refs.BarDonutSentinel);
-
-    },
     setProps(indicator) {
       const data = this.countryData[indicator];
       this.chartData = {

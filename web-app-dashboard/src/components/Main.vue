@@ -5,22 +5,28 @@
       <div></div>
     </div>
     <AlertBox :reg-obj="rego" v-if="newAlert"></AlertBox>
-    <router-view @in-view="BarDonutflag = true">
+    <router-view>
       <LineChartWrapper></LineChartWrapper>
     </router-view>
-    <BarDonut v-if="BarDonutflag"></BarDonut>
-    <Social></Social>
-    <MembersActivity></MembersActivity>
-    <MessageSettings></MessageSettings>
+
+    <p id="BarDonut" ref="BarDonut">bd</p>
+    <BarDonut v-if="IOflags.BarDonut"></BarDonut>
+
+    <p id="Social" ref="Social">so</p>
+    <Social v-if="IOflags.Social"></Social>
+
+    <p id="MembersActivity" ref="MembersActivity">ma</p>
+    <MembersActivity v-if="IOflags.MembersActivity"></MembersActivity>
+
+    <p id="MessageSettings" ref="MessageSettings">ms</p>
+    <MessageSettings v-if="IOflags.MessageSettings"></MessageSettings>
+
   </main>
 </template>
 
 <script>
 import AlertBox from './AlertBox.vue';
 import LineChartWrapper from './LineChartWrapper.vue';
-import Social from './Social.vue';
-import MembersActivity from './MembersActivity.vue';
-import MessageSettings from './MessageSettings.vue';
 
 export default {
   name: 'Main',
@@ -28,18 +34,39 @@ export default {
     return {
       newAlert: false,
       rego: null,
-      BarDonutflag: false,
+      IOoptions: {
+        root: null,
+        rootMargin: '0px 0px 60px 0px',
+        threshold: 0.1,
+      },
+      IOflags: {
+        BarDonut: false,
+        Social: false,
+        MembersActivity: false,
+        MessageSettings: false,
+      },
     };
   },
   mounted() {
     console.log('main mounted ', new Date().toLocaleString());
     document.addEventListener('swUpdated', this.changeAlert);
-    // this.loadBD();
+    window.addEventListener('load', () => {
+      setTimeout(this.IOobserve, 600);
+    });
   },
   methods: {
-    // loadBD() {
-    //   setTimeout(() => this.BarDonutflag = true, 20123);
-    // },
+    IOcallback(entries, observer) {
+      entries.filter(entry => entry.isIntersecting).forEach((x) => {
+        console.log(x, x.target.id, this.IOflags[x.target.id]);
+        this.IOflags[x.target.id] = true;
+        observer.unobserve(x.target);
+      });
+    },
+    IOobserve() {
+      const observer = new IntersectionObserver(this.IOcallback, this.IOoptions);
+      console.log(this.$refs);
+      Object.keys(this.$refs).forEach(x => observer.observe(this.$refs[x]));
+    },
     changeAlert(e) {
       console.log('chg alert ', new Date().toLocaleString());
       this.newAlert = true;
@@ -50,9 +77,9 @@ export default {
     AlertBox,
     LineChartWrapper,
     BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
-    Social,
-    MembersActivity,
-    MessageSettings,
+    Social: () => import(/* webpackChunkName: "Social" */ './Social.vue').catch(err => console.log(err)),
+    MembersActivity: () => import(/* webpackChunkName: "MembersActivity" */ './MembersActivity.vue').catch(err => console.log(err)),
+    MessageSettings: () => import(/* webpackChunkName: "MessageSettings" */ './MessageSettings.vue').catch(err => console.log(err)),
   },
 };
 </script>
