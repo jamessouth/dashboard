@@ -20,6 +20,8 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
+
 import LineChartWrapper from './LineChartWrapper.vue';
 
 export default {
@@ -42,7 +44,6 @@ export default {
     };
   },
   mounted() {
-    console.log('main mounted ', new Date().toLocaleString());
     document.addEventListener('swUpdated', this.changeAlert);
     window.addEventListener('load', () => {
       setTimeout(this.IOobserve, 600);
@@ -51,21 +52,18 @@ export default {
   methods: {
     IOcallback(entries, observer) {
       entries.filter(entry => entry.isIntersecting).forEach((x) => {
-        console.log(x, x.target.id, this.IOflags[x.target.id]);
         this.IOflags[x.target.id] = true;
         observer.unobserve(x.target);
-        x.target.classList.add('hide');
+        x.target.classList.add('hide'); // eslint-disable-next-line
         setTimeout(() => x.target.style.display = 'none', 920);
         if (/MessageSettings/.test(x.target.id)) this.$emit('show-nav');
       });
     },
     IOobserve() {
       const observer = new IntersectionObserver(this.IOcallback, this.IOoptions);
-      console.log(this.$refs);
       Object.keys(this.$refs).forEach(x => observer.observe(this.$refs[x]));
     },
     changeAlert(e) {
-      console.log('chg alert ', new Date().toLocaleString());
       this.newAlert = true;
       this.rego = e.detail;
     },

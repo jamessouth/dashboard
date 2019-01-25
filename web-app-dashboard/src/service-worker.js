@@ -1,25 +1,18 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
 const prefix = 'web-app-dashboard';
-const version = 'v19';
-
-
+const version = 'v5';
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
 // workbox.setConfig({ debug: false });
 // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
-
 workbox.core.setCacheNameDetails({ prefix });
-
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-
 self.addEventListener('message', (e) => {
-  console.log('message handler ', new Date().toLocaleString());
   if (!e.data) return;
   if (e.data === 'skipWaiting') self.skipWaiting();
 });
-
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.googleapis\.com/,
   workbox.strategies.staleWhileRevalidate({
@@ -32,7 +25,6 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.gstatic\.com/,
   workbox.strategies.cacheFirst({
@@ -45,7 +37,6 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
 workbox.routing.registerRoute(
   /^https:\/\/eonet\.sci\.gsfc\.nasa\.gov\/api\/v2\.1\/events\?days=60/,
   workbox.strategies.networkFirst({
@@ -58,7 +49,6 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
 workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/\?results=10&inc=name,email,picture&noinfo/,
   workbox.strategies.networkFirst({
@@ -72,7 +62,6 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
 workbox.routing.registerRoute(
   /^https:\/\/en\.wikipedia\.org\/w\/api\.php\?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=\*/,
   workbox.strategies.cacheFirst({
@@ -85,7 +74,6 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
 workbox.routing.registerRoute(
   /^https:\/\/api\.worldbank\.org\/v2\/countries/,
   workbox.strategies.cacheFirst({
@@ -98,14 +86,10 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
-
 workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/portraits/,
   workbox.strategies.networkOnly(),
 );
-
-
 workbox.routing.registerRoute(
   /nodata\.\w*\.?png$/,
   workbox.strategies.cacheFirst({
@@ -118,7 +102,6 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-
 workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
   cacheName: `${prefix}-default-handler`,
   plugins: [
@@ -128,8 +111,6 @@ workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
     }),
   ],
 }));
-
-
 workbox.routing.setCatchHandler(({ event }) => {
   console.log('ev req dest, ', event);
   if (event.request.destination === 'image' && /^https:\/\/randomuser\.me\/api\/portraits/.test(event.request.url)) {

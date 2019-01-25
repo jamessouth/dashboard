@@ -16,10 +16,8 @@ if (process.env.NODE_ENV === 'production') {
     },
     updatefound(registration) {
       console.log('New content is downloading.', registration);
-
       let refreshing;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        console.log('cc event', refreshing);
         if (refreshing) return;
         window.location.reload();
         refreshing = true;
@@ -27,9 +25,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     updated(registration) {
       console.log('New content is available; please refresh.', registration);
-      // notifyUserOfNewContent(registration.waiting);
       const UpdatedEvent = new CustomEvent('swUpdated', { detail: registration });
-      console.log('swUpdate dispatch ', new Date().toLocaleString());
       document.dispatchEvent(UpdatedEvent);
     },
     offline() {
