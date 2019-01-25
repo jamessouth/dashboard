@@ -8,24 +8,18 @@
     <router-view>
       <LineChartWrapper></LineChartWrapper>
     </router-view>
-
-    <p id="BarDonut" ref="BarDonut">bd</p>
+    <p id="BarDonut" ref="BarDonut"></p>
     <BarDonut v-if="IOflags.BarDonut"></BarDonut>
-
-    <p id="Social" ref="Social">so</p>
+    <p id="Social" ref="Social"></p>
     <Social v-if="IOflags.Social"></Social>
-
-    <p id="MembersActivity" ref="MembersActivity">ma</p>
+    <p id="MembersActivity" ref="MembersActivity"></p>
     <MembersActivity v-if="IOflags.MembersActivity"></MembersActivity>
-
-    <p id="MessageSettings" ref="MessageSettings">ms</p>
+    <p id="MessageSettings" ref="MessageSettings"></p>
     <MessageSettings v-if="IOflags.MessageSettings"></MessageSettings>
-
   </main>
 </template>
 
 <script>
-import AlertBox from './AlertBox.vue';
 import LineChartWrapper from './LineChartWrapper.vue';
 
 export default {
@@ -36,7 +30,7 @@ export default {
       rego: null,
       IOoptions: {
         root: null,
-        rootMargin: '0px 0px 60px 0px',
+        rootMargin: '0px 0px 180px 0px',
         threshold: 0.1,
       },
       IOflags: {
@@ -60,6 +54,9 @@ export default {
         console.log(x, x.target.id, this.IOflags[x.target.id]);
         this.IOflags[x.target.id] = true;
         observer.unobserve(x.target);
+        x.target.classList.add('hide');
+        setTimeout(() => x.target.style.display = 'none', 920);
+        if (/MessageSettings/.test(x.target.id)) this.$emit('show-nav');
       });
     },
     IOobserve() {
@@ -74,7 +71,7 @@ export default {
     },
   },
   components: {
-    AlertBox,
+    AlertBox: () => import(/* webpackChunkName: "AlertBox" */ './AlertBox.vue').catch(err => console.log(err)),
     LineChartWrapper,
     BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
     Social: () => import(/* webpackChunkName: "Social" */ './Social.vue').catch(err => console.log(err)),
@@ -108,6 +105,14 @@ export default {
   .main-title > div{
     width: 40%;
     position: relative;
+  }
+  p{
+    margin-top: 80px;
+    height: 20px;
+    transition: margin-top .4s linear .5s;
+  }
+  .hide{
+    margin-top: 0;
   }
   @media screen and (min-width: 768px){
     .main-title{

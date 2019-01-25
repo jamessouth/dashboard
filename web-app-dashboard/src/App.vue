@@ -2,21 +2,25 @@
   <div id="app">
     <Header></Header>
     <div id="hold">
-      <Nav></Nav>
-      <Main></Main>
+      <Nav v-if="showNav"></Nav>
+      <Main @show-nav="showNav = true"></Main>
     </div>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue';
-import Nav from './components/Nav.vue';
 import Main from './components/Main.vue';
 
 export default{
+  data() {
+    return {
+      showNav: false,
+    };
+  },
   components: {
     Header,
-    Nav,
+    Nav: () => import(/* webpackChunkName: "Nav" */ './components/Nav.vue').catch(err => console.log(err)),
     Main,
   },
 };
