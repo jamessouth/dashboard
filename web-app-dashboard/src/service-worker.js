@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
 const prefix = 'web-app-dashboard';
-const version = 'v5';
+const version = 'v6';
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
 // workbox.setConfig({ debug: false });
 // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
@@ -112,7 +112,6 @@ workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
   ],
 }));
 workbox.routing.setCatchHandler(({ event }) => {
-  console.log('ev req dest, ', event);
   if (event.request.destination === 'image' && /^https:\/\/randomuser\.me\/api\/portraits/.test(event.request.url)) {
     return caches.match(FALLBACK_IMAGE_URL);
   }

@@ -8,8 +8,8 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icons/android-chrome-512x512.png"
   },
   {
-    "revision": "f22d501a35a87d9f21701cb031f6ea17",
-    "url": "/Vue-Project-9/img/icons/safari-pinned-tab.svg"
+    "revision": "058a3335d15a3eb84e7ae3707ba09620",
+    "url": "/Vue-Project-9/img/icons/mstile-150x150.png"
   },
   {
     "revision": "edaacfdc762355451316",
@@ -24,28 +24,36 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/BarDonut.22d89f5d.js"
   },
   {
-    "revision": "2e7be662a5e916c2dc01210218707ce0",
-    "url": "/Vue-Project-9/manifest.json"
+    "revision": "f22d501a35a87d9f21701cb031f6ea17",
+    "url": "/Vue-Project-9/img/icons/safari-pinned-tab.svg"
   },
   {
     "revision": "57b388e1dfadacb7ad43",
     "url": "/Vue-Project-9/js/BarDonut.22d89f5d.js.map"
   },
   {
-    "revision": "b89032a4a5a1879f30ba05a13947f26f",
-    "url": "/Vue-Project-9/img/icons/msapplication-icon-144x144.png"
+    "revision": "98b614336d9a12cb3f7bedb001da6fca",
+    "url": "/Vue-Project-9/img/icons/favicon-32x32.png"
   },
   {
     "revision": "89ca5f512a31e0b2df1e",
     "url": "/Vue-Project-9/js/MembersActivity.7ba5e2a6.js"
   },
   {
-    "revision": "058a3335d15a3eb84e7ae3707ba09620",
-    "url": "/Vue-Project-9/img/icons/mstile-150x150.png"
+    "revision": "8c39dd1b658c39c1bb5d2d25e3002850",
+    "url": "/Vue-Project-9/manifest.json"
   },
   {
     "revision": "89ca5f512a31e0b2df1e",
     "url": "/Vue-Project-9/js/MembersActivity.7ba5e2a6.js.map"
+  },
+  {
+    "revision": "b89032a4a5a1879f30ba05a13947f26f",
+    "url": "/Vue-Project-9/img/icons/msapplication-icon-144x144.png"
+  },
+  {
+    "revision": "1e0cbe52147ea2b0bb78",
+    "url": "/Vue-Project-9/js/MessageSettings.753e444e.js"
   },
   {
     "revision": "4bb1a55479d61843b89a2fdafa7849b3",
@@ -53,15 +61,15 @@ self.__precacheManifest = [
   },
   {
     "revision": "1e0cbe52147ea2b0bb78",
-    "url": "/Vue-Project-9/js/MessageSettings.753e444e.js"
-  },
-  {
-    "revision": "98b614336d9a12cb3f7bedb001da6fca",
-    "url": "/Vue-Project-9/img/icons/favicon-32x32.png"
-  },
-  {
-    "revision": "1e0cbe52147ea2b0bb78",
     "url": "/Vue-Project-9/js/MessageSettings.753e444e.js.map"
+  },
+  {
+    "revision": "66830ea6be8e7e94fb55df9f7b778f2e",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon.png"
+  },
+  {
+    "revision": "8e4495915286469d9bde",
+    "url": "/Vue-Project-9/js/Nav.bdb1e4a6.js"
   },
   {
     "revision": "9a2b5c0f19de617685b7b5b42464e7db",
@@ -69,19 +77,11 @@ self.__precacheManifest = [
   },
   {
     "revision": "8e4495915286469d9bde",
-    "url": "/Vue-Project-9/js/Nav.bdb1e4a6.js"
+    "url": "/Vue-Project-9/js/Nav.bdb1e4a6.js.map"
   },
   {
     "revision": "af28d69d59284dd202aa55e57227b11b",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-76x76.png"
-  },
-  {
-    "revision": "8e4495915286469d9bde",
-    "url": "/Vue-Project-9/js/Nav.bdb1e4a6.js.map"
-  },
-  {
-    "revision": "66830ea6be8e7e94fb55df9f7b778f2e",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon.png"
   },
   {
     "revision": "eb455e8fcc82533f5dcb",
@@ -96,8 +96,8 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/Social.c2771a22.js.map"
   },
   {
-    "revision": "936d6e411cabd71f0e627011c3f18fe2",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-120x120.png"
+    "revision": "1a034e64d80905128113e5272a5ab95e",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-152x152.png"
   },
   {
     "revision": "841433b185c5d044d76a",
@@ -120,8 +120,8 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/chunk-vendors.3bbd6b7a.js.map"
   },
   {
-    "revision": "1a034e64d80905128113e5272a5ab95e",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-152x152.png"
+    "revision": "936d6e411cabd71f0e627011c3f18fe2",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-120x120.png"
   },
   {
     "revision": "2f89599e2936db26e03c021559d7f009",

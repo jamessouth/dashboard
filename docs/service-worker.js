@@ -1,9 +1,9 @@
-importScripts("/Vue-Project-9/precache-manifest.bb277c25210c99fd5a285ec93ce629b8.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/Vue-Project-9/precache-manifest.a091524ab8d9d34e10ab3512777bc122.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
 const prefix = 'web-app-dashboard';
-const version = 'v5';
+const version = 'v6';
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
 // workbox.setConfig({ debug: false });
 // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
@@ -114,7 +114,6 @@ workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
   ],
 }));
 workbox.routing.setCatchHandler(({ event }) => {
-  console.log('ev req dest, ', event);
   if (event.request.destination === 'image' && /^https:\/\/randomuser\.me\/api\/portraits/.test(event.request.url)) {
     return caches.match(FALLBACK_IMAGE_URL);
   }
