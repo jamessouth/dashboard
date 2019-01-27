@@ -2,19 +2,14 @@
   <header>
     <h1>MyApp<span>&trade;</span></h1>
     <div>
-      <button>
+      <button @click="openAlert = !openAlert">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path class="st0" d="M24 18v-8c0-5.5-4.5-10-10-10S4 4.5 4 10v8l-4 8h9.1c0.5 2.3 2.5 4 4.9 4s4.4-1.7 4.9-4H28L24 18zM14 28c-1.3 0-2.4-0.8-2.8-2h5.6C16.4 27.2 15.3 28 14 28zM3 24l3-6v-8c0-4.4 3.6-8 8-8s8 3.6 8 8v8l3 6H3z"></path></svg>
       </button>
-      <div class="triangle"></div>
-      <div class="dropdown">
-        <ul>
-          <li><span>alert </span> MyApp has loaded!</li>
-          <li><span>alert </span> Click everything!</li>
-          <li><span>alert </span> It all works!</li>
-          <li><span>alert </span> Check it out! </li>
-        </ul>
+      <div :style="alertStyles" class="triangle"></div>
+      <div :style="alertStyles" class="dropdown">
+        <button>Add to Home Screen</button>
       </div>
-      <span>.</span>
+      <span :style="blinkStyles">.</span>
       <p>|</p>
       <img src="../assets/face.jpg" alt="user face or avatar">
       <p>{{ name }}</p>
@@ -28,7 +23,25 @@ export default {
   data() {
     return {
       name: this.$store.state.name,
+      openAlert: false,
     };
+  },
+  methods: {
+    // openAlert() {
+    //
+    // },
+  },
+  computed: {
+    alertStyles() {
+      return {
+        display: this.openAlert ? 'block' : 'none'
+      };
+    },
+    blinkStyles() {
+      return {
+        animation: 'blink 0.75s linear infinite'
+      };
+    },
   },
 };
 </script>
@@ -104,10 +117,8 @@ export default {
     left: 15px;
     bottom: 28px;
     cursor: default;
-    /* animation: blink 0.75s linear infinite; */
   }
   .dropdown{
-    display: none;
     position: absolute;
     background-color: #822c23;
     width: 250px;
@@ -117,24 +128,34 @@ export default {
     border-radius: 4px;
     box-shadow: 12px 14px 15px 3px #1c0000;
   }
-  ul{
-    padding: 1em;
+  .dropdown button{
+    opacity: 1;
+    font-size: 16px;
+    width: 190px;
+    height: 35px;
+    margin: 2em 0 2em 0;
+    color: #fff;
+    background-color: #81C98F;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    border-radius: 50px;
   }
-  li{
+  /* ul{
+    padding: 1em;
+  } */
+  /* .dropdown p{
     font-family: 'Alegreya Sans', sans-serif;
     font-size: 20px;
     color: #fffde7;
     border-bottom: 1px solid #fffde7;
     margin-bottom: 0.25em;
     text-align: left;
-  }
-  li span{
+  } */
+  /* li span{
     font-family: 'Alegreya Sans SC', sans-serif;
     font-size: 28px;
     color: #81c98f;
-  }
+  } */
   .triangle{
-    display: none;
     position: absolute;
     width: 0;
     height: 0;

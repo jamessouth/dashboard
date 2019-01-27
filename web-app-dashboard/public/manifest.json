@@ -1,6 +1,6 @@
 {
   "name": "web-app-dashboard",
-  "short_name": "james-south",
+  "short_name": "web-app-dashboard",
   "icons": [
     {
       "src": "/Vue-Project-9/img/icons/android-chrome-192x192.png",
@@ -13,8 +13,8 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/Vue-Project-9/#/united-states/gdp",
+  "start_url": "/Vue-Project-9/",
   "display": "standalone",
-  "background_color": "#000000",
+  "background_color": "#7377bf",
   "theme_color": "#7377bf"
 }
