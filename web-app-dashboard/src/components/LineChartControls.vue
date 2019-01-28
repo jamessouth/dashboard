@@ -31,7 +31,7 @@ export default {
   name: 'LineChartControls',
   props: ['country', 'indicator'],
   watch: {
-    $route(to) { // 'from' parameter also available
+    $route(to) {
       const buttonToFocus = [...this.$refs.linebuttons.children].filter(x =>
         x.value === to.params.indicator)[0];
       if (buttonToFocus !== document.activeElement) {
@@ -165,6 +165,9 @@ export default {
     padding: 0.75em 0.5em;
     appearance: none;
     transition: border 0.7s ease-out;
+  }
+  select:focus{
+    outline: 2px solid #7377bf;
   }
   select:required:invalid{
     color: #b9b9b9;
