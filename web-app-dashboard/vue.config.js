@@ -18,5 +18,7 @@ module.exports = {
       swSrc: 'src/service-worker.js',
       exclude: [/nodata\.\w*\.?png$/],
     },
+    themeColor: '#7377bf',
+    msTileColor: '#7377bf',
   },
 };

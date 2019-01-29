@@ -31,9 +31,12 @@ export default {
     };
   },
   beforeCreate() {
-    window.addEventListener('beforeinstallprompt', e => {
+    setTimeout(() => this.$emit('a2hs'), 10132);
+
+    window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.a2hsPrompt = e;
+      // this.$emit('a2hs');
     });
   },
   methods: {
@@ -56,12 +59,6 @@ export default {
 </script>
 
 <style scoped>
-  @keyframes blink{
-    0%{ opacity: 0; }
-    65%{ color: #81c98f; }
-    90%{ color: #822c23; }
-    100%{ color: #ff005c; opacity: 1; }
-  }
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:300');
   @font-face {
@@ -69,6 +66,12 @@ export default {
     src: url('../assets/UpperEastSide-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+  }
+  @keyframes blink{
+    0%{ opacity: 0; }
+    65%{ color: #81c98f; }
+    90%{ color: #822c23; }
+    100%{ color: #ff005c; opacity: 1; }
   }
   header{
     height: 70px;

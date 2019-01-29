@@ -2,16 +2,18 @@
   <section>
     <p>{{ label }}</p>
     <div
+    tabindex="0"
+    @keyup.left.right="handleClick"
     @click="handleClick"
     :style="{ background: switchOn ?
     'linear-gradient(to bottom right, #a6aaf2, #40448c)' :
     'linear-gradient(to bottom right, #ea4e51, #840000)' }">
-      <input :id="onID" type="radio" value="true" v-model="switchOn"/>
+      <input tabindex="-1" :name="name" :id="onID" type="radio" v-model="switchOn"/>
       <label
       :style="{ display: switchOn ? 'block' : 'none' }"
       @click.prevent=""
       :for="onID">on</label>
-      <input :id="offID" type="radio" value="false" v-model="switchOn"/>
+      <input tabindex="-1" :name="name" :id="offID" type="radio" v-model="switchOn"/>
       <label :style="offLabel" @click.prevent="" :for="offID">off</label>
     </div>
   </section>
@@ -70,6 +72,9 @@ export default {
     border: 2px solid #cecece;
     border-radius: 50px;
     transition: background-color 1.25s;
+  }
+  div:focus{
+    outline: 2px solid #7377bf;
   }
   input{
     appearance: none;

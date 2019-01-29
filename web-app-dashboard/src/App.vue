@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header @a2hs="alert = true"></Header>
     <div id="hold">
-      <Nav v-if="showNav"></Nav>
+      <Nav :alert="alert" v-if="showNav"></Nav>
       <Main @show-nav="showNav = true"></Main>
     </div>
   </div>
@@ -16,6 +16,7 @@ export default{
   data() {
     return {
       showNav: false,
+      alert: false,
     };
   },
   components: {
