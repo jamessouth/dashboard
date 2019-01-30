@@ -1,19 +1,25 @@
 <template>
-  <li tabindex="0" :data-tip="datatip" class="tooltip">
-    <a :href="namehref">
-      <img src="imgsrc" :alt="imgalt">
+  <li tabindex="-1" :data-tip="datatip" class="tooltip">
+    <a :href="namehref" @click="select(ind)" :class="{ selected: ind === sel, bl2ink: alert }">
+      <img :src="imgsrc" :alt="imgalt">
     </a>
   </li>
 </template>
 
 <script>
-// alert ? blink : '', , 'alert'
 export default {
-  props: ['datatip', 'namehref', 'imgsrc', 'imgalt', 'ind'],
+  props: ['datatip', 'namehref', 'imgsrc', 'imgalt', 'ind', 'sel', 'alert'],
   data() {
     return {
-      // a2hsPrompt: null,
+      // isSelected: null,
     };
+  },
+  methods: {
+    select(i) {
+      console.log(i, this.sel);
+      // this.isSelected = i;
+      this.$emit('update:sel', i);
+    },
   },
   name: 'NavItem',
 };
@@ -23,9 +29,7 @@ export default {
   @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:800i');
   @keyframes blink{
     0%{ opacity: 0; }
-    65%{ color: #81c98f; }
-    90%{ color: #822c23; }
-    100%{ color: #ff005c; opacity: 1; }
+    100%{ opacity: 1; }
   }
   .tooltip{
     position: relative;
@@ -63,7 +67,7 @@ export default {
     text-align: center;
   }
   .blink{
-    animation: blink 0.75s cubic-bezier(.68, -.55, .27, 1.55) infinite;
+    animation: blink 1.15s cubic-bezier(.68, -.55, .27, 1.55) infinite;
   }
   .selected{
     opacity: 1;

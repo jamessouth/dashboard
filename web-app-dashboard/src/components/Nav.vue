@@ -4,9 +4,10 @@
       <ul>
         <NavItem
         :datatip="item.datatip"
-
+        :sel.sync="selInd"
         :namehref="index === 0 ? '#' : `#${item.datatip.toLowerCase()}`"
         :imgsrc="item.src"
+        :alert="index === 0 ? passedAlert : null"
         :ind="index"
         :imgalt="`${item.datatip.toLowerCase()} link`"
         :key="index"
@@ -18,34 +19,41 @@
 </template>
 
 <script>
-// :alert="index === 0 ? passedAlert : null"
-
 import NavItem from './NavItem.vue';
+import DB from '../assets/icon-dashboard.svg';
+import ME from '../assets/icon-members.svg';
+import CH from '../assets/icon-visits.svg';
+import SE from '../assets/icon-settings.svg';
 
 export default {
   props: ['alert'],
   data() {
     return {
-      // passedAlert: alert,
+      selInd: null,
       navItems: [
         {
           datatip: 'Dashboard',
-          src: '../assets/icon-dashboard.svg',
+          src: DB,
         },
         {
           datatip: 'Members',
-          src: '../assets/icon-members.svg',
+          src: ME,
         },
         {
           datatip: 'Charts',
-          src: '../assets/icon-visits.svg',
+          src: CH,
         },
         {
           datatip: 'Settings',
-          src: '../assets/icon-settings.svg',
+          src: SE,
         },
       ],
     };
+  },
+  computed: {
+    passedAlert() {
+      return this.alert;
+    },
   },
   name: 'Nav',
   components: {

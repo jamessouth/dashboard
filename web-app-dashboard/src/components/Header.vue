@@ -138,7 +138,7 @@ export default {
     opacity: 0;
   }
   .blink{
-    animation: blink 0.75s cubic-bezier(.68, -.55, .27, 1.55) infinite;
+    animation: blink .75s cubic-bezier(.68, -.55, .27, 1.55) infinite;
   }
   .dropdown{
     position: absolute;
