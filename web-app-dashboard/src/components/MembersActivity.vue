@@ -223,10 +223,8 @@ export default {
   .rec-activity > p{
     margin: auto;
   }
-  @media screen and (max-width: 767px){
-    #members:target{
-      padding-top: 16px;
-    }
+  #members:target{
+    padding-top: 16px;
   }
   @media screen and (min-width: 768px){
     .members_activity{

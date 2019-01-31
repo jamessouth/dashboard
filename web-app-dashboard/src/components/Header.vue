@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header ref="head">
     <h1>MyApp<span>&trade;</span></h1>
     <div>
       <button
@@ -28,18 +28,31 @@ export default {
       name: this.$store.state.name,
       openAlert: false,
       a2hsPrompt: null,
+      IOoptions: {
+        root: null,
+        rootMargin: '0px 0px 0px 0px',
+        threshold: 0.5,
+      },
     };
   },
   beforeCreate() {
-    setTimeout(() => this.$emit('a2hs'), 10132);
-
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.a2hsPrompt = e;
-      // this.$emit('a2hs');
+      this.$emit('a2hs');
     });
   },
+  mounted() {
+    this.IOobserve();
+  },
   methods: {
+    IOcallback(entries, observer) {
+      this.$emit('head', entries[0].isIntersecting);
+    },
+    IOobserve() {
+      const observer = new IntersectionObserver(this.IOcallback, this.IOoptions);
+      observer.observe(this.$refs.head);
+    },
     async a2hs() {
       this.a2hsPrompt.prompt();
       const choice = await this.a2hsPrompt.userChoice;

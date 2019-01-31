@@ -124,10 +124,8 @@ export default {
   .saved-enter, .saved-leave-to{
     opacity: 0;
   }
-  @media screen and (max-width: 767px){
-    #settings:target{
-      padding-top: 41px;
-    }
+  #settings:target{
+    padding-top: 41px;
   }
   @media screen and (min-width: 768px){
     #settings{

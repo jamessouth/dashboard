@@ -8,6 +8,7 @@
         :namehref="index === 0 ? '#' : `#${item.datatip.toLowerCase()}`"
         :imgsrc="item.src"
         :alert="index === 0 ? passedAlert : null"
+        :head="index === 0 ? headProp : null"
         :ind="index"
         :imgalt="`${item.datatip.toLowerCase()} link`"
         :key="index"
@@ -26,7 +27,7 @@ import CH from '../assets/icon-visits.svg';
 import SE from '../assets/icon-settings.svg';
 
 export default {
-  props: ['alert'],
+  props: ['alert', 'headShown'],
   data() {
     return {
       selInd: null,
@@ -54,6 +55,9 @@ export default {
     passedAlert() {
       return this.alert;
     },
+    headProp() {
+      return this.headShown;
+    },
   },
   name: 'Nav',
   components: {
@@ -78,22 +82,22 @@ export default {
     align-items: center;
   }
   @media screen and (min-width: 768px){
-    div{
+    /* div{
       margin-bottom: 0;
       flex-shrink: 0;
-    }
-    nav{
+    } */
+    /* nav{
       position: sticky;
       top: 0;
       right: 0;
       left: 0;
       z-index: 111;
-    }
-    ul{
+    } */
+    /* ul{
       height: 322px;
       flex-direction: column;
       justify-content: space-around;
       padding-top: 0.6em;
-    }
+    } */
   }
 </style>

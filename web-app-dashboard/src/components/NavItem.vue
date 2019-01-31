@@ -1,6 +1,6 @@
 <template>
   <li tabindex="-1" :data-tip="datatip" class="tooltip">
-    <a :href="namehref" @click="select(ind)" :class="{ selected: ind === sel, bl2ink: alert }">
+    <a :href="namehref" @click="select(ind)" :class="{ selected: ind === sel, blink: alert && !head }">
       <img :src="imgsrc" :alt="imgalt">
     </a>
   </li>
@@ -8,16 +8,9 @@
 
 <script>
 export default {
-  props: ['datatip', 'namehref', 'imgsrc', 'imgalt', 'ind', 'sel', 'alert'],
-  data() {
-    return {
-      // isSelected: null,
-    };
-  },
+  props: ['datatip', 'namehref', 'imgsrc', 'imgalt', 'ind', 'sel', 'alert', 'head'],
   methods: {
     select(i) {
-      console.log(i, this.sel);
-      // this.isSelected = i;
       this.$emit('update:sel', i);
     },
   },
@@ -58,9 +51,9 @@ export default {
     font-family: 'Alegreya Sans SC', sans-serif;
     border: 1px dashed #7377bf;
     border-radius: .25em;
-    left: -18px;
+    left: -6px;
     color: #7377bf;
-    width: 87px;
+    width: 82px;
     bottom: -32px;
     padding: .25em 0;
     content: attr(data-tip);
@@ -103,21 +96,24 @@ export default {
     }
   }
   @media screen and (min-width: 768px){
-    a{
+    /* a{
       padding: 30px 28px 12px 27px;
       border-bottom: 3px solid transparent;
       border-left: 3px solid transparent;
       border-top: 3px solid transparent;
       border-right: none;
-    }
-    .selected{
+    } */
+    /* .selected{
       border-left: 3px solid #85DB80;
       border-bottom: 3px outset transparent;
       border-top: 3px outset transparent;
       border-right: none;
-    }
+    } */
     img{
       height: 32px;
+    }
+    .tooltip:after{
+      left: 0px;
     }
   }
 

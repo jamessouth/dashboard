@@ -174,6 +174,7 @@ export default {
   @media screen and (min-width: 768px){
     .messages{
       border-bottom: none;
+      padding-top: 41px;
     }
   }
   @media screen and (min-width: 1024px){

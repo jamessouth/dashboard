@@ -178,10 +178,13 @@ export default {
   option{
     color: #676666;
   }
+  #charts:target{
+    padding-top: 41px;
+  }
   @media screen and (max-width: 399px){
-    #charts:target > p{
+    /* #charts:target > p{
       top: 67px;
-    }
+    } */
   }
   @media screen and (min-width: 400px){
     .dropdown{
@@ -197,14 +200,12 @@ export default {
     }
   }
   @media screen and (min-width: 400px) and (max-width: 767px){
-    #charts:target > p{
+    /* #charts:target > p{
       top: 54px;
-    }
+    } */
   }
   @media screen and (max-width: 767px){
-    #charts:target{
-      padding-top: 41px;
-    }
+
   }
   @media screen and (min-width: 768px){
     .line-controls{
