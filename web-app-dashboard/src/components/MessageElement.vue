@@ -21,8 +21,7 @@
       </transition>
       <BigButton
       @click.native="handleClick"
-      :text="'Send'">
-      </BigButton>
+      :text="'Send'"/>
     </form>
   </div>
 </template>
@@ -31,7 +30,7 @@
 import BigButton from './BigButton.vue';
 
 export default {
-  name: 'Message',
+  name: 'MessageEl',
   data() {
     return {
       nameInput: null,

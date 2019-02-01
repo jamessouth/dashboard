@@ -1,19 +1,19 @@
 <template>
   <div>
-    <Message></Message>
-    <Settings></Settings>
+    <MessageElement/>
+    <SettingsElement/>
   </div>
 </template>
 
 <script>
-import Message from './Message.vue';
-import Settings from './Settings.vue';
+import MessageElement from './MessageElement.vue';
+import SettingsElement from './SettingsElement.vue';
 
 export default {
   name: 'MessageSettings',
   components: {
-    Message,
-    Settings,
+    MessageElement,
+    SettingsElement,
   },
 };
 </script>

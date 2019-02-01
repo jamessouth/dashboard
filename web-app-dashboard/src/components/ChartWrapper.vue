@@ -13,13 +13,11 @@
     <BarChart
     v-if="type === 'bar'"
     :options="opts"
-    :chart-data="chData">
-    </BarChart>
+    :chart-data="chData"/>
     <DonutChart
     v-else
     :options="opts"
-    :chart-data="chData">
-    </DonutChart>
+    :chart-data="chData"/>
   </div>
 </template>
 
@@ -28,8 +26,15 @@ import BarChart from './BarChart.vue';
 import DonutChart from './DonutChart.vue';
 
 export default {
-  name: 'Wrapper',
-  props: ['type', 'chData', 'opts'],
+  name: 'ChartWrapper',
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+    chData: Object,
+    opts: Object,
+  },
   components: {
     BarChart,
     DonutChart,

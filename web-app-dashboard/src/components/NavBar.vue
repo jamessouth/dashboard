@@ -12,8 +12,7 @@
         :ind="index"
         :imgalt="`${item.datatip.toLowerCase()} link`"
         :key="index"
-        v-for="(item, index) in navItems"
-        ></NavItem>
+        v-for="(item, index) in navItems"/>
       </ul>
     </nav>
   </div>
@@ -27,7 +26,10 @@ import CH from '../assets/icon-visits.svg';
 import SE from '../assets/icon-settings.svg';
 
 export default {
-  props: ['alert', 'headShown'],
+  props: {
+    alert: Boolean,
+    headShown: Boolean,
+  },
   data() {
     return {
       selInd: null,
@@ -59,7 +61,7 @@ export default {
       return this.headShown;
     },
   },
-  name: 'Nav',
+  name: 'NavBar',
   components: {
     NavItem,
   },

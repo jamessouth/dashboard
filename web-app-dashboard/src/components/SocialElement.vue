@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'Social',
+  name: 'SocialEl',
 };
 </script>
 

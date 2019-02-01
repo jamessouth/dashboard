@@ -7,10 +7,9 @@
       :email="item.email"
       :photo="item.photo"
       :date="item.date"
-      :isArabic="item.isArabic"
+      :is-arabic="item.isArabic"
       :key="index"
-      v-for="(item, index) in newMembersActivityData.slice(0, 5)">
-      </NewMemberRecActivity>
+      v-for="(item, index) in newMembersActivityData.slice(0, 5)"/>
     </div>
     <div class="rec-activity">
       <p>recent activity</p>
@@ -18,11 +17,10 @@
       :name="item.name"
       :action="item.action"
       :photo="item.photo"
-      :isArabic="item.isArabic"
+      :is-arabic="item.isArabic"
       :time="item.time"
       :key="index"
-      v-for="(item, index) in activityData">
-      </NewMemberRecActivity>
+      v-for="(item, index) in activityData"/>
     </div>
   </div>
 </template>

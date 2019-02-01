@@ -2,8 +2,7 @@
   <div>
     <LineChartControls
     :country="country"
-    :indicator="indicator">
-    </LineChartControls>
+    :indicator="indicator"/>
     <line-chart
     v-if="!this.$store.state.loading && isData"
     :chart-data="chartData"
@@ -158,7 +157,10 @@ export default {
       },
     };
   },
-  props: ['country', 'indicator'],
+  props: {
+    country: String,
+    indicator: String,
+  },
   name: 'LineChartWrapper',
   computed: {
     isData() {

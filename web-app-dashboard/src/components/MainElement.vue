@@ -4,18 +4,18 @@
       <h1>Dashboard</h1>
       <div></div>
     </div>
-    <AlertBox :reg-obj="rego" v-if="newAlert"></AlertBox>
+    <AlertBox :reg-obj="rego" v-if="newAlert"/>
     <router-view>
-      <LineChartWrapper></LineChartWrapper>
+      <LineChartWrapper/>
     </router-view>
     <p id="BarDonut" ref="BarDonut"></p>
-    <BarDonut v-if="IOflags.BarDonut"></BarDonut>
+    <BarDonut v-if="IOflags.BarDonut"/>
     <p id="Social" ref="Social"></p>
-    <Social v-if="IOflags.Social"></Social>
+    <SocialElement v-if="IOflags.Social"/>
     <p id="MembersActivity" ref="MembersActivity"></p>
-    <MembersActivity v-if="IOflags.MembersActivity"></MembersActivity>
+    <MembersActivity v-if="IOflags.MembersActivity"/>
     <p id="MessageSettings" ref="MessageSettings"></p>
-    <MessageSettings v-if="IOflags.MessageSettings"></MessageSettings>
+    <MessageSettings v-if="IOflags.MessageSettings"/>
   </main>
 </template>
 
@@ -25,7 +25,7 @@
 import LineChartWrapper from './LineChartWrapper.vue';
 
 export default {
-  name: 'Main',
+  name: 'MainEl',
   data() {
     return {
       newAlert: false,
@@ -72,7 +72,7 @@ export default {
     AlertBox: () => import(/* webpackChunkName: "AlertBox" */ './AlertBox.vue').catch(err => console.log(err)),
     LineChartWrapper,
     BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
-    Social: () => import(/* webpackChunkName: "Social" */ './Social.vue').catch(err => console.log(err)),
+    SocialElement: () => import(/* webpackChunkName: "SocialElement" */ './SocialElement.vue').catch(err => console.log(err)),
     MembersActivity: () => import(/* webpackChunkName: "MembersActivity" */ './MembersActivity.vue').catch(err => console.log(err)),
     MessageSettings: () => import(/* webpackChunkName: "MessageSettings" */ './MessageSettings.vue').catch(err => console.log(err)),
   },

@@ -4,7 +4,12 @@
 
 <script>
 export default {
-  props: ['text'],
+  props: {
+    text: {
+      type: String,
+      required: true,
+    },
+  },
   name: 'BigButton',
 };
 </script>

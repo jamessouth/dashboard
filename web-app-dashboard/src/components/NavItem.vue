@@ -1,6 +1,9 @@
 <template>
   <li tabindex="-1" :data-tip="datatip" class="tooltip">
-    <a :href="namehref" @click="select(ind)" :class="{ selected: ind === sel, blink: alert && !head }">
+    <a
+    :href="namehref"
+    @click="select(ind)"
+    :class="{ selected: ind === sel, blink: alert && !head }">
       <img :src="imgsrc" :alt="imgalt">
     </a>
   </li>
@@ -8,7 +11,31 @@
 
 <script>
 export default {
-  props: ['datatip', 'namehref', 'imgsrc', 'imgalt', 'ind', 'sel', 'alert', 'head'],
+  props: {
+    datatip: {
+      type: String,
+      required: true,
+    },
+    namehref: {
+      type: String,
+      required: true,
+    },
+    imgsrc: {
+      type: String,
+      required: true,
+    },
+    imgalt: {
+      type: String,
+      required: true,
+    },
+    ind: {
+      type: Number,
+      required: true,
+    },
+    sel: null,
+    alert: null,
+    head: null,
+  },
   methods: {
     select(i) {
       this.$emit('update:sel', i);

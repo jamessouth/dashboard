@@ -6,17 +6,14 @@
         <SwitchTwoWay
         @store-onOff="email = $event"
         :label="'Send Email'"
-        :name="'email'">
-        </SwitchTwoWay>
+        :name="'email'"/>
         <SwitchTwoWay
         @store-onOff="profile = $event"
         :label="'Set Profile'"
-        :name="'profile'">
-        </SwitchTwoWay>
+        :name="'profile'"/>
         <DropDownMenu
         @store-timezone="timezone = $event"
-        :name="'Timezone'">
-        </DropDownMenu>
+        :name="'Timezone'"/>
       </fieldset>
       <transition
       @after-enter="afterEnter"
@@ -29,8 +26,7 @@
       email,
       profile,
       }); handleClick();"
-      :text="'Save'">
-      </BigButton>
+      :text="'Save'"/>
     </form>
   </div>
 </template>
@@ -42,7 +38,7 @@ import BigButton from './BigButton.vue';
 import DropDownMenu from './DropDownMenu.vue';
 
 export default {
-  name: 'Settings',
+  name: 'SettingsEl',
   data() {
     return {
       saved: false,

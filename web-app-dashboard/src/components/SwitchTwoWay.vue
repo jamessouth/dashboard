@@ -22,7 +22,16 @@
 <script>
 export default {
   name: 'SwitchTwoWay',
-  props: ['label', 'name'],
+  props: {
+    label: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       switchOn: true,

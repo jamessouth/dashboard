@@ -28,7 +28,12 @@ export default {
       timezoneFetch: 'https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*',
     };
   },
-  props: ['name'],
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
   created() {
     this.loadOptions();
   },

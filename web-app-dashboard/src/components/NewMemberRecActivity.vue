@@ -15,7 +15,27 @@
 <script>
 export default {
   name: 'Member',
-  props: ['name', 'email', 'photo', 'isArabic', 'action', 'date', 'time'],
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: false,
+    },
+    photo: {
+      type: String,
+      required: true,
+    },
+    isArabic: {
+      type: Boolean,
+      required: true,
+    },
+    action: Object,
+    date: Object,
+    time: Object,
+  },
   computed: {
     divMrgn() {
       return {

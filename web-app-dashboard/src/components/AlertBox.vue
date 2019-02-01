@@ -10,7 +10,9 @@
 
 <script>
 export default {
-  props: ['regObj'],
+  props: {
+    regObj: Object,
+  },
   name: 'AlertBox',
   methods: {
     swHandle() {

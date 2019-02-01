@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Header @a2hs="alert = true" @head="header"></Header>
+    <HeaderBar @a2hs="alert = true" @head="header"/>
     <div id="hold">
-      <Nav :alert="alert" :headShown="headShown" v-if="showNav"></Nav>
-      <Main @show-nav="showNav = true"></Main>
+      <NavBar :alert="alert" :head-shown="headShown" v-if="showNav"/>
+      <MainElement @show-nav="showNav = true"/>
     </div>
   </div>
 </template>
 
 <script>
-import Header from './components/Header.vue';
-import Main from './components/Main.vue';
+import HeaderBar from './components/HeaderBar.vue';
+import MainElement from './components/MainElement.vue';
 
 export default{
   data() {
@@ -26,9 +26,9 @@ export default{
     },
   },
   components: {
-    Header,
-    Nav: () => import(/* webpackChunkName: "Nav" */ './components/Nav.vue').catch(err => console.log(err)),
-    Main,
+    HeaderBar,
+    NavBar: () => import(/* webpackChunkName: "NavBar" */ './components/NavBar.vue').catch(err => console.log(err)),
+    MainElement,
   },
 };
 </script>

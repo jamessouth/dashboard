@@ -1,20 +1,18 @@
 <template>
   <div class="bar_donut">
-    <Wrapper
+    <ChartWrapper
     :opts="barChartOptions"
-    :chData="chartData"
-    :type="'bar'">
-    </Wrapper>
-    <Wrapper
+    :ch-data="chartData"
+    :type="'bar'"/>
+    <ChartWrapper
     :opts="donutChartOptions"
-    :chData="chartData"
-    :type="'donut'">
-    </Wrapper>
+    :ch-data="chartData"
+    :type="'donut'"/>
   </div>
 </template>
 
 <script>
-import Wrapper from './Wrapper.vue';
+import ChartWrapper from './ChartWrapper.vue';
 
 export default {
   name: 'BarDonut',
@@ -150,7 +148,7 @@ export default {
     };
   },
   components: {
-    Wrapper,
+    ChartWrapper,
   },
   computed: {
     barChartOptions() {

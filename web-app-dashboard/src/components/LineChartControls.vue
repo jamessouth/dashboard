@@ -29,7 +29,10 @@ import countries from '@/assets/iso2countries';
 
 export default {
   name: 'LineChartControls',
-  props: ['country', 'indicator'],
+  props: {
+    country: String,
+    indicator: String,
+  },
   watch: {
     $route(to) {
       const buttonToFocus = [...this.$refs.linebuttons.children].filter(x =>
