@@ -2,16 +2,6 @@ const fsProm = require('fs').promises;
 
 const dir = './src/components/';
 
-// readdir(dir, (err, f) => {
-//   readFile(dir + f[0], 'utf8', (err, d) => {
-//     let mod = d.split(/<\/?script>/)[1];
-//     writeFile('./kk.mjs', mod, err => console.log(err));
-//   });
-// });
-// import scr from './kk';
-//
-// console.log(Object.keys(scr));
-
 fsProm.mkdir('./temp').catch(err => {
   if(err.code === 'EEXIST'){
    console.log('directory already exists');
