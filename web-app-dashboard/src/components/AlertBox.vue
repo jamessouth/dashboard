@@ -10,10 +10,10 @@
 
 <script>
 export default {
+  name: 'AlertBox',
   props: {
     regObj: Object,
   },
-  name: 'AlertBox',
   methods: {
     swHandle() {
       if (!this.regObj.waiting) {

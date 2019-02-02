@@ -13,6 +13,11 @@ import HeaderBar from './components/HeaderBar.vue';
 import MainElement from './components/MainElement.vue';
 
 export default{
+  components: {
+    HeaderBar,
+    NavBar: () => import(/* webpackChunkName: "NavBar" */ './components/NavBar.vue').catch(err => console.log(err)),
+    MainElement,
+  },
   data() {
     return {
       showNav: false,
@@ -24,11 +29,6 @@ export default{
     header(b) {
       this.headShown = b;
     },
-  },
-  components: {
-    HeaderBar,
-    NavBar: () => import(/* webpackChunkName: "NavBar" */ './components/NavBar.vue').catch(err => console.log(err)),
-    MainElement,
   },
 };
 </script>

@@ -4,6 +4,7 @@ import { Bar, mixins } from 'vue-chartjs';
 const { reactiveProp } = mixins;
 
 export default {
+  name: 'BarChart',
   extends: Bar,
   mixins: [reactiveProp],
   props: {
@@ -17,7 +18,6 @@ export default {
   mounted() {
     this.renderChart(this.chartData, this.options);
   },
-  name: 'BarChart',
 };
 </script>
 

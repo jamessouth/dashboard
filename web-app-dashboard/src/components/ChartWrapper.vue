@@ -27,6 +27,10 @@ import DonutChart from './DonutChart.vue';
 
 export default {
   name: 'ChartWrapper',
+  components: {
+    BarChart,
+    DonutChart,
+  },
   props: {
     type: {
       type: String,
@@ -34,15 +38,6 @@ export default {
     },
     chData: Object,
     opts: Object,
-  },
-  components: {
-    BarChart,
-    DonutChart,
-  },
-  watch: {
-    chData() {
-      this.legendCallback(this.chData);
-    },
   },
   computed: {
     legendStyles() {
@@ -53,6 +48,11 @@ export default {
         justifyContent: 'space-around',
         minHeight: '70px',
       };
+    },
+  },
+  watch: {
+    chData() {
+      this.legendCallback(this.chData);
     },
   },
   methods: {

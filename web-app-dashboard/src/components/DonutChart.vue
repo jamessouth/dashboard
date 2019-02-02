@@ -4,6 +4,7 @@ import { Doughnut, mixins } from 'vue-chartjs';
 const { reactiveProp } = mixins;
 
 export default {
+  name: 'DonutChart',
   extends: Doughnut,
   mixins: [reactiveProp],
   props: {
@@ -12,10 +13,7 @@ export default {
   mounted() {
     this.renderChart(this.chartData, this.options);
   },
-  name: 'DonutChart',
 };
 </script>
 
-<style scoped>
-
-</style>
+<style></style>

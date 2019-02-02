@@ -4,13 +4,13 @@
 
 <script>
 export default {
+  name: 'BigButton',
   props: {
     text: {
       type: String,
       required: true,
     },
   },
-  name: 'BigButton',
 };
 </script>
 

@@ -16,6 +16,9 @@ import ChartWrapper from './ChartWrapper.vue';
 
 export default {
   name: 'BarDonut',
+  components: {
+    ChartWrapper,
+  },
   data() {
     return {
       narrow: {
@@ -146,9 +149,6 @@ export default {
         },
       },
     };
-  },
-  components: {
-    ChartWrapper,
   },
   computed: {
     barChartOptions() {
