@@ -30,7 +30,7 @@
 import BigButton from './BigButton.vue';
 
 export default {
-  name: 'MessageEl',
+  name: 'MessageElement',
   data() {
     return {
       nameInput: null,

@@ -25,7 +25,7 @@
 import LineChartWrapper from './LineChartWrapper.vue';
 
 export default {
-  name: 'MainEl',
+  name: 'MainElement',
   data() {
     return {
       newAlert: false,

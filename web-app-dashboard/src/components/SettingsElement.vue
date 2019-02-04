@@ -38,7 +38,7 @@ import BigButton from './BigButton.vue';
 import DropDownMenu from './DropDownMenu.vue';
 
 export default {
-  name: 'SettingsEl',
+  name: 'SettingsElement',
   data() {
     return {
       saved: false,
