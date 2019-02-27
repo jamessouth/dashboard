@@ -120,12 +120,10 @@ export default {
   .saved-enter, .saved-leave-to{
     opacity: 0;
   }
-  #settings:target{
-    padding-top: 41px;
-  }
   @media screen and (min-width: 768px){
     #settings{
       border-left: 1px solid #cecece;
+      padding-top: 41px;
     }
     legend{
       margin-bottom: 10px;
