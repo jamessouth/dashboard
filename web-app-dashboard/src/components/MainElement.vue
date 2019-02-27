@@ -26,6 +26,14 @@ import LineChartWrapper from './LineChartWrapper.vue';
 
 export default {
   name: 'MainElement',
+  components: {
+    AlertBox: () => import(/* webpackChunkName: "AlertBox" */ './AlertBox.vue').catch(err => console.log(err)),
+    LineChartWrapper,
+    BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
+    SocialElement: () => import(/* webpackChunkName: "SocialElement" */ './SocialElement.vue').catch(err => console.log(err)),
+    MembersActivity: () => import(/* webpackChunkName: "MembersActivity" */ './MembersActivity.vue').catch(err => console.log(err)),
+    MessageSettings: () => import(/* webpackChunkName: "MessageSettings" */ './MessageSettings.vue').catch(err => console.log(err)),
+  },
   data() {
     return {
       newAlert: false,
@@ -67,14 +75,6 @@ export default {
       this.newAlert = true;
       this.rego = e.detail;
     },
-  },
-  components: {
-    AlertBox: () => import(/* webpackChunkName: "AlertBox" */ './AlertBox.vue').catch(err => console.log(err)),
-    LineChartWrapper,
-    BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
-    SocialElement: () => import(/* webpackChunkName: "SocialElement" */ './SocialElement.vue').catch(err => console.log(err)),
-    MembersActivity: () => import(/* webpackChunkName: "MembersActivity" */ './MembersActivity.vue').catch(err => console.log(err)),
-    MessageSettings: () => import(/* webpackChunkName: "MessageSettings" */ './MessageSettings.vue').catch(err => console.log(err)),
   },
 };
 </script>

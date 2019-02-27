@@ -26,6 +26,10 @@ import CH from '../assets/icon-visits.svg';
 import SE from '../assets/icon-settings.svg';
 
 export default {
+  name: 'NavBar',
+  components: {
+    NavItem,
+  },
   props: {
     alert: Boolean,
     headShown: Boolean,
@@ -61,10 +65,6 @@ export default {
       return this.headShown;
     },
   },
-  name: 'NavBar',
-  components: {
-    NavItem,
-  },
 };
 </script>
 
@@ -82,24 +82,5 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
-  }
-  @media screen and (min-width: 768px){
-    /* div{
-      margin-bottom: 0;
-      flex-shrink: 0;
-    } */
-    /* nav{
-      position: sticky;
-      top: 0;
-      right: 0;
-      left: 0;
-      z-index: 111;
-    } */
-    /* ul{
-      height: 322px;
-      flex-direction: column;
-      justify-content: space-around;
-      padding-top: 0.6em;
-    } */
   }
 </style>

@@ -23,6 +23,43 @@ import LineChart from './LineChart.vue';
 import LineChartControls from './LineChartControls.vue';
 
 export default {
+  beforeRouteEnter(to, from, next) {
+    next(async (vm) => {
+      const code = vm.lookupCountryCode(vm.country);
+      const indicatorName = vm.getIndicatorName(vm.indicator);
+      await vm.getData(code);
+      vm.setProps(indicatorName);
+    });
+  },
+  async beforeRouteUpdate(to, from, next) {
+    this.$store.commit('toggleLoadingStatus'); // to true
+    const code = this.lookupCountryCode(to.params.country);
+    const indicatorName = this.getIndicatorName(to.params.indicator);
+    if (code instanceof Error || code.message || indicatorName === 'error') {
+      this.error = true;
+      this.$store.commit('toggleLoadingStatus'); // to false
+      next(false);
+    } else {
+      this.error = false;
+      if (this.$store.getters.dataIsCached(code)) {
+        this.$store.commit('toggleLoadingStatus'); // to false
+        this.countryData = await this.$store.getters.getDataFromCache(code);
+      } else {
+        await this.getData(code);
+      }
+      this.setProps(indicatorName);
+      next();
+    }
+  },
+  name: 'LineChartWrapper',
+  components: {
+    LineChart,
+    LineChartControls,
+  },
+  props: {
+    country: String,
+    indicator: String,
+  },
   data() {
     return {
       baseToolTipOpts: {
@@ -157,11 +194,6 @@ export default {
       },
     };
   },
-  props: {
-    country: String,
-    indicator: String,
-  },
-  name: 'LineChartWrapper',
   computed: {
     isData() {
       return this.chartData && this.chartData.datasets[0].data.length > 0;
@@ -178,38 +210,6 @@ export default {
         },
       };
     },
-  },
-  components: {
-    LineChart,
-    LineChartControls,
-  },
-  beforeRouteEnter(to, from, next) {
-    next(async (vm) => {
-      const code = vm.lookupCountryCode(vm.country);
-      const indicatorName = vm.getIndicatorName(vm.indicator);
-      await vm.getData(code);
-      vm.setProps(indicatorName);
-    });
-  },
-  async beforeRouteUpdate(to, from, next) {
-    this.$store.commit('toggleLoadingStatus'); // to true
-    const code = this.lookupCountryCode(to.params.country);
-    const indicatorName = this.getIndicatorName(to.params.indicator);
-    if (code instanceof Error || code.message || indicatorName === 'error') {
-      this.error = true;
-      this.$store.commit('toggleLoadingStatus'); // to false
-      next(false);
-    } else {
-      this.error = false;
-      if (this.$store.getters.dataIsCached(code)) {
-        this.$store.commit('toggleLoadingStatus'); // to false
-        this.countryData = await this.$store.getters.getDataFromCache(code);
-      } else {
-        await this.getData(code);
-      }
-      this.setProps(indicatorName);
-      next();
-    }
   },
   methods: {
     setProps(indicator) {

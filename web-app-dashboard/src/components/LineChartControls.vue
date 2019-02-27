@@ -33,14 +33,16 @@ export default {
     country: String,
     indicator: String,
   },
-  watch: {
-    $route(to) {
-      const buttonToFocus = [...this.$refs.linebuttons.children].filter(x =>
-        x.value === to.params.indicator)[0];
-      if (buttonToFocus !== document.activeElement) {
-        buttonToFocus.focus();
-      }
-    },
+  data() {
+    return {
+      selectedIndicatorIndex: 0,
+      indicators: [
+        'GDP',
+        'Population',
+        'Regulation',
+        'Tax',
+      ],
+    };
   },
   computed: {
     spanCols() {
@@ -55,16 +57,21 @@ export default {
       return ` for: ${this.country.replace(/-/g, ' ')}`;
     },
   },
-  data() {
-    return {
-      selectedIndicatorIndex: 0,
-      indicators: [
-        'GDP',
-        'Population',
-        'Regulation',
-        'Tax',
-      ],
-    };
+  watch: {
+    $route(to) {
+      const buttonToFocus = [...this.$refs.linebuttons.children].filter(x =>
+        x.value === to.params.indicator)[0];
+      if (buttonToFocus !== document.activeElement) {
+        buttonToFocus.focus();
+      }
+    },
+  },
+  mounted() {
+    for (let i = 0; i < countries.length; i += 1) {
+      const opt = document.createElement('option');
+      opt.textContent = `${countries[i].country}`;
+      document.querySelector('select').appendChild(opt);
+    }
   },
   methods: {
     changeCountry_Route() {
@@ -75,13 +82,6 @@ export default {
       const subroute = e.target.innerText.toLowerCase();
       this.$router.push(`/${this.country}/${subroute}`);
     },
-  },
-  mounted() {
-    for (let i = 0; i < countries.length; i += 1) {
-      const opt = document.createElement('option');
-      opt.textContent = `${countries[i].country}`;
-      document.querySelector('select').appendChild(opt);
-    }
   },
 };
 </script>

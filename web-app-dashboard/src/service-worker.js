@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
 const prefix = 'web-app-dashboard';
-const version = 'v8';
+// version = 'v9';
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
 // workbox.setConfig({ debug: false });
 // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);

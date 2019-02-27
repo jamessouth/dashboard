@@ -37,17 +37,6 @@ export default {
       switchOn: true,
     };
   },
-  methods: {
-    handleClick() {
-      this.switchOn = !this.switchOn;
-      this.$emit('store-onOff', this.switchOn);
-    },
-  },
-  mounted() {
-    if (localStorage.getItem('settings')) {
-      this.switchOn = JSON.parse(localStorage.getItem('settings'))[this.name];
-    }
-  },
   computed: {
     offID() {
       return `off-${this.name}`;
@@ -61,6 +50,17 @@ export default {
         right: '10px',
         left: 'inherit',
       };
+    },
+  },
+  mounted() {
+    if (localStorage.getItem('settings')) {
+      this.switchOn = JSON.parse(localStorage.getItem('settings'))[this.name];
+    }
+  },
+  methods: {
+    handleClick() {
+      this.switchOn = !this.switchOn;
+      this.$emit('store-onOff', this.switchOn);
     },
   },
 };

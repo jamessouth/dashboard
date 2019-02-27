@@ -21,6 +21,12 @@
 <script>
 export default {
   name: 'DropDownMenu',
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       tzOptions: [],
@@ -28,10 +34,9 @@ export default {
       timezoneFetch: 'https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*',
     };
   },
-  props: {
-    name: {
-      type: String,
-      required: true,
+  computed: {
+    forAttr() {
+      return this.name.toLowerCase();
     },
   },
   created() {
@@ -41,11 +46,6 @@ export default {
     if (localStorage.getItem('settings')) {
       this.selected = JSON.parse(localStorage.getItem('settings')).timezone;
     }
-  },
-  computed: {
-    forAttr() {
-      return this.name.toLowerCase();
-    },
   },
   methods: {
     cutOutTable(str) { return str.substring(str.indexOf('<tr>'), str.lastIndexOf('</tr>') + 5); },

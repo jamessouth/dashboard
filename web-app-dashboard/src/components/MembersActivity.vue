@@ -31,6 +31,9 @@ import NewMemberRecActivity from './NewMemberRecActivity.vue';
 
 export default {
   name: 'MembersActivity',
+  components: {
+    NewMemberRecActivity,
+  },
   data() {
     return {
       count: 0,
@@ -40,9 +43,6 @@ export default {
       newMembersActivityData: [],
       activityData: [],
     };
-  },
-  components: {
-    NewMemberRecActivity,
   },
   created() {
     this.getUserData();

@@ -31,6 +31,9 @@ import BigButton from './BigButton.vue';
 
 export default {
   name: 'MessageElement',
+  components: {
+    BigButton,
+  },
   data() {
     return {
       nameInput: null,
@@ -62,9 +65,6 @@ export default {
         this.messageInput = '';
       }
     },
-  },
-  components: {
-    BigButton,
   },
 };
 </script>

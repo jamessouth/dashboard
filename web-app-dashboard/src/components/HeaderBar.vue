@@ -35,6 +35,13 @@ export default {
       },
     };
   },
+  computed: {
+    alertStyles() {
+      return {
+        display: this.openAlert && this.a2hsPrompt ? 'block' : 'none',
+      };
+    },
+  },
   beforeCreate() {
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -46,7 +53,7 @@ export default {
     this.IOobserve();
   },
   methods: {
-    IOcallback(entries, observer) {
+    IOcallback(entries) {
       this.$emit('head', entries[0].isIntersecting);
     },
     IOobserve() {
@@ -59,13 +66,6 @@ export default {
       console.log(choice);
       this.a2hsPrompt = null;
       this.openAlert = false;
-    },
-  },
-  computed: {
-    alertStyles() {
-      return {
-        display: this.openAlert && this.a2hsPrompt ? 'block' : 'none',
-      };
     },
   },
 };
@@ -175,22 +175,6 @@ export default {
     border-radius: 50px;
     box-shadow: 0px 0px 9px 0px #fff;
   }
-  /* ul{
-    padding: 1em;
-  } */
-  /* .dropdown p{
-    font-family: 'Alegreya Sans', sans-serif;
-    font-size: 20px;
-    color: #fffde7;
-    border-bottom: 1px solid #fffde7;
-    margin-bottom: 0.25em;
-    text-align: left;
-  } */
-  /* li span{
-    font-family: 'Alegreya Sans SC', sans-serif;
-    font-size: 28px;
-    color: #81c98f;
-  } */
   .triangle{
     position: absolute;
     width: 0;

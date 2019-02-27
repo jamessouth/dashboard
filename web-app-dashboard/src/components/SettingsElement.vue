@@ -39,6 +39,11 @@ import DropDownMenu from './DropDownMenu.vue';
 
 export default {
   name: 'SettingsElement',
+  components: {
+    BigButton,
+    SwitchTwoWay,
+    DropDownMenu,
+  },
   data() {
     return {
       saved: false,
@@ -50,6 +55,14 @@ export default {
         JSON.parse(localStorage.getItem('settings')).profile : true,
     };
   },
+  computed: {
+    popupMessage() {
+      if (!this.timezone) {
+        return 'Please select a timezone';
+      }
+      return 'Your settings have been saved';
+    },
+  },
   methods: {
     ...mapActions([
       'setSettings',
@@ -60,19 +73,6 @@ export default {
     afterEnter() {
       this.saved = false;
     },
-  },
-  computed: {
-    popupMessage() {
-      if (!this.timezone) {
-        return 'Please select a timezone';
-      }
-      return 'Your settings have been saved';
-    },
-  },
-  components: {
-    BigButton,
-    SwitchTwoWay,
-    DropDownMenu,
   },
 };
 </script>

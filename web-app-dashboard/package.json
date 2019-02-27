@@ -24,6 +24,7 @@
     "@vue/cli-service": "^3.3.0",
     "@vue/eslint-config-airbnb": "^3.0.5",
     "moment-locales-webpack-plugin": "^1.0.7",
+    "vue-style-lint": "^1.0.2",
     "vue-template-compiler": "^2.5.21"
   }
 }

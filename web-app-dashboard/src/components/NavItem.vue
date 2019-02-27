@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  name: 'NavItem',
   props: {
     datatip: {
       type: String,
@@ -41,7 +42,6 @@ export default {
       this.$emit('update:sel', i);
     },
   },
-  name: 'NavItem',
 };
 </script>
 
@@ -112,30 +112,12 @@ export default {
   a:focus{
     outline: 2px solid #fff176;
   }
-  @media screen and (max-width: 399px){
-    /* .tooltip2:after{
-      left: -18px;
-    } */
-  }
   @media screen and (min-width: 400px){
     a{
       padding: 19px 27px 0;
     }
   }
   @media screen and (min-width: 768px){
-    /* a{
-      padding: 30px 28px 12px 27px;
-      border-bottom: 3px solid transparent;
-      border-left: 3px solid transparent;
-      border-top: 3px solid transparent;
-      border-right: none;
-    } */
-    /* .selected{
-      border-left: 3px solid #85DB80;
-      border-bottom: 3px outset transparent;
-      border-top: 3px outset transparent;
-      border-right: none;
-    } */
     img{
       height: 32px;
     }
@@ -143,6 +125,4 @@ export default {
       left: 0px;
     }
   }
-
-
 </style>
