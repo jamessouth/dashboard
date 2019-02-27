@@ -1,10 +1,10 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
+// version = 'v1';
+
 const prefix = 'web-app-dashboard';
-// version = 'v9';
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
-// workbox.setConfig({ debug: false });
-// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
+
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();

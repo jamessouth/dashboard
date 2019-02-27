@@ -62,10 +62,10 @@ export default {
     },
     async a2hs() {
       this.a2hsPrompt.prompt();
-      const choice = await this.a2hsPrompt.userChoice;
-      console.log(choice);
+      await this.a2hsPrompt.userChoice;
       this.a2hsPrompt = null;
       this.openAlert = false;
+      this.$emit('a2hsOffered');
     },
   },
 };

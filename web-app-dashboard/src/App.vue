@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HeaderBar @a2hs="alert = true" @head="header"/>
+    <HeaderBar @a2hs="alert = true" @a2hsOffered="alert = false" @head="header"/>
     <div id="hold">
       <NavBar :alert="alert" :head-shown="headShown" v-if="showNav"/>
       <MainElement @show-nav="showNav = true"/>

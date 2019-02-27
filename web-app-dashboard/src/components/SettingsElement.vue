@@ -47,12 +47,12 @@ export default {
   data() {
     return {
       saved: false,
-      timezone: JSON.parse(localStorage.getItem('settings')) ?
-        JSON.parse(localStorage.getItem('settings')).timezone : null,
-      email: JSON.parse(localStorage.getItem('settings')) ?
-        JSON.parse(localStorage.getItem('settings')).email : true,
-      profile: JSON.parse(localStorage.getItem('settings')) ?
-        JSON.parse(localStorage.getItem('settings')).profile : true,
+      timezone: JSON.parse(localStorage.getItem('settings'))
+        ? JSON.parse(localStorage.getItem('settings')).timezone : null,
+      email: JSON.parse(localStorage.getItem('settings'))
+        ? JSON.parse(localStorage.getItem('settings')).email : true,
+      profile: JSON.parse(localStorage.getItem('settings'))
+        ? JSON.parse(localStorage.getItem('settings')).profile : true,
     };
   },
   computed: {

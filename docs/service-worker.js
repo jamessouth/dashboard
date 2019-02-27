@@ -1,12 +1,12 @@
-importScripts("/Vue-Project-9/precache-manifest.9771a589ec46348f6f35551dfd667b0a.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/Vue-Project-9/precache-manifest.54fd97be04f0a0c9fc1caffbb1e888c7.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
+// version = 'v1';
+
 const prefix = 'web-app-dashboard';
-// version = 'v9';
 const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
-// workbox.setConfig({ debug: false });
-// workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
+
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
