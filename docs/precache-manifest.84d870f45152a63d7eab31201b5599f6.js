@@ -144,24 +144,32 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icon-visits.9da17580.svg"
   },
   {
-    "revision": "34dcc2f17ae402aad6d17b5f76f0aa46",
+    "revision": "e2451f6131070684fa9a50afc462db74",
     "url": "/Vue-Project-9/index.html"
-  },
-  {
-    "revision": "5320feea9f434e1a2f083200434e5d10",
-    "url": "/Vue-Project-9/img/icons/android-chrome-192x192.png"
-  },
-  {
-    "revision": "0f784e5a69eeb5831b37eeb24b54f131",
-    "url": "/Vue-Project-9/favicon.ico"
   },
   {
     "revision": "dea3cd15a0debe2b5b52d7bbd789fdfc",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-120x120.png"
   },
   {
+    "revision": "0f784e5a69eeb5831b37eeb24b54f131",
+    "url": "/Vue-Project-9/favicon.ico"
+  },
+  {
+    "revision": "5320feea9f434e1a2f083200434e5d10",
+    "url": "/Vue-Project-9/img/icons/android-chrome-192x192.png"
+  },
+  {
+    "revision": "e357e1205064b53236caae115a8b4a6e",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-180x180.png"
+  },
+  {
     "revision": "02a8b1890946b49b1b1eabc6d55846b1",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-152x152.png"
+  },
+  {
+    "revision": "cd6027b6a69ba9b903a5870b889cd548",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-76x76.png"
   },
   {
     "revision": "0a38c67a13e5e042610ad6ab0b40df04",
@@ -172,40 +180,32 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icons/favicon-16x16.png"
   },
   {
-    "revision": "e357e1205064b53236caae115a8b4a6e",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-180x180.png"
-  },
-  {
-    "revision": "25a4cb5c7ecab13176535b93491d2d54",
-    "url": "/Vue-Project-9/img/icons/mstile-150x150.png"
+    "revision": "ea627e99359b1ae98901561629467744",
+    "url": "/Vue-Project-9/img/icons/favicon-32x32.png"
   },
   {
     "revision": "be7b0e88081067f697603ffccf90022b",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon.png"
   },
   {
-    "revision": "cd6027b6a69ba9b903a5870b889cd548",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-76x76.png"
-  },
-  {
     "revision": "d2d123455f73480a35d5159f53c64193",
     "url": "/Vue-Project-9/img/icons/msapplication-icon-144x144.png"
-  },
-  {
-    "revision": "a8f322aa37c75f011c2fdeae9404c4a4",
-    "url": "/Vue-Project-9/manifest.json"
   },
   {
     "revision": "d07b67f3e0196d6fd129f1f5a4e88e4d",
     "url": "/Vue-Project-9/img/icons/android-chrome-512x512.png"
   },
   {
-    "revision": "f22d501a35a87d9f21701cb031f6ea17",
-    "url": "/Vue-Project-9/img/icons/safari-pinned-tab.svg"
+    "revision": "25a4cb5c7ecab13176535b93491d2d54",
+    "url": "/Vue-Project-9/img/icons/mstile-150x150.png"
   },
   {
-    "revision": "ea627e99359b1ae98901561629467744",
-    "url": "/Vue-Project-9/img/icons/favicon-32x32.png"
+    "revision": "a8f322aa37c75f011c2fdeae9404c4a4",
+    "url": "/Vue-Project-9/manifest.json"
+  },
+  {
+    "revision": "f22d501a35a87d9f21701cb031f6ea17",
+    "url": "/Vue-Project-9/img/icons/safari-pinned-tab.svg"
   },
   {
     "revision": "80ffb3d8dbd7c1aab930",

@@ -1,11 +1,12 @@
-importScripts("/Vue-Project-9/precache-manifest.52b73b59e70fa2b8a4d658d2df5515c5.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/Vue-Project-9/precache-manifest.84d870f45152a63d7eab31201b5599f6.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v1';
+// version = 'v2';
 
 const prefix = 'web-app-dashboard';
-const FALLBACK_IMAGE_URL = '/img/face.69232788.jpg';
+const FALLBACK_IMAGE_URL = '/Vue-Project-9/img/face.69232788.jpg';
+//public path Vue-Project-9 apparently no longer automatically added so manually prepending
 
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
