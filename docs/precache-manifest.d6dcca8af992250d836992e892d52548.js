@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/css/NavBar.bd1f328e.css.map"
   },
   {
-    "revision": "64f782c5dc61133348f13d064e7cbb45",
+    "revision": "91e4fd67ab0db19201cdaf7ce0d8a7fe",
     "url": "/Vue-Project-9/index.html"
   },
   {
@@ -24,16 +24,16 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/BarDonut-legacy.da7b68c0.js"
   },
   {
-    "revision": "c2905ad12c3960e4b718",
-    "url": "/Vue-Project-9/js/app-legacy.dbe0dda3.js.map"
+    "revision": "e5bb646387b6fddff774",
+    "url": "/Vue-Project-9/js/app-legacy.062026eb.js.map"
   },
   {
     "revision": "73463e58184de2dfa47e",
     "url": "/Vue-Project-9/js/BarDonut-legacy.da7b68c0.js.map"
   },
   {
-    "revision": "c2905ad12c3960e4b718",
-    "url": "/Vue-Project-9/js/app-legacy.dbe0dda3.js"
+    "revision": "e5bb646387b6fddff774",
+    "url": "/Vue-Project-9/js/app-legacy.062026eb.js"
   },
   {
     "revision": "d624551510bcf3d5a6b3",
@@ -96,16 +96,16 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/face.69232788.jpg"
   },
   {
-    "revision": "c2905ad12c3960e4b718",
-    "url": "/Vue-Project-9/css/app.1e7c0808.css"
+    "revision": "e5bb646387b6fddff774",
+    "url": "/Vue-Project-9/css/app.1bbca826.css"
   },
   {
     "revision": "6196afe19dcdcac45a5713d7e9891fee",
     "url": "/Vue-Project-9/fonts/UpperEastSide-webfont.6196afe1.woff"
   },
   {
-    "revision": "c2905ad12c3960e4b718",
-    "url": "/Vue-Project-9/css/app.1e7c0808.css.map"
+    "revision": "e5bb646387b6fddff774",
+    "url": "/Vue-Project-9/css/app.1bbca826.css.map"
   },
   {
     "revision": "6e9bdcd2c3d0974dc83c5074e2f97d75",
