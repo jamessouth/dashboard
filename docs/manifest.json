@@ -1,6 +1,6 @@
 {
   "name": "web-app-dashboard",
-  "short_name": "web-app-dashboard",
+  "short_name": "WebAppDBoard",
   "icons": [
     {
       "src": "/Vue-Project-9/img/icons/android-chrome-192x192.png",

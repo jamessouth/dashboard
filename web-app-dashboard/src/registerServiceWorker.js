@@ -9,13 +9,13 @@ if (process.env.NODE_ENV === 'production') {
         + 'For more details, visit https://goo.gl/AFskqB');
     },
     registered(registration) {
-      console.log('Service worker has been registered.', registration);
+      console.log('Service worker has been registered.');
     },
     cached() {
       console.log('Content has been cached for offline use.');
     },
     updatefound(registration) {
-      console.log('New content is downloading.', registration);
+      console.log('New content is downloading.');
       let refreshing;
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (refreshing) return;
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
       });
     },
     updated(registration) {
-      console.log('New content is available; please refresh.', registration);
+      console.log('New content is available; please refresh.');
       const UpdatedEvent = new CustomEvent('swUpdated', { detail: registration });
       document.dispatchEvent(UpdatedEvent);
     },
