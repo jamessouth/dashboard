@@ -54,7 +54,12 @@ export default {
   mounted() {
     document.addEventListener('swUpdated', this.changeAlert);
     window.addEventListener('load', () => {
-      setTimeout(this.IOobserve, 600);
+      if (!window.IntersectionObserver) {
+        Object.keys(this.IOflags).forEach(x => this.IOflags[x] = true);
+        this.$emit('show-nav');
+      } else {
+        setTimeout(this.IOobserve, 600);
+      }
     });
   },
   methods: {
