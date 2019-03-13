@@ -16,9 +16,10 @@ module.exports = {
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
       swSrc: 'src/service-worker.js',
-      exclude: [/nodata\.\w*\.?png$/],
+      exclude: [/nodata\.\w*\.?png$/, /\.map$/],
     },
     themeColor: '#7377bf',
     msTileColor: '#7377bf',
+    appleMobileWebAppCapable: 'yes',
   },
 };

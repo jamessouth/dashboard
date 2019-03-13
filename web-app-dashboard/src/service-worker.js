@@ -1,10 +1,10 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v5';
+// version = 'v6';
 
 const prefix = 'web-app-dashboard';
 const FALLBACK_IMAGE_URL = '/Vue-Project-9/img/face.69232788.jpg';
-//public path Vue-Project-9 apparently no longer automatically added so manually prepending
+// public path Vue-Project-9 apparently no longer automatically added so manually prepending
 
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);

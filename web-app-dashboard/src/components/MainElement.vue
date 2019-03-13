@@ -55,7 +55,7 @@ export default {
     document.addEventListener('swUpdated', this.changeAlert);
     window.addEventListener('load', () => {
       if (!window.IntersectionObserver) {
-        Object.keys(this.IOflags).forEach(x => this.IOflags[x] = true);
+        Object.keys(this.IOflags).forEach((x) => { this.IOflags[x] = true; });
         this.$emit('show-nav');
       } else {
         setTimeout(this.IOobserve, 600);
