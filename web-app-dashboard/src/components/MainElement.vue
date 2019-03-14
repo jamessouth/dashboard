@@ -56,6 +56,7 @@ export default {
     window.addEventListener('load', () => {
       if (!window.IntersectionObserver) {
         Object.keys(this.IOflags).forEach((x) => { this.IOflags[x] = true; });
+        document.querySelectorAll('p').forEach((p) => { p.style.display = 'none'; });
         this.$emit('show-nav');
       } else {
         setTimeout(this.IOobserve, 600);

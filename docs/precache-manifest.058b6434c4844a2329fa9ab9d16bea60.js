@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/MessageSettings.825c726e.js"
   },
   {
-    "revision": "c5a27717f9b6557c917e2f2868be487a",
+    "revision": "c8ca82818cc8fe00c7b03c4d8c22e8ad",
     "url": "/Vue-Project-9/index.html"
   },
   {
@@ -52,28 +52,28 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/chunk-vendors.5852885a.js"
   },
   {
-    "revision": "6aa32454a8afbe61900c",
-    "url": "/Vue-Project-9/js/app.707e587a.js"
+    "revision": "700127fa69007b5d8bb3",
+    "url": "/Vue-Project-9/js/app.ecb35a53.js"
   },
   {
     "revision": "e357e1205064b53236caae115a8b4a6e",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-180x180.png"
   },
   {
-    "revision": "6aa32454a8afbe61900c",
-    "url": "/Vue-Project-9/css/app.ff3f08f6.css"
+    "revision": "700127fa69007b5d8bb3",
+    "url": "/Vue-Project-9/css/app.e3c8d1c8.css"
   },
   {
     "revision": "3df5f6f4c93a9944d6c03cf5bf586a6c",
     "url": "/Vue-Project-9/img/icon-settings.3df5f6f4.svg"
   },
   {
-    "revision": "6e9bdcd2c3d0974dc83c5074e2f97d75",
-    "url": "/Vue-Project-9/img/icon-dashboard.6e9bdcd2.svg"
-  },
-  {
     "revision": "6196afe19dcdcac45a5713d7e9891fee",
     "url": "/Vue-Project-9/fonts/UpperEastSide-webfont.6196afe1.woff"
+  },
+  {
+    "revision": "6e9bdcd2c3d0974dc83c5074e2f97d75",
+    "url": "/Vue-Project-9/img/icon-dashboard.6e9bdcd2.svg"
   },
   {
     "revision": "d07b67f3e0196d6fd129f1f5a4e88e4d",
@@ -92,12 +92,12 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/favicon.ico"
   },
   {
-    "revision": "02a8b1890946b49b1b1eabc6d55846b1",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-152x152.png"
-  },
-  {
     "revision": "5320feea9f434e1a2f083200434e5d10",
     "url": "/Vue-Project-9/img/icons/android-chrome-192x192.png"
+  },
+  {
+    "revision": "02a8b1890946b49b1b1eabc6d55846b1",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-152x152.png"
   },
   {
     "revision": "dea3cd15a0debe2b5b52d7bbd789fdfc",
@@ -108,20 +108,20 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icon-members.a7fdf16a.svg"
   },
   {
-    "revision": "0a38c67a13e5e042610ad6ab0b40df04",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-60x60.png"
-  },
-  {
     "revision": "cd6027b6a69ba9b903a5870b889cd548",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-76x76.png"
   },
   {
-    "revision": "d7fadfc9d4936d53d979539612377e99",
-    "url": "/Vue-Project-9/img/icons/favicon-16x16.png"
+    "revision": "0a38c67a13e5e042610ad6ab0b40df04",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-60x60.png"
   },
   {
     "revision": "be7b0e88081067f697603ffccf90022b",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon.png"
+  },
+  {
+    "revision": "d7fadfc9d4936d53d979539612377e99",
+    "url": "/Vue-Project-9/img/icons/favicon-16x16.png"
   },
   {
     "revision": "ea627e99359b1ae98901561629467744",

@@ -1,8 +1,8 @@
-importScripts("/Vue-Project-9/precache-manifest.f34439e847e6793551bc773a140d0eaa.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/Vue-Project-9/precache-manifest.058b6434c4844a2329fa9ab9d16bea60.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v6';
+// version = 'v7';
 
 const prefix = 'web-app-dashboard';
 const FALLBACK_IMAGE_URL = '/Vue-Project-9/img/face.69232788.jpg';
