@@ -118,7 +118,7 @@ export default {
     padding-bottom: 8px;
   }
   header > div > p:last-of-type{
-    color: #fff;
+    color: #000;
     font-family: 'Alegreya Sans', sans-serif;
   }
   .unclickable{

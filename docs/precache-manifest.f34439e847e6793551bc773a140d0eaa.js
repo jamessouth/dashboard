@@ -8,16 +8,16 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icons/mstile-150x150.png"
   },
   {
-    "revision": "f22d501a35a87d9f21701cb031f6ea17",
-    "url": "/Vue-Project-9/img/icons/safari-pinned-tab.svg"
+    "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
+    "url": "/Vue-Project-9/robots.txt"
   },
   {
     "revision": "6a574e87ae6bd52ea173",
     "url": "/Vue-Project-9/js/BarDonut.3ebdbb6b.js"
   },
   {
-    "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
-    "url": "/Vue-Project-9/robots.txt"
+    "revision": "f22d501a35a87d9f21701cb031f6ea17",
+    "url": "/Vue-Project-9/img/icons/safari-pinned-tab.svg"
   },
   {
     "revision": "18fbfae938e75cbfbab4",
@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/MessageSettings.825c726e.js"
   },
   {
-    "revision": "c13101b516d9c9b1546de783d82b44b7",
+    "revision": "c5a27717f9b6557c917e2f2868be487a",
     "url": "/Vue-Project-9/index.html"
   },
   {
@@ -52,16 +52,16 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/chunk-vendors.5852885a.js"
   },
   {
-    "revision": "e201f974c214d4ff90e6",
-    "url": "/Vue-Project-9/js/app.9bc190be.js"
+    "revision": "6aa32454a8afbe61900c",
+    "url": "/Vue-Project-9/js/app.707e587a.js"
   },
   {
     "revision": "e357e1205064b53236caae115a8b4a6e",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-180x180.png"
   },
   {
-    "revision": "e201f974c214d4ff90e6",
-    "url": "/Vue-Project-9/css/app.094b7001.css"
+    "revision": "6aa32454a8afbe61900c",
+    "url": "/Vue-Project-9/css/app.ff3f08f6.css"
   },
   {
     "revision": "3df5f6f4c93a9944d6c03cf5bf586a6c",
@@ -76,32 +76,32 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/fonts/UpperEastSide-webfont.6196afe1.woff"
   },
   {
-    "revision": "d2d123455f73480a35d5159f53c64193",
-    "url": "/Vue-Project-9/img/icons/msapplication-icon-144x144.png"
+    "revision": "d07b67f3e0196d6fd129f1f5a4e88e4d",
+    "url": "/Vue-Project-9/img/icons/android-chrome-512x512.png"
   },
   {
     "revision": "9da17580cca235ecd3f8a54de7ed346e",
     "url": "/Vue-Project-9/img/icon-visits.9da17580.svg"
   },
   {
-    "revision": "d7fadfc9d4936d53d979539612377e99",
-    "url": "/Vue-Project-9/img/icons/favicon-16x16.png"
+    "revision": "d2d123455f73480a35d5159f53c64193",
+    "url": "/Vue-Project-9/img/icons/msapplication-icon-144x144.png"
   },
   {
-    "revision": "dea3cd15a0debe2b5b52d7bbd789fdfc",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-120x120.png"
-  },
-  {
-    "revision": "5320feea9f434e1a2f083200434e5d10",
-    "url": "/Vue-Project-9/img/icons/android-chrome-192x192.png"
+    "revision": "0f784e5a69eeb5831b37eeb24b54f131",
+    "url": "/Vue-Project-9/favicon.ico"
   },
   {
     "revision": "02a8b1890946b49b1b1eabc6d55846b1",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-152x152.png"
   },
   {
-    "revision": "cd6027b6a69ba9b903a5870b889cd548",
-    "url": "/Vue-Project-9/img/icons/apple-touch-icon-76x76.png"
+    "revision": "5320feea9f434e1a2f083200434e5d10",
+    "url": "/Vue-Project-9/img/icons/android-chrome-192x192.png"
+  },
+  {
+    "revision": "dea3cd15a0debe2b5b52d7bbd789fdfc",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-120x120.png"
   },
   {
     "revision": "a7fdf16a451bac72c28ac797e2876b4f",
@@ -112,20 +112,20 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icons/apple-touch-icon-60x60.png"
   },
   {
-    "revision": "ea627e99359b1ae98901561629467744",
-    "url": "/Vue-Project-9/img/icons/favicon-32x32.png"
+    "revision": "cd6027b6a69ba9b903a5870b889cd548",
+    "url": "/Vue-Project-9/img/icons/apple-touch-icon-76x76.png"
+  },
+  {
+    "revision": "d7fadfc9d4936d53d979539612377e99",
+    "url": "/Vue-Project-9/img/icons/favicon-16x16.png"
   },
   {
     "revision": "be7b0e88081067f697603ffccf90022b",
     "url": "/Vue-Project-9/img/icons/apple-touch-icon.png"
   },
   {
-    "revision": "0f784e5a69eeb5831b37eeb24b54f131",
-    "url": "/Vue-Project-9/favicon.ico"
-  },
-  {
-    "revision": "d07b67f3e0196d6fd129f1f5a4e88e4d",
-    "url": "/Vue-Project-9/img/icons/android-chrome-512x512.png"
+    "revision": "ea627e99359b1ae98901561629467744",
+    "url": "/Vue-Project-9/img/icons/favicon-32x32.png"
   },
   {
     "revision": "97d6051b560608de85b7",

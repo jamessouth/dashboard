@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/SocialElement-legacy.88a5387c.js"
   },
   {
-    "revision": "ca331b41fa009e9457bc14fda03c0b33",
+    "revision": "793f7bfaad5ca7c1b4655e1a332ddbd6",
     "url": "/Vue-Project-9/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/js/BarDonut-legacy.da7b68c0.js"
   },
   {
-    "revision": "67530cc2815111a1b004",
-    "url": "/Vue-Project-9/js/app-legacy.154d7dcd.js"
+    "revision": "7deb8f7216261f5f41e6",
+    "url": "/Vue-Project-9/js/app-legacy.223bb672.js"
   },
   {
     "revision": "d624551510bcf3d5a6b3",
@@ -48,8 +48,8 @@ self.__precacheManifest = [
     "url": "/Vue-Project-9/img/icon-visits.9da17580.svg"
   },
   {
-    "revision": "67530cc2815111a1b004",
-    "url": "/Vue-Project-9/css/app.094b7001.css"
+    "revision": "7deb8f7216261f5f41e6",
+    "url": "/Vue-Project-9/css/app.ff3f08f6.css"
   },
   {
     "revision": "692327889865deed569b3a9f9127b822",

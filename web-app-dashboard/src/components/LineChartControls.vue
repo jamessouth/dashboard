@@ -1,7 +1,8 @@
 <template>
   <div id="charts" class="line-controls">
     <div class="dropdown">
-      <select>
+      <label for="sel_country">select country</label>
+      <select name="sel_country" id="sel_country">
         <option selected disabled value="">Select Country</option>
       </select>
       <button @click="changeCountry_Route">GO!</button>
@@ -47,7 +48,7 @@ export default {
   computed: {
     spanCols() {
       return {
-        color: this.$store.state.loading ? 'red' : '#7377bf',
+        color: this.$store.state.loading ? 'red' : '#111775',
       };
     },
     loadingOrCountry() {
@@ -141,6 +142,12 @@ export default {
     border-radius: 20px;
     border-color: #d81420;
   }
+  label{
+    width: 1px;
+    height: 1px;
+    color: transparent;
+    display: block;
+  }
   .newwindow::after{
     content: '';
     display: inline-block;
@@ -149,7 +156,7 @@ export default {
     background: url('../assets/newwindow.png') 0 0 no-repeat;
   }
   .lineSelected{
-    color: #fff;
+    color: #111775;
     background-color: #81C98F;
     padding: 2px 10px;
     border-radius: 50px;
@@ -184,11 +191,6 @@ export default {
   #charts:target{
     padding-top: 41px;
   }
-  @media screen and (max-width: 399px){
-    /* #charts:target > p{
-      top: 67px;
-    } */
-  }
   @media screen and (min-width: 400px){
     .dropdown{
       flex-direction: row;
@@ -201,14 +203,6 @@ export default {
     p{
       align-self: center;
     }
-  }
-  @media screen and (min-width: 400px) and (max-width: 767px){
-    /* #charts:target > p{
-      top: 54px;
-    } */
-  }
-  @media screen and (max-width: 767px){
-
   }
   @media screen and (min-width: 768px){
     .line-controls{
