@@ -112,10 +112,13 @@ export default {
   p{
     grid-area: para;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     text-transform: uppercase;
   }
   span{
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
     text-transform: none;
   }
   a{
@@ -123,6 +126,8 @@ export default {
   }
   button{
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
     padding: 4px 10px;
     font-size: 16px;
     border: none;
@@ -168,6 +173,7 @@ export default {
     background: url(../assets/downArrow.jpg) no-repeat 100%;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     background-color: #fbfbfb;
     box-shadow: 0 0 0 1px #cecece;
     border: 3px solid transparent;

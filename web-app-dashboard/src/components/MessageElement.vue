@@ -83,6 +83,7 @@ export default {
   legend{
     text-transform: uppercase;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     margin: auto;
     padding-bottom: 1em;
   }
@@ -97,6 +98,7 @@ export default {
     text-align: center;
     padding: 0.4em 0;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     font-size: 20px;
     color: #fff;
     border-radius: 50px;
@@ -117,6 +119,7 @@ export default {
     color: #676666;
     font-size: 18px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     height: 45px;
     width: 100%;
     box-shadow: 0 0 0 1px #cecece;
@@ -130,11 +133,13 @@ export default {
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   input::-moz-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   label{
     color: transparent;
@@ -147,6 +152,7 @@ export default {
     color: #676666;
     font-size: 18px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     height: 8em;
     box-shadow: 0 0 0 1px #cecece;
     border-radius: 5px;
@@ -159,11 +165,13 @@ export default {
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   textarea::-moz-placeholder{
     color: #b9b9b9;
     font-size: 17px;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   input:focus,
   textarea:focus{

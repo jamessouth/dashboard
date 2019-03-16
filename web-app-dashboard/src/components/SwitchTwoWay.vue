@@ -97,6 +97,7 @@ export default {
   }
   p{
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   label{
     position: absolute;
@@ -105,6 +106,8 @@ export default {
     color: #fff;
     font-size: 22px;
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
   }
   label:last-of-type{
     display: none;

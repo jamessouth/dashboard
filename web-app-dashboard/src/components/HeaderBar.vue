@@ -120,6 +120,7 @@ export default {
   header > div > p:last-of-type{
     color: #000;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   .unclickable{
     pointer-events: none;
@@ -172,6 +173,8 @@ export default {
     color: #fff;
     background-color: #81C98F;
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
     border-radius: 50px;
     box-shadow: 0px 0px 9px 0px #fff;
   }

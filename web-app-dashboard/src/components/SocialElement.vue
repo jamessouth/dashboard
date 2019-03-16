@@ -109,6 +109,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     text-transform: uppercase;
   }
   @media screen and (min-width: 1024px){

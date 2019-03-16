@@ -73,6 +73,7 @@ export default {
         colorBox.style.marginRight = '5px';
         p.textContent = chartData.labels[i];
         p.style.fontFamily = "'Alegreya Sans', sans-serif";
+        p.style.fontWeight = '300';
         p.style.marginRight = '4px';
         li.appendChild(colorBox);
         li.appendChild(p);
@@ -115,6 +116,7 @@ export default {
     text-align: center;
     margin-bottom: 1em;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     text-transform: uppercase;
   }
   @media screen and (min-width: 1024px){

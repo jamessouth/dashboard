@@ -91,6 +91,7 @@ export default {
   legend{
     text-transform: uppercase;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     margin: auto;
     padding-bottom: 1em;
   }
@@ -105,6 +106,7 @@ export default {
     text-align: center;
     padding: 0.4em 0;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     font-size: 20px;
     color: #fff;
     border-radius: 50px;

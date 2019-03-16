@@ -65,6 +65,8 @@ export default {
         letterSpacing: this.isArabic ? '2px' : 'normal',
         lineHeight: this.isArabic ? '21px' : 'normal',
         fontSize: this.isArabic ? '21px' : '16px',
+        fontWeight: this.isArabic ? '700' : '800',
+        fontStyle: 'italic',
       };
     },
     imgSrc() {
@@ -120,6 +122,7 @@ export default {
   }
   .mem-act > div > p:last-of-type{
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
   }
   .mem-act > p:focus{
     outline: 2px solid #7377bf;

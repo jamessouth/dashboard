@@ -215,6 +215,7 @@ export default {
   .rec-activity > p{
     padding-top: 0.5em;
     font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 300;
     text-transform: uppercase;
     text-align: center;
   }

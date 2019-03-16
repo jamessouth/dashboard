@@ -76,6 +76,8 @@ export default {
   .tooltip:after{
     background: #fff176;
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
     border: 1px dashed #7377bf;
     border-radius: .25em;
     left: -6px;

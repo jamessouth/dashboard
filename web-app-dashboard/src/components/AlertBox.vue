@@ -57,6 +57,8 @@ export default {
   button{
     position: absolute;
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
     width: 18px;
     height: 30px;
     font-size: 18px;
@@ -71,12 +73,15 @@ export default {
   p{
     font-family: 'Alegreya Sans', sans-serif;
     color: #fff;
+    font-weight: 300;
     padding: 0 23px 0 18px;
     font-size: 17px;
     transition: font-size 2s;
   }
   p span{
     font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 800;
+    font-style: italic;
     letter-spacing: 0.1em;
   }
   a:link, a:visited{
