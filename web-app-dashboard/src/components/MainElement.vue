@@ -8,13 +8,13 @@
     <router-view>
       <LineChartWrapper/>
     </router-view>
-    <p id="BarDonut" ref="BarDonut"></p>
+    <p class="IOsentinel" id="BarDonut" ref="BarDonut"></p>
     <BarDonut v-if="IOflags.BarDonut"/>
-    <p id="Social" ref="Social"></p>
+    <p class="IOsentinel" id="Social" ref="Social"></p>
     <SocialElement v-if="IOflags.Social"/>
-    <p id="MembersActivity" ref="MembersActivity"></p>
+    <p class="IOsentinel" id="MembersActivity" ref="MembersActivity"></p>
     <MembersActivity v-if="IOflags.MembersActivity"/>
-    <p id="MessageSettings" ref="MessageSettings"></p>
+    <p class="IOsentinel" id="MessageSettings" ref="MessageSettings"></p>
     <MessageSettings v-if="IOflags.MessageSettings"/>
   </main>
 </template>
@@ -56,7 +56,7 @@ export default {
     window.addEventListener('load', () => {
       if (!window.IntersectionObserver) {
         Object.keys(this.IOflags).forEach((x) => { this.IOflags[x] = true; });
-        document.querySelectorAll('p').forEach((p) => { p.style.display = 'none'; });
+        document.querySelectorAll('p.IOsentinel').forEach((p) => { p.style.display = 'none'; });
         this.$emit('show-nav');
       } else {
         setTimeout(this.IOobserve, 600);

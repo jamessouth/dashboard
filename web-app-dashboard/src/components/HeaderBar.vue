@@ -50,7 +50,7 @@ export default {
     });
   },
   mounted() {
-    this.IOobserve();
+    if (window.IntersectionObserver) this.IOobserve();
   },
   methods: {
     IOcallback(entries) {
