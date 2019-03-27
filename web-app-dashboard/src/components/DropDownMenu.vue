@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { parse5 } from 'parse5';
+
 export default {
   name: 'DropDownMenu',
   props: {
@@ -67,9 +69,10 @@ export default {
       return [arr[0], `${arr[2]},${arr[3]}`];
     },
     removeHTMLandParens(arr) {
-      return arr.map(x => x
-        .replace(/\n*<([^>]*)>\n*/g, '')
-        .replace(/ *\(([^)]*)\)/g, ''));
+      console.log(arr);
+      // return arr.map(x => x
+      //   .replace(/\n*<([^>]*)>\n*/g, '')
+      //   .replace(/ *\(([^)]*)\)/g, ''));
     },
     splitCountries(arr) { return [arr[0], ...arr[1].split(/, ?/)]; },
     trimCountryNames(arr) { return arr.map(x => x.trim()); },
@@ -103,15 +106,15 @@ export default {
             this.splitIntoColumns,
             this.removeUnneededColumns,
             this.removeHTMLandParens,
-            this.splitCountries,
-            this.trimCountryNames,
-            this.finalTouches,
-            this.sortNames,
-            this.removeBlanks,
-            this.deDupe,
-            this.makeOptions,
+            // this.splitCountries,
+            // this.trimCountryNames,
+            // this.finalTouches,
+            // this.sortNames,
+            // this.removeBlanks,
+            // this.deDupe,
+            // this.makeOptions,
           ))
-          .reduce((acc, nextArr) => [...acc, ...nextArr]);
+          // .reduce((acc, nextArr) => [...acc, ...nextArr]);
       } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }
