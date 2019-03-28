@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import { parse5 } from 'parse5';
+const parse5 = require('parse5');
+const TAs = require('parse5/lib/tree-adapters/default.js');
 
 export default {
   name: 'DropDownMenu',
@@ -68,11 +69,46 @@ export default {
       }
       return [arr[0], `${arr[2]},${arr[3]}`];
     },
+    getOffset(arr) {
+      let parsedHTML = parse5.parseFragment(arr[0]).childNodes[1].childNodes[0].childNodes[0];
+
+      // console.log(arr[0], TAs.getTextNodeContent(rrr));
+      return [TAs.getTextNodeContent(parsedHTML), arr[1]];
+    },
+    filterPlaceNames(arr) {
+      // console.log(arr);
+      let parsedHTML = parse5.parseFragment(arr[1]);
+      console.log(parsedHTML);
+      return [arr[0], TAs.getChildNodes(parsedHTML).filter(x => ['a', 'p'].includes(x.nodeName))];
+    },
+    getNames(node) {
+      if (node.nodeName === 'a') {
+        return TAs.getTextNodeContent(node.childNodes[0]);
+      } else {
+        const anc = node.childNodes.filter(n => n.nodeName === 'a')[0];
+        return this.getNames(anc);
+      }
+    },
+    extractPlaceNames(arr) {
+      // console.log(arr);
+      const names = arr[1].map(this.getNames);
+      return [arr[0], ...names];
+    },
     removeHTMLandParens(arr) {
       console.log(arr);
-      // return arr.map(x => x
+      // console.log(TAs);
+      // console.log({treeAdapter: TAs.getAttrList(ooo.childNodes[0])});
+      // console.log(ooo);
+      // console.log();
+      // let ppp = TAs.getChildNodes(ooo)
+      // console.log(ppp);
+
+      // return arr[1].map(x => x
       //   .replace(/\n*<([^>]*)>\n*/g, '')
       //   .replace(/ *\(([^)]*)\)/g, ''));
+    },
+    logger(arr) {
+      console.log(arr);
     },
     splitCountries(arr) { return [arr[0], ...arr[1].split(/, ?/)]; },
     trimCountryNames(arr) { return arr.map(x => x.trim()); },
@@ -105,11 +141,16 @@ export default {
           .map(this.pipe(
             this.splitIntoColumns,
             this.removeUnneededColumns,
-            this.removeHTMLandParens,
+            this.getOffset,
+            this.filterPlaceNames,
+            this.extractPlaceNames,
+            // this.removeHTMLandParens,
+
             // this.splitCountries,
             // this.trimCountryNames,
-            // this.finalTouches,
-            // this.sortNames,
+            this.finalTouches,
+            this.sortNames,
+            this.logger,
             // this.removeBlanks,
             // this.deDupe,
             // this.makeOptions,
