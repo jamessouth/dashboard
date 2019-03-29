@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v9';
+// version = 'v10';
 
 const prefix = 'web-app-dashboard';
 const FALLBACK_IMAGE_URL = '/Vue-Project-9/img/face.69232788.jpg';

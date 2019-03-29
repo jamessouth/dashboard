@@ -20,7 +20,7 @@
 
 <script>
 const parse5 = require('parse5');
-const TAs = require('parse5/lib/tree-adapters/default.js');
+const treeAdapters = require('parse5/lib/tree-adapters/default.js');
 
 export default {
   name: 'DropDownMenu',
@@ -51,14 +51,21 @@ export default {
     }
   },
   methods: {
-    cutOutTable(str) { return str.substring(str.indexOf('<tr>'), str.lastIndexOf('</tr>') + 5); },
-    splitIntoRows(str) { return str.split('</tr>\n<tr>'); },
-    removeColumnHeaders(arr) { return arr.splice(1); },
+    getNames(node) {
+      if (node.nodeName === 'a') {
+        return treeAdapters.getTextNodeContent(node.childNodes[0]);
+      }
+      const anchor = node.childNodes.filter(n => n.nodeName === 'a')[0];
+      return this.getNames(anchor);
+    },
     pipe(...fns) {
       return function inner(start) {
         return fns.reduce((val, fn) => fn(val), start);
       };
     },
+    cutOutTable(str) { return str.substring(str.indexOf('<tr>'), str.lastIndexOf('</tr>') + 5); },
+    splitIntoRows(str) { return str.split('</tr>\n<tr>'); },
+    removeColumnHeaders(arr) { return arr.splice(1); },
     splitIntoColumns(str) { return str.split('</td>\n<td>'); },
     removeUnneededColumns(arr) {
       if (!arr[2].trim()) {
@@ -70,48 +77,34 @@ export default {
       return [arr[0], `${arr[2]},${arr[3]}`];
     },
     getOffset(arr) {
-      let parsedHTML = parse5.parseFragment(arr[0]).childNodes[1].childNodes[0].childNodes[0];
-
-      // console.log(arr[0], TAs.getTextNodeContent(rrr));
-      return [TAs.getTextNodeContent(parsedHTML), arr[1]];
+      const parsedHTML = parse5.parseFragment(arr[0]).childNodes[1].childNodes[0].childNodes[0];
+      return [treeAdapters.getTextNodeContent(parsedHTML), arr[1]];
+    },
+    filterOutParens(arr) {
+      return [arr[0], arr[1].replace(/ *\(([^)]*)\)/g, '')];
     },
     filterPlaceNames(arr) {
-      // console.log(arr);
-      let parsedHTML = parse5.parseFragment(arr[1]);
-      console.log(parsedHTML);
-      return [arr[0], TAs.getChildNodes(parsedHTML).filter(x => ['a', 'p'].includes(x.nodeName))];
-    },
-    getNames(node) {
-      if (node.nodeName === 'a') {
-        return TAs.getTextNodeContent(node.childNodes[0]);
-      } else {
-        const anc = node.childNodes.filter(n => n.nodeName === 'a')[0];
-        return this.getNames(anc);
-      }
+      const parsedHTML = parse5.parseFragment(arr[1]);
+      return [arr[0], treeAdapters.getChildNodes(parsedHTML).filter(x => ['a', 'p'].includes(x.nodeName))];
     },
     extractPlaceNames(arr) {
-      // console.log(arr);
       const names = arr[1].map(this.getNames);
       return [arr[0], ...names];
     },
-    removeHTMLandParens(arr) {
-      console.log(arr);
-      // console.log(TAs);
-      // console.log({treeAdapter: TAs.getAttrList(ooo.childNodes[0])});
-      // console.log(ooo);
-      // console.log();
-      // let ppp = TAs.getChildNodes(ooo)
-      // console.log(ppp);
-
-      // return arr[1].map(x => x
-      //   .replace(/\n*<([^>]*)>\n*/g, '')
-      //   .replace(/ *\(([^)]*)\)/g, ''));
+    removeMissedStateNames(arr) {
+      if (arr[0] === 'UTC−04:00') {
+        const ind = arr.indexOf('Mato Grosso do Sul');
+        arr.splice(ind, 1);
+      }
+      if (arr[0] === 'UTC−03:00') {
+        arr.splice(8, 5);
+      }
+      if (arr[0] === 'UTC+10:00') {
+        const ind = arr.indexOf('Victoria');
+        arr.splice(ind, 1);
+      }
+      return [...arr];
     },
-    logger(arr) {
-      console.log(arr);
-    },
-    splitCountries(arr) { return [arr[0], ...arr[1].split(/, ?/)]; },
-    trimCountryNames(arr) { return arr.map(x => x.trim()); },
     finalTouches(arr) {
       return [arr[0], ...arr.slice(1).map(x => x
         .replace(/South Georgia and the South Sandwich Islands/, 'S Georgia/S Sandwich Islands')
@@ -121,7 +114,6 @@ export default {
         .replace(/[&#\d;]/g, ''))];
     },
     sortNames(arr) { return [arr[0], ...arr.slice(1).sort((a, b) => (a > b ? 1 : -1))]; },
-    removeBlanks(arr) { return arr.filter(x => !!x); },
     deDupe(arr) { return [...new Set(arr)]; },
     makeOptions(arr) { return arr.slice(1).map((x, i, a) => `${arr[0]}\u00A0\u00A0${a[i]}`); },
     async loadOptions() {
@@ -142,20 +134,16 @@ export default {
             this.splitIntoColumns,
             this.removeUnneededColumns,
             this.getOffset,
+            this.filterOutParens,
             this.filterPlaceNames,
             this.extractPlaceNames,
-            // this.removeHTMLandParens,
-
-            // this.splitCountries,
-            // this.trimCountryNames,
+            this.removeMissedStateNames,
             this.finalTouches,
             this.sortNames,
-            this.logger,
-            // this.removeBlanks,
-            // this.deDupe,
-            // this.makeOptions,
+            this.deDupe,
+            this.makeOptions,
           ))
-          // .reduce((acc, nextArr) => [...acc, ...nextArr]);
+          .reduce((acc, nextArr) => [...acc, ...nextArr]);
       } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }

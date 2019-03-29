@@ -55,7 +55,8 @@ export default {
     document.addEventListener('swUpdated', this.changeAlert);
     window.addEventListener('load', () => {
       if (!window.IntersectionObserver) {
-        Object.keys(this.IOflags).forEach((x) => { this.IOflags[x] = true; });
+        Object.keys(this.IOflags)
+          .forEach((x) => { this.IOflags[x] = true; }); // eslint-disable-next-line
         document.querySelectorAll('p.IOsentinel').forEach((p) => { p.style.display = 'none'; });
         this.$emit('show-nav');
       } else {
