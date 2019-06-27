@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "168792038d3655354354",
-    "url": "/dashboard/js/SocialElement-legacy.f889daf0.js"
+    "revision": "edc320aa916c1481d4d6",
+    "url": "/dashboard/js/SocialElement-legacy.9889c986.js"
   },
   {
-    "revision": "d013c02d87600a940b47410b98da9cbe",
+    "revision": "37327b6f0b3283bb947fcfed2419aabc",
     "url": "/dashboard/index.html"
   },
   {
@@ -12,35 +12,35 @@ self.__precacheManifest = [
     "url": "/dashboard/js/chunk-vendors-legacy.a97a1bdd.js"
   },
   {
-    "revision": "3a6bb602671746e17986",
-    "url": "/dashboard/js/BarDonut-legacy.75837a29.js"
+    "revision": "4b5b799b4e41bad103bf",
+    "url": "/dashboard/js/BarDonut-legacy.0e85c083.js"
   },
   {
-    "revision": "e627d49144f1e8e17c70",
-    "url": "/dashboard/js/app-legacy.e64384e8.js"
+    "revision": "2e04277c9b4dbaa0061b",
+    "url": "/dashboard/js/app-legacy.7d8fc551.js"
   },
   {
-    "revision": "7d822d35ba31ffeb7a5b",
-    "url": "/dashboard/js/MembersActivity-legacy.2c574e32.js"
+    "revision": "38b9539f1eea0fb33ca2",
+    "url": "/dashboard/js/MembersActivity-legacy.af80fb3b.js"
   },
   {
-    "revision": "91780b1d23d2430e7391",
-    "url": "/dashboard/js/AlertBox-legacy.40a1f1b0.js"
+    "revision": "c4073c1c5c873811a766",
+    "url": "/dashboard/js/AlertBox-legacy.16c02307.js"
   },
   {
-    "revision": "be6dd2f30128733f80f3",
-    "url": "/dashboard/js/MessageSettings-legacy.a894d333.js"
+    "revision": "3d7dcc75431de35948e4",
+    "url": "/dashboard/js/MessageSettings-legacy.13cb9629.js"
   },
   {
-    "revision": "6949c697086a9fae557f",
-    "url": "/dashboard/js/NavBar-legacy.312be7dd.js"
+    "revision": "ea84f95ee053217926e6",
+    "url": "/dashboard/js/NavBar-legacy.3545fd23.js"
   },
   {
     "revision": "6196afe19dcdcac45a5713d7e9891fee",
     "url": "/dashboard/fonts/UpperEastSide-webfont.6196afe1.woff"
   },
   {
-    "revision": "6949c697086a9fae557f",
+    "revision": "ea84f95ee053217926e6",
     "url": "/dashboard/css/NavBar.7e1a82ce.css"
   },
   {
@@ -48,7 +48,7 @@ self.__precacheManifest = [
     "url": "/dashboard/img/icon-visits.9da17580.svg"
   },
   {
-    "revision": "e627d49144f1e8e17c70",
+    "revision": "2e04277c9b4dbaa0061b",
     "url": "/dashboard/css/app.8b25a861.css"
   },
   {
@@ -60,7 +60,7 @@ self.__precacheManifest = [
     "url": "/dashboard/img/icon-dashboard.6e9bdcd2.svg"
   },
   {
-    "revision": "168792038d3655354354",
+    "revision": "edc320aa916c1481d4d6",
     "url": "/dashboard/css/SocialElement.0651f663.css"
   },
   {
@@ -72,19 +72,19 @@ self.__precacheManifest = [
     "url": "/dashboard/img/icon-settings.3df5f6f4.svg"
   },
   {
-    "revision": "be6dd2f30128733f80f3",
+    "revision": "3d7dcc75431de35948e4",
     "url": "/dashboard/css/MessageSettings.e0ded12f.css"
   },
   {
-    "revision": "7d822d35ba31ffeb7a5b",
+    "revision": "38b9539f1eea0fb33ca2",
     "url": "/dashboard/css/MembersActivity.7a2d9ac4.css"
   },
   {
-    "revision": "3a6bb602671746e17986",
+    "revision": "4b5b799b4e41bad103bf",
     "url": "/dashboard/css/BarDonut.67858c56.css"
   },
   {
-    "revision": "91780b1d23d2430e7391",
+    "revision": "c4073c1c5c873811a766",
     "url": "/dashboard/css/AlertBox.1ddecfde.css"
   }
 ];
