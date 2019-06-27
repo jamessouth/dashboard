@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/dashboard/js/SocialElement-legacy.f889daf0.js"
   },
   {
-    "revision": "0374c5c0336c49c5825f4dbc94787397",
+    "revision": "d013c02d87600a940b47410b98da9cbe",
     "url": "/dashboard/index.html"
   },
   {
@@ -16,12 +16,12 @@ self.__precacheManifest = [
     "url": "/dashboard/js/BarDonut-legacy.75837a29.js"
   },
   {
-    "revision": "ffa72d33c855ad83d7b5",
-    "url": "/dashboard/js/app-legacy.769d9608.js"
+    "revision": "e627d49144f1e8e17c70",
+    "url": "/dashboard/js/app-legacy.e64384e8.js"
   },
   {
-    "revision": "42ba64e6bfa501d74e03",
-    "url": "/dashboard/js/MembersActivity-legacy.fdbd3a7b.js"
+    "revision": "7d822d35ba31ffeb7a5b",
+    "url": "/dashboard/js/MembersActivity-legacy.2c574e32.js"
   },
   {
     "revision": "91780b1d23d2430e7391",
@@ -48,7 +48,7 @@ self.__precacheManifest = [
     "url": "/dashboard/img/icon-visits.9da17580.svg"
   },
   {
-    "revision": "ffa72d33c855ad83d7b5",
+    "revision": "e627d49144f1e8e17c70",
     "url": "/dashboard/css/app.8b25a861.css"
   },
   {
@@ -76,8 +76,8 @@ self.__precacheManifest = [
     "url": "/dashboard/css/MessageSettings.e0ded12f.css"
   },
   {
-    "revision": "42ba64e6bfa501d74e03",
-    "url": "/dashboard/css/MembersActivity.9a38823b.css"
+    "revision": "7d822d35ba31ffeb7a5b",
+    "url": "/dashboard/css/MembersActivity.7a2d9ac4.css"
   },
   {
     "revision": "3a6bb602671746e17986",

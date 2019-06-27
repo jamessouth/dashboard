@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v1';
+// version = 'v2';
 
 const prefix = 'web-app-dashboard';
 const FALLBACK_IMAGE_URL = '/dashboard/img/face.69232788.jpg';

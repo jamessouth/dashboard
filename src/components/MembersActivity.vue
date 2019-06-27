@@ -1,6 +1,6 @@
 <template>
   <div id="members" class="members_activity">
-    <div class="new-members">
+    <div class="new-members both">
       <p>new members</p>
       <NewMemberRecActivity
       :name="item.name"
@@ -11,7 +11,7 @@
       :key="index"
       v-for="(item, index) in newMembersActivityData.slice(0, 5)"/>
     </div>
-    <div class="rec-activity">
+    <div class="rec-activity both">
       <p>recent activity</p>
       <NewMemberRecActivity
       :name="item.name"
@@ -190,22 +190,19 @@ export default {
   .new-members{
     display: flex;
     justify-content: center;
+    border-bottom: 1px solid #cecece;
     align-items: center;
     flex-direction: column;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    width: 100%;
   }
   .rec-activity{
     display: block;
+  }
+  .both{
     max-height: 523px;
     overflow-y: scroll;
     padding-top: 1em;
     padding-bottom: 1em;
     width: 100%;
-  }
-  .new-members{
-    border-bottom: 1px solid #cecece;
   }
   .new-members > div:last-child,
   .rec-activity > div:last-child{
