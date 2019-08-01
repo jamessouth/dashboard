@@ -1,5 +1,5 @@
 {
-  "name": "web-app-dashboard",
+  "name": "dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,15 +15,15 @@
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-moment": "^4.0.0",
-    "vue-router": "^3.0.6",
+    "vue-router": "^3.0.7",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-plugin-eslint": "^3.8.0",
-    "@vue/cli-plugin-pwa": "^3.8.0",
-    "@vue/cli-service": "^3.8.4",
-    "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-eslint": "^3.9.2",
+    "@vue/cli-plugin-pwa": "^3.9.0",
+    "@vue/cli-service": "^3.9.3",
+    "@vue/eslint-config-airbnb": "^4.0.1",
     "moment-locales-webpack-plugin": "^1.0.7",
     "vue-style-lint": "^1.0.3",
     "vue-template-compiler": "^2.6.10"
