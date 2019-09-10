@@ -1,5 +1,5 @@
 <template>
-  <button type="button">{{ text }}</button>
+  <button class="big" type="button">{{ text }}</button>
 </template>
 
 <script>
@@ -41,7 +41,7 @@ export default {
       margin-top: 4.22em;
     }
     @-moz-document url-prefix(){
-      button{
+      button.big{
         margin-top: 4.33em;
       }
     }

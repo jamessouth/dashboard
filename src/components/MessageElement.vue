@@ -78,6 +78,7 @@ export default {
   fieldset{
     border: none;
     max-width: 492px;
+    height: 264px;
     margin: 0 auto;
   }
   legend{

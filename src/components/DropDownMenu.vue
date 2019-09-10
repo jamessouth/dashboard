@@ -80,9 +80,6 @@ export default {
       const parsedHTML = parse5.parseFragment(arr[0]).childNodes[1].childNodes[0].childNodes[0];
       return [treeAdapters.getTextNodeContent(parsedHTML), arr[1]];
     },
-    filterOutParens(arr) {
-      return [arr[0], arr[1].replace(/ *\(([^)]*)\)/g, '')];
-    },
     filterPlaceNames(arr) {
       const parsedHTML = parse5.parseFragment(arr[1]);
       return [arr[0], treeAdapters.getChildNodes(parsedHTML).filter(x => ['a', 'p'].includes(x.nodeName))];
@@ -91,16 +88,9 @@ export default {
       const names = arr[1].map(this.getNames);
       return [arr[0], ...names];
     },
-    removeMissedStateNames(arr) {
-      if (arr[0] === 'UTC−04:00') {
-        const ind = arr.indexOf('Mato Grosso do Sul');
-        arr.splice(ind, 1);
-      }
-      if (arr[0] === 'UTC−03:00') {
-        arr.splice(8, 5);
-      }
-      if (arr[0] === 'UTC+10:00') {
-        const ind = arr.indexOf('Victoria');
+    removeErrantEntries(arr) {
+      if (arr[0] === 'UTC+01:00') {
+        const ind = arr.indexOf('metropolitan');
         arr.splice(ind, 1);
       }
       return [...arr];
@@ -110,6 +100,7 @@ export default {
         .replace(/South Georgia and the South Sandwich Islands/, 'S Georgia/S Sandwich Islands')
         .replace(/British Indian Ocean Territory/, 'BIOT')
         .replace(/,/, '')
+        .replace(/ *time/i, '')
         .replace(/Democratic Republic of the Congo/, 'DR Congo')
         .replace(/[&#\d;]/g, ''))];
     },
@@ -134,10 +125,9 @@ export default {
             this.splitIntoColumns,
             this.removeUnneededColumns,
             this.getOffset,
-            this.filterOutParens,
             this.filterPlaceNames,
             this.extractPlaceNames,
-            this.removeMissedStateNames,
+            this.removeErrantEntries,
             this.finalTouches,
             this.sortNames,
             this.deDupe,
@@ -163,6 +153,7 @@ export default {
   }
   select{
     outline: none;
+    height: 51.5px;
     width: 100%;
     background: url(../assets/downArrow.jpg) no-repeat 100%;
     font-size: 17px;

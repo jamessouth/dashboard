@@ -80,7 +80,7 @@ export default {
       this.$router.push(`/${country}`.toLowerCase().replace(/ /g, '-'));
     },
     changeIndicator_Subroute(e) {
-      const subroute = e.target.innerText.toLowerCase();
+      const subroute = e.target.innerText.toLowerCase().trim();
       this.$router.push(`/${this.country}/${subroute}`);
     },
   },
