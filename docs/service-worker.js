@@ -1,8 +1,8 @@
-importScripts("/dashboard/precache-manifest.8e53ae1305f2f5b22baa9c928a98e4bc.js", "https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
+importScripts("/dashboard/precache-manifest.301c8aaf25fe72363b74667387cb8910.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v4';
+// version = 'v5';
 
 const prefix = 'web-app-dashboard';
 const FALLBACK_IMAGE_URL = '/dashboard/img/face.69232788.jpg';

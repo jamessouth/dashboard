@@ -184,7 +184,7 @@ export default {
         num = Math.floor(Math.random() * 13);
         nums.add(num);
       }
-      return [...nums].map(x => colorBank[x]);
+      return [...nums].map((x) => colorBank[x]);
     },
     handleMQ(evt) {
       if (evt.matches) {
@@ -215,7 +215,8 @@ export default {
           dataLabels.push(evt);
           dataData.push(slimData[evt]);
         });
-        this.chartData = Object.assign({}, this.chartData, {
+        this.chartData = {
+          ...this.chartData,
           labels: dataLabels,
           datasets: [
             {
@@ -225,7 +226,7 @@ export default {
               borderWidth: Array(13).fill(0),
             },
           ],
-        });
+        };
       } catch (err) { // eslint-disable-next-line
         alert(`There was a problem grabbing the data: ${err}.  Please try again.`);
       }

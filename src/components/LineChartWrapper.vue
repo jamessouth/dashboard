@@ -240,7 +240,7 @@ export default {
       return 'error';
     },
     lookupCountryCode(country) {
-      const lookup = countries.filter(c => c.country.toLowerCase().replace(/ /g, '-') === country);
+      const lookup = countries.filter((c) => c.country.toLowerCase().replace(/ /g, '-') === country);
       try {
         return lookup[0].code.toLowerCase();
       } catch (err) {

@@ -27,12 +27,12 @@ import LineChartWrapper from './LineChartWrapper.vue';
 export default {
   name: 'MainElement',
   components: {
-    AlertBox: () => import(/* webpackChunkName: "AlertBox" */ './AlertBox.vue').catch(err => console.log(err)),
+    AlertBox: () => import(/* webpackChunkName: "AlertBox" */ './AlertBox.vue').catch((err) => console.log(err)),
     LineChartWrapper,
-    BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch(err => console.log(err)),
-    SocialElement: () => import(/* webpackChunkName: "SocialElement" */ './SocialElement.vue').catch(err => console.log(err)),
-    MembersActivity: () => import(/* webpackChunkName: "MembersActivity" */ './MembersActivity.vue').catch(err => console.log(err)),
-    MessageSettings: () => import(/* webpackChunkName: "MessageSettings" */ './MessageSettings.vue').catch(err => console.log(err)),
+    BarDonut: () => import(/* webpackChunkName: "BarDonut" */ './BarDonut.vue').catch((err) => console.log(err)),
+    SocialElement: () => import(/* webpackChunkName: "SocialElement" */ './SocialElement.vue').catch((err) => console.log(err)),
+    MembersActivity: () => import(/* webpackChunkName: "MembersActivity" */ './MembersActivity.vue').catch((err) => console.log(err)),
+    MessageSettings: () => import(/* webpackChunkName: "MessageSettings" */ './MessageSettings.vue').catch((err) => console.log(err)),
   },
   data() {
     return {
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     IOcallback(entries, observer) {
-      entries.filter(entry => entry.isIntersecting).forEach((x) => {
+      entries.filter((entry) => entry.isIntersecting).forEach((x) => {
         this.IOflags[x.target.id] = true;
         observer.unobserve(x.target);
         x.target.classList.add('hide'); // eslint-disable-next-line
@@ -76,7 +76,7 @@ export default {
     },
     IOobserve() {
       const observer = new IntersectionObserver(this.IOcallback, this.IOoptions);
-      Object.keys(this.$refs).forEach(x => observer.observe(this.$refs[x]));
+      Object.keys(this.$refs).forEach((x) => observer.observe(this.$refs[x]));
     },
     changeAlert(e) {
       this.newAlert = true;

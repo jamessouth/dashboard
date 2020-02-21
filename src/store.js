@@ -12,10 +12,10 @@ export default new Vuex.Store({
     users: [],
   },
   getters: {
-    dataIsCached: state => countryCode => Object.prototype.hasOwnProperty
+    dataIsCached: (state) => (countryCode) => Object.prototype.hasOwnProperty
       .call(state.cache, countryCode),
-    getDataFromCache: state => countryCode => state.cache[countryCode],
-    getSettings: state => state.settings,
+    getDataFromCache: (state) => (countryCode) => state.cache[countryCode],
+    getSettings: (state) => state.settings,
   },
   mutations: {
     toggleLoadingStatus(state) {

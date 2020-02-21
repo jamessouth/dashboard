@@ -55,7 +55,7 @@ export default {
       if (node.nodeName === 'a') {
         return treeAdapters.getTextNodeContent(node.childNodes[0]);
       }
-      const anchor = node.childNodes.filter(n => n.nodeName === 'a')[0];
+      const anchor = node.childNodes.filter((n) => n.nodeName === 'a')[0];
       return this.getNames(anchor);
     },
     pipe(...fns) {
@@ -82,7 +82,7 @@ export default {
     },
     filterPlaceNames(arr) {
       const parsedHTML = parse5.parseFragment(arr[1]);
-      return [arr[0], treeAdapters.getChildNodes(parsedHTML).filter(x => ['a', 'p'].includes(x.nodeName))];
+      return [arr[0], treeAdapters.getChildNodes(parsedHTML).filter((x) => ['a', 'p'].includes(x.nodeName))];
     },
     extractPlaceNames(arr) {
       const names = arr[1].map(this.getNames);
@@ -96,7 +96,7 @@ export default {
       return [...arr];
     },
     finalTouches(arr) {
-      return [arr[0], ...arr.slice(1).map(x => x
+      return [arr[0], ...arr.slice(1).map((x) => x
         .replace(/South Georgia and the South Sandwich Islands/, 'S Georgia/S Sandwich Islands')
         .replace(/British Indian Ocean Territory/, 'BIOT')
         .replace(/,/, '')

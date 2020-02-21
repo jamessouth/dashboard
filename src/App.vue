@@ -12,7 +12,7 @@
 import HeaderBar from './components/HeaderBar.vue';
 import MainElement from './components/MainElement.vue';
 
-export default{
+export default {
   components: {
     HeaderBar, // eslint-disable-next-line
     NavBar: () => import(/* webpackChunkName: "NavBar" */ './components/NavBar.vue').catch(err => console.log(err)),

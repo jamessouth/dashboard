@@ -61,7 +61,7 @@ export default {
   watch: {
     $route(to) {
       const buttonToFocus = [...this.$refs.linebuttons.children]
-        .filter(x => x.value === to.params.indicator)[0];
+        .filter((x) => x.value === to.params.indicator)[0];
       if (buttonToFocus !== document.activeElement) {
         buttonToFocus.focus();
       }
