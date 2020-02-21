@@ -2,23 +2,24 @@ importScripts("/dashboard/precache-manifest.301c8aaf25fe72363b74667387cb8910.js"
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v5';
+// version = 'v6';
 
 const prefix = 'web-app-dashboard';
-const FALLBACK_IMAGE_URL = '/dashboard/img/face.69232788.jpg';
+const imageFallbackCacheKey = workbox.precaching.getCacheKeyForURL('/dashboard/img/face.69232788.jpg');
 // public path dashboard apparently no longer automatically added so manually prepending
 
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+workbox.precaching.cleanupOutdatedCaches();
 self.addEventListener('message', (e) => {
   if (!e.data) return;
   if (e.data === 'skipWaiting') self.skipWaiting();
 });
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.googleapis\.com/,
-  workbox.strategies.staleWhileRevalidate({
+  new workbox.strategies.StaleWhileRevalidate({
     cacheName: `${prefix}-google-fonts-css`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -30,7 +31,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   /^https:\/\/fonts\.gstatic\.com/,
-  workbox.strategies.cacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: `${prefix}-google-fonts-webfonts`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -42,7 +43,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   /^https:\/\/eonet\.sci\.gsfc\.nasa\.gov\/api\/v2\.1\/events\?days=60/,
-  workbox.strategies.networkFirst({
+  new workbox.strategies.NetworkFirst({
     cacheName: `${prefix}-natural-events-data`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -54,7 +55,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/\?results=10&inc=name,email,picture&noinfo/,
-  workbox.strategies.networkFirst({
+  new workbox.strategies.NetworkFirst({
     cacheName: `${prefix}-randomuser-data`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -67,7 +68,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   /^https:\/\/en\.wikipedia\.org\/w\/api\.php\?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=\*/,
-  workbox.strategies.cacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: `${prefix}-wikipedia-timezones`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -79,7 +80,7 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   /^https:\/\/api\.worldbank\.org\/v2\/countries/,
-  workbox.strategies.cacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: `${prefix}-worldbank-data`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -91,11 +92,11 @@ workbox.routing.registerRoute(
 );
 workbox.routing.registerRoute(
   /^https:\/\/randomuser\.me\/api\/portraits/,
-  workbox.strategies.networkOnly(),
+  new workbox.strategies.NetworkOnly(),
 );
 workbox.routing.registerRoute(
   /nodata\.\w*\.?png$/,
-  workbox.strategies.cacheFirst({
+  new workbox.strategies.CacheFirst({
     cacheName: `${prefix}-unprecached`,
     plugins: [
       new workbox.expiration.Plugin({
@@ -105,7 +106,7 @@ workbox.routing.registerRoute(
     ],
   }),
 );
-workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
+workbox.routing.setDefaultHandler(new workbox.strategies.StaleWhileRevalidate({
   cacheName: `${prefix}-default-handler`,
   plugins: [
     new workbox.expiration.Plugin({
@@ -116,7 +117,7 @@ workbox.routing.setDefaultHandler(workbox.strategies.staleWhileRevalidate({
 }));
 workbox.routing.setCatchHandler(({ event }) => {
   if (event.request.destination === 'image' && /^https:\/\/randomuser\.me\/api\/portraits/.test(event.request.url)) {
-    return caches.match(FALLBACK_IMAGE_URL);
+    return caches.match(imageFallbackCacheKey);
   }
   return Response.error();
 });
