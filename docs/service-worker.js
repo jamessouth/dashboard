@@ -2,7 +2,7 @@ importScripts("/dashboard/precache-manifest.301c8aaf25fe72363b74667387cb8910.js"
 
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v6';
+// version = 'v7';
 
 const prefix = 'web-app-dashboard';
 const imageFallbackCacheKey = workbox.precaching.getCacheKeyForURL('/dashboard/img/face.69232788.jpg');
@@ -10,7 +10,6 @@ const imageFallbackCacheKey = workbox.precaching.getCacheKeyForURL('/dashboard/i
 
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 workbox.precaching.cleanupOutdatedCaches();
 self.addEventListener('message', (e) => {

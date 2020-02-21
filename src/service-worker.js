@@ -1,6 +1,6 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 
-// version = 'v6';
+// version = 'v7';
 
 const prefix = 'web-app-dashboard';
 const imageFallbackCacheKey = workbox.precaching.getCacheKeyForURL('/dashboard/img/face.69232788.jpg');
@@ -8,7 +8,6 @@ const imageFallbackCacheKey = workbox.precaching.getCacheKeyForURL('/dashboard/i
 
 workbox.core.setCacheNameDetails({ prefix });
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 workbox.precaching.cleanupOutdatedCaches();
 self.addEventListener('message', (e) => {
