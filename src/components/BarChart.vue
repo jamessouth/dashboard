@@ -8,7 +8,10 @@ export default {
   extends: Bar,
   mixins: [reactiveProp],
   props: {
-    options: Object,
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   watch: {
     options() {

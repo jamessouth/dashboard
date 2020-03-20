@@ -1,19 +1,24 @@
 <template>
   <div>
     <LineChartControls
-    :country="country"
-    :indicator="indicator"/>
+      :country="country"
+      :indicator="indicator"
+    />
     <line-chart
-    v-if="!this.$store.state.loading && isData"
-    :chart-data="chartData"
-    :options="chartOptions">
-    </line-chart>
+      v-if="!this.$store.state.loading && isData"
+      :chart-data="chartData"
+      :options="chartOptions"
+    />
     <img
-    width="300"
-    height="360"
-    v-else-if="!this.$store.state.loading && !isData"
-    src="../assets/nodata.png" alt="no data"/>
-    <div v-else>Loading...</div>
+      v-else-if="!this.$store.state.loading && !isData"
+      width="300"
+      height="360"
+      src="../assets/nodata.png"
+      alt="no data"
+    >
+    <div v-else>
+      Loading...
+    </div>
   </div>
 </template>
 
@@ -29,8 +34,14 @@ export default {
     LineChartControls,
   },
   props: {
-    country: String,
-    indicator: String,
+    country: {
+      type: String,
+      default: '',
+    },
+    indicator: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {

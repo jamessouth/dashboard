@@ -8,7 +8,10 @@ export default {
   extends: Doughnut,
   mixins: [reactiveProp],
   props: {
-    options: Object,
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   mounted() {
     this.renderChart(this.chartData, this.options);

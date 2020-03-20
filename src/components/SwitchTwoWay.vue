@@ -2,19 +2,37 @@
   <section>
     <p>{{ label }}</p>
     <div
-    tabindex="0"
-    @keyup.left.right="handleClick"
-    @click="handleClick"
-    :style="{ background: switchOn ?
-    'linear-gradient(to bottom right, #a6aaf2, #40448c)' :
-    'linear-gradient(to bottom right, #ea4e51, #840000)' }">
-      <input tabindex="-1" :name="name" :id="onID" type="radio" v-model="switchOn"/>
+      tabindex="0"
+      :style="{ background: switchOn ?
+        'linear-gradient(to bottom right, #a6aaf2, #40448c)' :
+        'linear-gradient(to bottom right, #ea4e51, #840000)' }"
+      @keyup.left.right="handleClick"
+      @click="handleClick"
+    >
+      <input
+        :id="onID"
+        v-model="switchOn"
+        tabindex="-1"
+        :name="name"
+        type="radio"
+      >
       <label
-      :style="{ display: switchOn ? 'block' : 'none' }"
-      @click.prevent=""
-      :for="onID">on</label>
-      <input tabindex="-1" :name="name" :id="offID" type="radio" v-model="switchOn"/>
-      <label :style="offLabel" @click.prevent="" :for="offID">off</label>
+        :style="{ display: switchOn ? 'block' : 'none' }"
+        :for="onID"
+        @click.prevent=""
+      >on</label>
+      <input
+        :id="offID"
+        v-model="switchOn"
+        tabindex="-1"
+        :name="name"
+        type="radio"
+      >
+      <label
+        :style="offLabel"
+        :for="offID"
+        @click.prevent=""
+      >off</label>
     </div>
   </section>
 </template>

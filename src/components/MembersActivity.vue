@@ -1,26 +1,31 @@
 <template>
-  <div id="members" class="members_activity">
+  <div
+    id="members"
+    class="members_activity"
+  >
     <div class="new-members both">
       <p>new members</p>
       <NewMemberRecActivity
-      :name="item.name"
-      :email="item.email"
-      :photo="item.photo"
-      :date="item.date"
-      :is-arabic="item.isArabic"
-      :key="index"
-      v-for="(item, index) in newMembersActivityData.slice(0, 5)"/>
+        v-for="(item, index) in newMembersActivityData.slice(0, 5)"
+        :key="index"
+        :name="item.name"
+        :email="item.email"
+        :photo="item.photo"
+        :date="item.date"
+        :is-arabic="item.isArabic"
+      />
     </div>
     <div class="rec-activity both">
       <p>recent activity</p>
       <NewMemberRecActivity
-      :name="item.name"
-      :action="item.action"
-      :photo="item.photo"
-      :is-arabic="item.isArabic"
-      :time="item.time"
-      :key="index"
-      v-for="(item, index) in activityData"/>
+        v-for="(item, index) in activityData"
+        :key="index"
+        :name="item.name"
+        :action="item.action"
+        :photo="item.photo"
+        :is-arabic="item.isArabic"
+        :time="item.time"
+      />
     </div>
   </div>
 </template>

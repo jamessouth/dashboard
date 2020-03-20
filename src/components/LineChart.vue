@@ -8,7 +8,10 @@ export default {
   extends: Line,
   mixins: [reactiveProp],
   props: {
-    options: Object,
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   watch: {
     chartOptions(newChartOptions) {

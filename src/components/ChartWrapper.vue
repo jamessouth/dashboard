@@ -1,23 +1,30 @@
 <template>
   <div :class="{ barClass: type === 'bar', donutClass: type === 'donut' }">
-    <p>Natural events from
+    <p>
+      Natural events from
       <a
-      class="newwindow"
-      rel="noopener noreferrer"
-      target="_blank"
-      href="https://eonet.sci.gsfc.nasa.gov/eonet-project">EONET</a>
+        class="newwindow"
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://eonet.sci.gsfc.nasa.gov/eonet-project"
+      >EONET</a>
     </p>
     <div :style="{ margin: '0 auto', width: '90%' }">
-      <ul :style="legendStyles" ref="legend"></ul>
+      <ul
+        ref="legend"
+        :style="legendStyles"
+      />
     </div>
     <BarChart
-    v-if="type === 'bar'"
-    :options="opts"
-    :chart-data="chData"/>
+      v-if="type === 'bar'"
+      :options="opts"
+      :chart-data="chData"
+    />
     <DonutChart
-    v-else
-    :options="opts"
-    :chart-data="chData"/>
+      v-else
+      :options="opts"
+      :chart-data="chData"
+    />
   </div>
 </template>
 
@@ -36,8 +43,14 @@ export default {
       type: String,
       required: true,
     },
-    chData: Object,
-    opts: Object,
+    chData: {
+      type: Object,
+      required: true,
+    },
+    opts: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     legendStyles() {

@@ -1,20 +1,42 @@
 <template>
+  <!-- eslint-disable max-len -->
   <header ref="head">
     <h1>MyApp<span>&trade;</span></h1>
     <div>
       <button
-      :disabled="!a2hsPrompt"
-      :class="{ unclickable: !a2hsPrompt }"
-      @click="openAlert = !openAlert">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path class="st0" d="M24 18v-8c0-5.5-4.5-10-10-10S4 4.5 4 10v8l-4 8h9.1c0.5 2.3 2.5 4 4.9 4s4.4-1.7 4.9-4H28L24 18zM14 28c-1.3 0-2.4-0.8-2.8-2h5.6C16.4 27.2 15.3 28 14 28zM3 24l3-6v-8c0-4.4 3.6-8 8-8s8 3.6 8 8v8l3 6H3z"></path></svg>
+        :disabled="!a2hsPrompt"
+        :class="{ unclickable: !a2hsPrompt }"
+        @click="openAlert = !openAlert"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+        ><path
+          class="st0"
+          d="M24 18v-8c0-5.5-4.5-10-10-10S4 4.5 4 10v8l-4 8h9.1c0.5 2.3 2.5 4 4.9 4s4.4-1.7 4.9-4H28L24 18zM14 28c-1.3 0-2.4-0.8-2.8-2h5.6C16.4 27.2 15.3 28 14 28zM3 24l3-6v-8c0-4.4 3.6-8 8-8s8 3.6 8 8v8l3 6H3z"
+        /></svg>
       </button>
-      <div :style="alertStyles" class="triangle"></div>
-      <div :style="alertStyles" class="dropdown">
-        <button ref="pbut" @click="a2hs">Add to Home Screen</button>
+      <div
+        :style="alertStyles"
+        class="triangle"
+      />
+      <div
+        :style="alertStyles"
+        class="dropdown"
+      >
+        <button
+          ref="pbut"
+          @click="a2hs"
+        >
+          Add to Home Screen
+        </button>
       </div>
       <span :class="{ blink: a2hsPrompt }">.</span>
       <p>|</p>
-      <img src="../assets/face.jpg" alt="user face or avatar">
+      <img
+        src="../assets/face.jpg"
+        alt="user face or avatar"
+      >
       <p>{{ name }}</p>
     </div>
   </header>

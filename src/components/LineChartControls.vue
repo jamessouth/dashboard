@@ -1,26 +1,47 @@
 <template>
-  <div id="charts" class="line-controls">
+  <div
+    id="charts"
+    class="line-controls"
+  >
     <div class="dropdown">
       <label for="sel_country">select country</label>
-      <select name="sel_country" id="sel_country">
-        <option selected disabled value="">Select Country</option>
+      <select
+        id="sel_country"
+        name="sel_country"
+      >
+        <option
+          selected
+          disabled
+          value=""
+        >
+          Select Country
+        </option>
       </select>
-      <button @click="changeCountry_Route">GO!</button>
+      <button @click="changeCountry_Route">
+        GO!
+      </button>
     </div>
     <div
-    ref="linebuttons"
-    @click="changeIndicator_Subroute"
-    class="line-buttons">
+      ref="linebuttons"
+      class="line-buttons"
+      @click="changeIndicator_Subroute"
+    >
       <button
-      :value="item.toLowerCase()"
-      :key="index"
-      :class="{ lineSelected: item.toLowerCase() === indicator }"
-      v-for="(item, index) in indicators">
+        v-for="(item, index) in indicators"
+        :key="index"
+        :value="item.toLowerCase()"
+        :class="{ lineSelected: item.toLowerCase() === indicator }"
+      >
         {{ item }}
       </button>
     </div>
     <p>
-      <a class="newwindow" rel="noopener noreferrer" target="_blank" href="https://data.worldbank.org/">world bank data</a>&nbsp;&nbsp;<span :style="spanCols">{{ loadingOrCountry }}</span>
+      <a
+        class="newwindow"
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://data.worldbank.org/"
+      >world bank data</a>&nbsp;&nbsp;<span :style="spanCols">{{ loadingOrCountry }}</span>
     </p>
   </div>
 </template>
@@ -31,8 +52,14 @@ import countries from '@/assets/iso2countries';
 export default {
   name: 'LineChartControls',
   props: {
-    country: String,
-    indicator: String,
+    country: {
+      type: String,
+      default: '',
+    },
+    indicator: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {

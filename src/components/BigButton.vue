@@ -1,5 +1,10 @@
 <template>
-  <button class="big" type="button">{{ text }}</button>
+  <button
+    class="big"
+    type="button"
+  >
+    {{ text }}
+  </button>
 </template>
 
 <script>

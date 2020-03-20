@@ -4,7 +4,12 @@
       <span>Alert</span>
       &nbsp;&nbsp;Updates available! Please close this alert box to see the changes!!
     </p>
-    <button @click="close" ref="alertbtn">x</button>
+    <button
+      ref="alertbtn"
+      @click="close"
+    >
+      x
+    </button>
   </div>
 </template>
 
@@ -12,7 +17,10 @@
 export default {
   name: 'AlertBox',
   props: {
-    regObj: Object,
+    regObj: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     swHandle() {

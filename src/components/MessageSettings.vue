@@ -1,7 +1,7 @@
 <template>
   <div>
-    <MessageElement/>
-    <SettingsElement/>
+    <MessageElement />
+    <SettingsElement />
   </div>
 </template>
 

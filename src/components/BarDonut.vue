@@ -1,13 +1,15 @@
 <template>
   <div class="bar_donut">
     <ChartWrapper
-    :opts="barChartOptions"
-    :ch-data="chartData"
-    :type="'bar'"/>
+      :opts="barChartOptions"
+      :ch-data="chartData"
+      :type="'bar'"
+    />
     <ChartWrapper
-    :opts="donutChartOptions"
-    :ch-data="chartData"
-    :type="'donut'"/>
+      :opts="donutChartOptions"
+      :ch-data="chartData"
+      :type="'donut'"
+    />
   </div>
 </template>
 

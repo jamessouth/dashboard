@@ -3,16 +3,17 @@
     <nav>
       <ul>
         <NavItem
-        :datatip="item.datatip"
-        :sel.sync="selInd"
-        :namehref="index === 0 ? '#' : `#${item.datatip.toLowerCase()}`"
-        :imgsrc="item.src"
-        :alert="index === 0 ? passedAlert : null"
-        :head="index === 0 ? headProp : null"
-        :ind="index"
-        :imgalt="`${item.datatip.toLowerCase()} link`"
-        :key="index"
-        v-for="(item, index) in navItems"/>
+          v-for="(item, index) in navItems"
+          :key="index"
+          :datatip="item.datatip"
+          :sel.sync="selInd"
+          :namehref="index === 0 ? '#' : `#${item.datatip.toLowerCase()}`"
+          :imgsrc="item.src"
+          :alert="index === 0 ? passedAlert : null"
+          :head="index === 0 ? headProp : null"
+          :ind="index"
+          :imgalt="`${item.datatip.toLowerCase()} link`"
+        />
       </ul>
     </nav>
   </div>

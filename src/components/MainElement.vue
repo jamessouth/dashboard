@@ -2,20 +2,39 @@
   <main>
     <div class="main-title">
       <h1>Dashboard</h1>
-      <div></div>
+      <div />
     </div>
-    <AlertBox :reg-obj="rego" v-if="newAlert"/>
+    <AlertBox
+      v-if="newAlert"
+      :reg-obj="rego"
+    />
     <router-view>
-      <LineChartWrapper/>
+      <LineChartWrapper />
     </router-view>
-    <p class="IOsentinel" id="BarDonut" ref="BarDonut"></p>
-    <BarDonut v-if="IOflags.BarDonut"/>
-    <p class="IOsentinel" id="Social" ref="Social"></p>
-    <SocialElement v-if="IOflags.Social"/>
-    <p class="IOsentinel" id="MembersActivity" ref="MembersActivity"></p>
-    <MembersActivity v-if="IOflags.MembersActivity"/>
-    <p class="IOsentinel" id="MessageSettings" ref="MessageSettings"></p>
-    <MessageSettings v-if="IOflags.MessageSettings"/>
+    <p
+      id="BarDonut"
+      ref="BarDonut"
+      class="IOsentinel"
+    />
+    <BarDonut v-if="IOflags.BarDonut" />
+    <p
+      id="Social"
+      ref="Social"
+      class="IOsentinel"
+    />
+    <SocialElement v-if="IOflags.Social" />
+    <p
+      id="MembersActivity"
+      ref="MembersActivity"
+      class="IOsentinel"
+    />
+    <MembersActivity v-if="IOflags.MembersActivity" />
+    <p
+      id="MessageSettings"
+      ref="MessageSettings"
+      class="IOsentinel"
+    />
+    <MessageSettings v-if="IOflags.MessageSettings" />
   </main>
 </template>
 

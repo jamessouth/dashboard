@@ -1,13 +1,31 @@
 <template>
-  <div :style="divMrgn" class="member">
-    <img class="m-a-imgs" :src="imgSrc" alt="user face or avatar">
+  <div
+    :style="divMrgn"
+    class="member"
+  >
+    <img
+      class="m-a-imgs"
+      :src="imgSrc"
+      alt="user face or avatar"
+    >
     <div class="mem-act">
       <div>
-        <p :style="nameFont">{{ name }}</p>
-        <p v-if="date">{{ date | moment("M/DD/YY") }}</p>
-        <p v-else>{{ time | moment("h:mm:ss a M/DD/YY") }}</p>
+        <p :style="nameFont">
+          {{ name }}
+        </p>
+        <p v-if="date">
+          {{ date | moment("M/DD/YY") }}
+        </p>
+        <p v-else>
+          {{ time | moment("h:mm:ss a M/DD/YY") }}
+        </p>
       </div>
-      <p :style="emailActStyle" tabindex="0">{{ emailOrAction }}</p>
+      <p
+        :style="emailActStyle"
+        tabindex="0"
+      >
+        {{ emailOrAction }}
+      </p>
     </div>
   </div>
 </template>
@@ -22,6 +40,7 @@ export default {
     },
     email: {
       type: String,
+      default: '',
       required: false,
     },
     photo: {
@@ -32,9 +51,18 @@ export default {
       type: Boolean,
       required: true,
     },
-    action: Object,
-    date: Object,
-    time: Object,
+    action: {
+      type: Object,
+      required: true,
+    },
+    date: {
+      type: Object,
+      required: true,
+    },
+    time: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     divMrgn() {

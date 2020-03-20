@@ -4,24 +4,44 @@
       <fieldset>
         <legend>message user</legend>
         <label for="user_search">search for user</label>
-        <input v-model="nameInput" spellcheck=false list="names" id="user_search" name="search"
-        type="search" placeholder="Search for User"/>
+        <input
+          id="user_search"
+          v-model="nameInput"
+          spellcheck="false"
+          list="names"
+          name="search"
+          type="search"
+          placeholder="Search for User"
+        >
         <datalist id="names">
-          <option :key="index" v-for="(user, index) in userList">{{ user.name }}</option>
+          <option
+            v-for="(user, index) in userList"
+            :key="index"
+          >
+            {{ user.name }}
+          </option>
         </datalist>
         <label for="message">message for user</label>
-        <textarea v-model="messageInput" name="message"
-        placeholder="Message for User" id="message"></textarea>
+        <textarea
+          id="message"
+          v-model="messageInput"
+          name="message"
+          placeholder="Message for User"
+        />
       </fieldset>
       <transition
-      @after-enter="afterEnter"
-      @before-leave="beforeLeave"
-      name="sent">
-        <p v-if="sent">{{ popupMessage }}</p>
+        name="sent"
+        @after-enter="afterEnter"
+        @before-leave="beforeLeave"
+      >
+        <p v-if="sent">
+          {{ popupMessage }}
+        </p>
       </transition>
       <BigButton
-      @click.native="handleClick"
-      :text="'Send'"/>
+        :text="'Send'"
+        @click.native="handleClick"
+      />
     </form>
   </div>
 </template>

@@ -1,10 +1,18 @@
 <template>
-  <li tabindex="-1" :data-tip="datatip" class="tooltip">
+  <li
+    tabindex="-1"
+    :data-tip="datatip"
+    class="tooltip"
+  >
     <a
-    :href="namehref"
-    @click="select(ind)"
-    :class="{ selected: ind === sel, blink: alert && !head }">
-      <img :src="imgsrc" :alt="imgalt">
+      :href="namehref"
+      :class="{ selected: ind === sel, blink: alert && !head }"
+      @click="select(ind)"
+    >
+      <img
+        :src="imgsrc"
+        :alt="imgalt"
+      >
     </a>
   </li>
 </template>
@@ -33,9 +41,15 @@ export default {
       type: Number,
       required: true,
     },
-    sel: null,
-    alert: null,
-    head: null,
+    sel: {
+      type: Boolean,
+    },
+    alert: {
+      type: Boolean,
+    },
+    head: {
+      type: Boolean,
+    },
   },
   methods: {
     select(i) {

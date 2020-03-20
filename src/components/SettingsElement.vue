@@ -4,29 +4,36 @@
       <fieldset>
         <legend>settings</legend>
         <SwitchTwoWay
-        @store-onOff="email = $event"
-        :label="'Send Email'"
-        :name="'email'"/>
+          :label="'Send Email'"
+          :name="'email'"
+          @store-onOff="email = $event"
+        />
         <SwitchTwoWay
-        @store-onOff="profile = $event"
-        :label="'Set Profile'"
-        :name="'profile'"/>
+          :label="'Set Profile'"
+          :name="'profile'"
+          @store-onOff="profile = $event"
+        />
         <DropDownMenu
-        @store-timezone="timezone = $event"
-        :name="'Timezone'"/>
+          :name="'Timezone'"
+          @store-timezone="timezone = $event"
+        />
       </fieldset>
       <transition
-      @after-enter="afterEnter"
-      name="saved">
-        <p v-if="saved">{{ popupMessage }}</p>
+        name="saved"
+        @after-enter="afterEnter"
+      >
+        <p v-if="saved">
+          {{ popupMessage }}
+        </p>
       </transition>
       <BigButton
-      @click.native="timezone && setSettings({
-      timezone,
-      email,
-      profile,
-      }); handleClick();"
-      :text="'Save'"/>
+        :text="'Save'"
+        @click.native="timezone && setSettings({
+          timezone,
+          email,
+          profile,
+        }); handleClick();"
+      />
     </form>
   </div>
 </template>

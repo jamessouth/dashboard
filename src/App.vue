@@ -1,9 +1,17 @@
 <template>
   <div id="app">
-    <HeaderBar @a2hs="alert = true" @a2hsOffered="alert = false" @head="header"/>
+    <HeaderBar
+      @a2hs="alert = true"
+      @a2hsOffered="alert = false"
+      @head="header"
+    />
     <div id="hold">
-      <NavBar :alert="alert" :head-shown="headShown" v-if="showNav"/>
-      <MainElement @show-nav="showNav = true"/>
+      <NavBar
+        v-if="showNav"
+        :alert="alert"
+        :head-shown="headShown"
+      />
+      <MainElement @show-nav="showNav = true" />
     </div>
   </div>
 </template>

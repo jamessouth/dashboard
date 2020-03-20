@@ -2,17 +2,25 @@
   <div>
     <label :for="forAttr">select {{ name.toLowerCase() }}</label>
     <select
-    @change="$emit('store-timezone', selected)"
-    v-model="selected"
-    required
-    :name="forAttr"
-    :id="forAttr">
-      <option disabled value="">Select {{ name }}</option>
+      :id="forAttr"
+      v-model="selected"
+      required
+      :name="forAttr"
+      @change="$emit('store-timezone', selected)"
+    >
       <option
-      :style="{ color: '#676666' }"
-      v-for="(opt, index) in tzOptions"
-      :key="index"
-      :value="opt">{{ opt }}
+        disabled
+        value=""
+      >
+        Select {{ name }}
+      </option>
+      <option
+        v-for="(opt, index) in tzOptions"
+        :key="index"
+        :style="{ color: '#676666' }"
+        :value="opt"
+      >
+        {{ opt }}
       </option>
     </select>
   </div>
