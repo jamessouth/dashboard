@@ -45,8 +45,6 @@ export default {
       },
       xs: {
         xAxes: [{
-          barPercentage: 1.0,
-          categoryPercentage: 1.0,
           ticks: {
             fontSize: 1,
             fontColor: 'transparent',
@@ -221,6 +219,8 @@ export default {
           datasets: [
             {
               label: '',
+              barPercentage: 1.0,
+              categoryPercentage: 1.0,
               data: dataData,
               backgroundColor: colors,
               borderWidth: Array(13).fill(0),
