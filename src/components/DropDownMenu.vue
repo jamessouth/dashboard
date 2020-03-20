@@ -34,7 +34,7 @@ export default {
     return {
       tzOptions: [],
       selected: '',
-      timezoneFetch: 'https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*',
+      timezoneFetch: 'https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=10&format=json&origin=*',
     };
   },
   computed: {
